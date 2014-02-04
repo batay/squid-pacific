@@ -240,6 +240,7 @@ class BookController extends Controller
 								$imgThumbnailPath=$filePath.'/thumbnailpage-'.$i.'.jpg';
 								$imgData=base64_encode(file_get_contents($imgPath));
 								$imgData= 'data: '.mime_content_type($imgPath).';base64,'.$imgData;
+								$imgData=$this->getPDFData($filePath,$i,'');
 								$page=new Page();
 								$page->chapter_id=$newChapter->chapter_id;
 								$page->pdf_data=$imgData;
@@ -259,6 +260,7 @@ class BookController extends Controller
 									$imgThumbnailPath=$filePath.'/thumbnailpage-'.$i.'.jpg';
 									$imgData=base64_encode(file_get_contents($imgPath));
 									$imgData= 'data: '.mime_content_type($imgPath).';base64,'.$imgData;
+									$imgData=$this->getPDFData($filePath,$i,'');
 									$page=new Page();
 									$page->chapter_id=$newChapter->chapter_id;
 									$page->pdf_data=$imgData;
