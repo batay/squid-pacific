@@ -974,7 +974,7 @@ class epub3 {
 
 	        foreach ($files as $file)
 	        {
-	        	set_time_limit(30);
+	       
 	            $file = str_replace('\\', '/', $file);
 
 	            // Ignore "." and ".." folders
@@ -997,7 +997,7 @@ class epub3 {
 	    {
 	        $zip->addFromString(basename($source), file_get_contents($source));
 	    }
-
+		ini_set('max_execution_time',1000000);
 	    return $zip->close();
 
 		
