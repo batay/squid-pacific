@@ -534,6 +534,8 @@ class OrganisationsController extends Controller
 
 	public function actionPublishedBooks($id)
 	{
+		$resize=true;
+		
 		$workspaces=OrganisationWorkspaces::model()->findAll('organisation_id=:organisation_id',array('organisation_id'=>$id));
 		$qu='';
 		foreach ($workspaces as $key => $workspace) {
@@ -541,6 +543,15 @@ class OrganisationsController extends Controller
 		}
 		$qu=substr($qu, 0, -3);
 			$books= Book::model()->findAll(' ('.$qu.') AND publish_time IS NOT NULL AND publish_time!=0');
+			if ($resize)
+			foreach ($books as $key => $book) {
+				$bookData=json_decode($book->data,true);
+				if(strlen($bookData['thumbnail'])> 120000){
+					$bookData['thumbnail']=functions::compressBase64Image( $_POST['img'] ,74000, 74000,100);
+					$book->data=json_encode($bookData);
+					$book->save();
+				}
+			}
 		$this->render('published_books',array(
 			'books'=>$books,
 			'organisationId'=>$id
