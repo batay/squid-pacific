@@ -828,6 +828,7 @@ class componentHTML {
 				$container.=" style=' ";
 				foreach ($data->video->css as $css_name => $css_val ) {
 					$container.="$css_name:$css_val;";
+					echo "$css_name:$css_val;";
 				}
 				$container.="' "; 
 			}
@@ -835,7 +836,7 @@ class componentHTML {
 			$container.=" >
 			";
 			
-			
+			exit;
 
 
 
