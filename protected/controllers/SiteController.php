@@ -589,8 +589,19 @@ class SiteController extends Controller
 
 	public function getWorkspaceBooks($workspace_id)
 	{
+		$resize=true;
+
 		$all_books= Book::model()->findAll('workspace_id=:workspace_id AND (publish_time IS NULL OR publish_time=0)', 
 	    				array(':workspace_id' => $workspace_id) );
+		if ($resize)
+			foreach ($all_books as $key => $book) {
+				$bookData=json_decode($book->data,true);
+				if(strlen($bookData['thumbnail'])> 120000){
+					$bookData['thumbnail']=functions::compressBase64Image( $_POST['img'] ,74000, 74000,100);
+					$book->data=json_encode($bookData);
+					$book->save();
+				}
+			}
 		return $all_books; 
 	}
 	/**
