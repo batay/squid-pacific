@@ -104,7 +104,7 @@
 		
 		
 		$('#yw2 a.sendEmail').click(function(){
-			$("#sendmailUser").modal("show");
+			$("#sendmailUser").show();
 			$("#sendemail").modal("show");
 			$('#sendMailModalBody').html('<form role="form"><div class="form-group"><label for="message">Mesaj</label><textarea rows="3" cols="5" name="message" id="message" class="countable form-control" data-limit="100"></textarea></div></form>');
 			id=$($($(this).parent().parent()[0]).children()[0]).html();
