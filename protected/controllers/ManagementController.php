@@ -104,8 +104,6 @@ class ManagementController extends Controller
 		        ),
 		    ),
 		));
-
-
 	}
 
 	public function actionSendMail(){
