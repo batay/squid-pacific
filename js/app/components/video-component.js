@@ -78,6 +78,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
   var poster = '';
   var selectd_tab;
   var selected_marker;
+  var popupDiv;
 
   if(typeof oldcomponent == 'undefined'){
     var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
@@ -454,7 +455,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
           .css({"padding": "4px", "display": "inline-block"})
           .appendTo(mainDiv);
 
-        var popupDiv = $('<div>')
+        popupDiv = $('<div>')
           .appendTo(mainDiv);
 
           var videoTypeRadioDiv = $('<div>')
@@ -470,6 +471,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                 .attr("name","video_type")
                 .val("link")
                 .change(function () {
+                  popupDiv.html('');
                   video_type = $(this)[0].value;
                 })
                 .appendTo(videoTypeLinkLabel);

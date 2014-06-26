@@ -131,6 +131,7 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
   var imageBinary;
   var image_width;
   var image_height;
+  var popupDiv;
 
   if(typeof oldcomponent == 'undefined'){
     //console.log('dene');
@@ -254,7 +255,7 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
           .css({"padding": "4px", "display": "inline-block"})
           .appendTo(mainDiv);
 
-        var popupDiv = $('<div>')
+        popupDiv = $('<div>')
           .appendTo(mainDiv);
 
           var imageTypeRadioDiv = $('<div>')
@@ -270,6 +271,7 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
                 .attr("name","image_type")
                 .val("link")
                 .change(function () {
+                  popupDiv.html('');
                   image_type = $(this)[0].value;
                 })
                 .appendTo(imageTypeLinkLabel);
