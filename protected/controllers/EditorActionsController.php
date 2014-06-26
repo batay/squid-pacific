@@ -1527,7 +1527,7 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 
 				$deleteFromQueue=PublishQueue::model()->findByPk($bookId);
 				$deleteFromQueue->delete();
-				functions::delTree($ebook->tempdirParent);
+				//functions::delTree($ebook->tempdirParent);
 
 				$users=UserBook::model()->findAll('book_id=:book_id',array('book_id'=>$bookId));
 
