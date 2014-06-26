@@ -93,14 +93,15 @@ class functions {
         if ( $pixelarea <10000 || $pixelarea > 250000) $pixelarea = 180000;
 
         if ($parts[1]){
-            $image_file=new file ('tmp.img','/tmp');
+            $timestamp = time();
+            $image_file=new file ('tmp.img.'.$timestamp,'/tmp');
             $image_file->writeLine($parts[1]);
-            $command=' base64 -d '.$image_file->filepath . " | convert - -quality $quality - | convert -  -resize '".$pixelarea."@>' - |  base64 | cat > /tmp/compressed.img ";
+            $command=' base64 -d '.$image_file->filepath . " | convert - -quality $quality - | convert -  -resize '".$pixelarea."@>' - |  base64 | cat > /tmp/compressed.img.".$timestamp ;
             shell_exec($command);
-            $parts[1]= file_get_contents('/tmp/compressed.img');
+            $parts[1]= file_get_contents('/tmp/compressed.img.'.$timestamp);
             $image_file->closeFile();
-            unlink('/tmp/compressed.img');
-            unlink($image_file->filepath);
+            //unlink('/tmp/compressed.img.'.$timestamp);
+            //unlink($image_file->filepath);
             return $imagecontent_new =implode(',',$parts);
         }
         return $imagecontent;
