@@ -110,13 +110,18 @@ class ManagementController extends Controller
 		$id=$_POST['id'];
 		if ($id) {
 			$user=User::model()->findByPk($id);
-			$mail=Yii::app()->Smtpmail;
-			$mail->SetFrom(Yii::app()->params['noreplyEmail'],"OKUTUS");
-			$mail->Subject="OKUTUS|Yöneticiden Mesaj";
-			$mail->AddAddress($user->email, "");
+			
+			$message=$_POST['message'];
+			$mail=new Email;
+			$mail->setTo(array($user->email));
+			$mail->setSubject('OKUTUS|Yöneticiden Mesaj');
+			$mail->setFile('10Admin-mails.html');
+			$mail->setAttributes(array('title'=>'OKUTUS|Yöneticiden Mesaj','message'=>$message));
 
-			$mail->MsgHTML($_POST['message']);
-			if($mail->Send()) {
+
+
+
+			if($mail->sendMail()) {
 				echo "1";
 			}else{
 				echo "Mail gönderilemedi! Lütfen tekrar deneyin.";

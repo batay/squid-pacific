@@ -995,7 +995,7 @@ class BookController extends Controller
 
 		if (isset($_POST['img'])) {
 			$bookData=json_decode($book->data,true);
-			$bookData['thumbnail']=$_POST['img'];
+			$bookData['thumbnail']=functions::compressBase64Image( $_POST['img'] ,74000, 74000,100);
 			$book->data=json_encode($bookData);
 			$book->save();
 		}

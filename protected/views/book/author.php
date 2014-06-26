@@ -2131,8 +2131,8 @@ $background= (!empty($img)) ? "background-image:url('".str_replace(" ", "", $img
 					-webkit-box-shadow: 1px 1px 5px 2px rgba(6, 34, 63, 0.63);
 					-moz-box-shadow: 1px 1px 5px 2px rgba(6, 34, 63, 0.63);
 					box-shadow: 1px 1px 5px 2px rgba(6, 34, 63, 0.63);
-					background-size:<?php echo $bookWidth; ?>px <?php echo $bookHeight; ?>px;
-					 height:<?php echo $bookHeight; ?>px;width:<?php echo $bookWidth; ?>px;position:relative"  >
+					background-size:<?php echo $bookWidth+2; ?>px <?php echo $bookHeight+2; ?>px;
+					 height:<?php echo $bookHeight+2; ?>px;width:<?php echo $bookWidth+2; ?>px;position:relative"  >
 						<div id="guide-h" class="guide"></div>
 						<div id="guide-v" class="guide"></div>
 					</div>
