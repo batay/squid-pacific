@@ -29,7 +29,7 @@ class ManagementController extends Controller
 	{
 		return array(
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','organisations'),
+				'actions'=>array('index','organisations','users','view','updateUser','delete','resetPassword','sendMail'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -38,14 +38,172 @@ class ManagementController extends Controller
 		);
 	}
 
+	public function actionView($id){
+		echo $id;
+	}
+
 	public function actionIndex(){
 		$this->render('index');
 
 	}
 	public function actionUsers(){
 		 $this->render('users');
+		
+		$dataProvider=new CActiveDataProvider('User', array(
+		    'criteria'=>array(
+		        'order'=>'name ASC',
+		    ),
+		    'countCriteria'=>array(
+		        // 'order' and 'with' clauses have no meaning for the count query
+		    ),
+		    'pagination'=>array(
+		        'pageSize'=>20,
+		    ),
+		));
+		 $dataProvider->getData(); //will return a list of Post objects
+
+		$this->widget('zii.widgets.grid.CGridView', array(
+		    'dataProvider'=>$dataProvider,
+		    'columns'=>array(
+		    	'id',
+		        'name',
+		        'surname',
+		        'email',
+      			//'htmlOptions' => array('class' => 'datatable table table-striped table-bordered table-hover dataTable'),
+		        array( 
+		            'class'=>'CButtonColumn',
+		            'template'=>'{reset}{email}{guncelle}{sil}',
+				    'buttons'=>array(
+				        'email' => array(
+				            'label'=>'&nbsp;&nbsp;',
+				            //'imageUrl'=>Yii::app()->request->baseUrl.'/images/email.png',
+				            // 'url'=>'Yii::app()->createUrl("users/email", array("id"=>$data->id))',
+				            'url'=>'"#"',
+				            'options'=>array("class"=>'fa fa-envelope sendEmail management-users-buttons','title'=>'Eposta Gönder'),
+				        ),
+				        'guncelle' => array(
+				            'label'=>'&nbsp;&nbsp;',
+				            'url'=>'"#"',
+				            //'visible'=>'$data->score > 0',
+				            'options'=>array("class"=>'fa fa-pencil-square-o update management-users-buttons','title'=>'Düzenle'),
+				        ),
+				        'sil' => array(
+				            'label'=>'&nbsp;&nbsp;',
+				            'url'=>'"#"',
+				            //'visible'=>'$data->score > 0',
+				            //'options'=>array("onclick"=>'openUpdateModal(100)'),
+				            'options'=>array("class"=>'fa fa-times delete management-users-buttons','title'=>'Sil'),
+				        ),
+				        'reset' => array(
+				            'label'=>'&nbsp;&nbsp;',
+				            'url'=>'"#"',
+				            //'visible'=>'$data->score > 0',
+				            'options'=>array("class"=>'fa fa-key resetPassword management-users-buttons','title'=>'Şifre Yenile'),
+				        ),
+				    ),
+		        ),
+		    ),
+		));
+
+
 	}
 
+	public function actionSendMail(){
+		$id=$_POST['id'];
+		if ($id) {
+			$user=User::model()->findByPk($id);
+			$mail=Yii::app()->Smtpmail;
+			$mail->SetFrom(Yii::app()->params['noreplyEmail'],"OKUTUS");
+			$mail->Subject="OKUTUS|Yöneticiden Mesaj";
+			$mail->AddAddress($user->email, "");
+
+			$mail->MsgHTML($_POST['message']);
+			if($mail->Send()) {
+				echo "1";
+			}else{
+				echo "Mail gönderilemedi! Lütfen tekrar deneyin.";
+			}
+		}
+	}
+
+	public function actionDelete(){
+		$id=$_POST['id'];
+		if ($id) {
+			$user=User::model()->findByPk($id);
+			if ($user) {
+				if ($user->delete()) {
+					echo "1";
+				}
+				else{
+					echo "Kayıt silinemedi!";
+				}
+			}else{
+				echo "Kullanıcı Bulunamadı!";
+			}
+		}else{
+			echo "ID Bulunamadı!";
+		}
+	}
+
+	public function actionUpdateUser(){
+		$id=$_POST['id'];
+		if ($id) {
+			$user=User::model()->findByPk($id);
+			if ($user) {
+				$user->name=$_POST['name'];
+				$user->surname=$_POST['surname'];
+				$user->email=$_POST['email'];
+				if ($user->save()) {
+					echo "1";
+				}
+				else{
+					echo "Kayıt güncellenemedi!";
+				}
+			}else{
+				echo "Kullanıcı Bulunamadı!";
+			}
+		}else{
+			echo "ID Bulunamadı!";
+		}
+	}
+
+
+	public function actionResetPassword(){
+		$id=$_POST['id'];
+		$user=User::model()->findByPk($id);
+		if (!empty($user)) {
+			$meta=new UserMeta;
+			$meta->user_id=$user->id;
+			$meta->meta_key='passwordReset';
+
+			$resetId=functions::new_id(20);
+
+			$link=Yii::app()->getBaseUrl(true);
+			$link.='/user/forgetPassword?id=';
+			$meta->meta_value=$resetId;
+	        $meta->created=time();
+        	$meta->save();
+
+			$link .= $resetId;
+
+        	$mail=new Email;
+			$mail->setTo(array($user->email));
+			$mail->setSubject('OKUTUS Şifre Sıfırlama');
+			$mail->setFile('4password_reset.tr_TR.html');
+			$mail->setAttributes(array('adsoyad'=>$user->name.' '.$user->surname,'title'=>'OKUTUS Şifre Sıfırlama','link'=>$link));
+	        if($mail->sendMail()) {
+	        	echo "1";
+        	}
+        	else
+        	{
+        		echo "Eposta gönderilemedi! Lütfen tekrar deneyiniz.";
+        	}
+		}
+		else
+		{
+			echo "Kullanıcı Bulunamadı! Lütfen tekrar deneyiniz.";
+		}
+	}
 
 	public function actionOrganisations(){
 		$page =(int) (isset($_GET['page']) ? $_GET['page'] : 1);  // define the variable to “LIMIT” the query
