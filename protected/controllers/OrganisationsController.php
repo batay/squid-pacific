@@ -547,7 +547,7 @@ class OrganisationsController extends Controller
 			foreach ($books as $key => $book) {
 				$bookData=json_decode($book->data,true);
 				if(strlen($bookData['thumbnail'])> 120000){
-					$bookData['thumbnail']=functions::compressBase64Image( $_POST['img'] ,74000, 74000,100);
+					$bookData['thumbnail']=functions::compressBase64Image( $bookData['thumbnail'] ,74000, 74000,100);
 					$book->data=json_encode($bookData);
 					$book->save();
 				}
