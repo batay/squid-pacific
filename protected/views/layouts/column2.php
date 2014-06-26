@@ -283,7 +283,8 @@
 					
 		<?php echo $content; ?>
 
-		</div>
+<!-- grid view widget için bu divi comment içerisine aldık,problem olduğunda kaldırılabilir lakin management->user actionı kontrol edilmeli -->
+		<!-- </div> -->
 	</div>
    </div>
 <!-- END OF MYBOOKS PAGE CONTAINER -->
