@@ -70,7 +70,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
 
   var marker = window.base_path+'/css/popupmarker.png';
   var video_marker=window.base_path+'/css/video_play_trans.png';
-  var video_width_height = '';
+  var video_width_height = '100%';
   var contentType;
   var videoType;
   var videoURL = "http://lindneo.com/5.mp4";
@@ -255,7 +255,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
             left = oldcomponent.data.self.css.left;
             window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
           };
-          
+          console.log(video_width_height);
           var component = {
             'type': 'video',
             'data': {
