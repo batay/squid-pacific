@@ -138,6 +138,16 @@
 	});
 </script>
 
+
+<form role="form">
+  <div class="form-group col-md-3">
+	<input type="text" name="filter" class="form-control" id="filter" placeholder="Ara" value="" style="width:200px;display:inline">
+  	<button class="btn btn-primary" type="submit">Ara</button>
+  </div>
+</form>
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

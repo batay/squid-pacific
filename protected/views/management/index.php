@@ -39,7 +39,7 @@
 										<div class="jumbotron">
 										  <h1><?php echo __("Organizasyonlar"); ?></h1>
 										  <p><?php echo __("Organizasyonları yönetmek için lütfen tıklayınız"); ?></p>
-										  <p><a href='<?php echo Yii::app()->createUrl('management/organisations'); ?>' class="btn btn-primary btn-lg" role="button"><?php echo __("Organizasyonlar"); ?></a></p>
+										  <p><a href='<?php echo Yii::app()->createUrl('management/organisation'); ?>' class="btn btn-primary btn-lg" role="button"><?php echo __("Organizasyonlar"); ?></a></p>
 										</div>
 									</div>
 								</div>

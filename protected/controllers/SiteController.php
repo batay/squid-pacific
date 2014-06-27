@@ -321,7 +321,7 @@ class SiteController extends Controller
         $link=Yii::app()->params['reader_host'];
         $mail=new Email;
 		$mail->setTo(array('ekaratas@linden-tech.com'));
-		$mail->setSubject(' kitabınız yayınlandı.');
+		$mail->setSubject($book->title.' kitabınız yayınlandı.');
 		$mail->setFile('9Your_book_published_successfuly.tr_TR.html');
 		$mail->setAttributes(array('title'=>' kitabınız yayınlandı.','link'=>$link,'bookname'=>$book->title,'bookauthor'=>$book->author,'thumbnail'=>$thumbnail));
 		$mail->sendMail();
