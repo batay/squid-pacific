@@ -723,7 +723,7 @@ class OrganisationsController extends Controller
 		     * @var user | null
 		     */
 		    $isOrganizationUser = ($organizationUser) ? $organizationUser : null ;
-		    if ($isOrganizationUser) {
+		    //if ($isOrganizationUser) {
 
 		    	$workspaces = Yii::app()->db->createCommand()
 				    ->select("*")
@@ -738,7 +738,7 @@ class OrganisationsController extends Controller
 					'workspaces' => $workspaces
 					));
 		    }
-		}
+		//}
 	}
 
 	/**
