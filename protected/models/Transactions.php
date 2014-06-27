@@ -57,7 +57,7 @@ class Transactions extends CActiveRecord
 			array('transaction_type', 'length', 'max'=>15),
 			array('transaction_method, transaction_amount, transaction_unit_price, transaction_amount_equvalent', 'length', 'max'=>10),
 			array('transaction_book_id, transaction_organisation_id', 'length', 'max'=>44),
-			array('transaction_host_id', 'length', 'max'=>12),
+			array('transaction_host_id', 'length', 'max'=>20),
 			array('transaction_end_date, transaction_explanation, transaction_host_ip, transaction_remote_ip', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
