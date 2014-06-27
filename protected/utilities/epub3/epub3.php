@@ -634,7 +634,7 @@ class epub3 {
 						"poster":$(item).attr("poster")
 					}
 					//var poster="<a href=iosepub://"+base64_encode(JSON.stringify(ios_video))+"\><img width=100% height=100% src="+ios_video.poster+"></img></a>";
-					var poster="<a href=iosepub://"+base64_encode(JSON.stringify(ios_video))+"\><div style=\'position:absolute; width:100%; height:100%\'><img width=100% height=100% src="+ios_video.poster+"></img></div><div style=\'position:absolute; width:100%; height:100%\'><img width=100% height=100% src=\'video-icon.png\'></img></div></a>";
+					var poster="<a href=iosepub://"+base64_encode(JSON.stringify(ios_video))+"\><div style=\'position:absolute; width:100%; height:100%\'><img width=100% height=100% src="+ios_video.poster+"></img></div><div style=\'position:absolute; width:100%; height:100%\'><img width=100% src=\'video-icon.png\' style=\'position: absolute; top: 0px; bottom: 0px; margin: auto; left: 0px; right: 0px; width: 20%; \'></img></div></a>";
 					$(item).parent().html(poster);
 
 				
@@ -705,7 +705,7 @@ class epub3 {
 	        // noAutoload: true
 	      //});
 		
-		$("a[rel=facybox]").click(function() {
+		$("a[rel=facybox]").bind("click touch",function() {
 			
 			var top = $(this).offset().top - 90;
 			var left = $(this).offset().left - 190;
