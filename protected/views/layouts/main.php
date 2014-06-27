@@ -5,14 +5,20 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 	<meta name="language" content="<?php functions::_lang_code(); ?>" />
-	
+
+	<!--Facebook open graph stuff-->
+	<meta property="og:image" content="<?php echo Yii::app()->request->getBaseUrl(true); ?>/css/facebook/okutus_facebook.png" />
+	<meta property="og:site_name" content="Okutus"/>
+	<meta property="og:title" content="Türkiye'nin ilk online kitap editörü"/>
+    <meta property="og:description" content="Türkiye'nin ilk online kitap editörü!"/>
+
     <link rel="icon" href="/css/images/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/css/images/favicon.ico" type="image/x-icon">
     
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
 <!-- default styles and js -->
-
+	
 
 
 			<!-- CSS -->
