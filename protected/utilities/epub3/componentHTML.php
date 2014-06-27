@@ -1417,6 +1417,11 @@ class componentHTML {
 			$data=$component->data;
 			//var_dump($data->img->src);
 			//exit();
+
+			$file = functions::save_base64_file ( $data->img->src , "popup".$component->id , $this->outputFolder);
+			$this->epub->files->others[] = $file;
+			$data->img->src=$file->filename;
+
 			$image_id= "popup".functions::get_random_string();
 			$opacity ="";
 			$image_container ="
