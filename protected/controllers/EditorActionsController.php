@@ -1448,6 +1448,7 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 			$attr['transaction_user_id']=Yii::app()->user->id;
 			$attr['transaction_organisation_id']=$data['organisationId'];
 			$attr['transaction_start_date']=date('Y-n-d g:i:s',time());
+			$attr['transaction_end_date']=date('Y-n-d g:i:s',time());
 			$attr['transaction_method']='withdrawal';
 			$attr['transaction_unit_price']=0;
 			$attr['transaction_amount_equvalent']=0;
@@ -1474,7 +1475,14 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 				$transaction->transaction_result=1;
 				$transaction->transaction_explanation="Catalog Could NOT Created";
 			}
-			$transaction->save();
+			/*print_r("<br><br><br>");
+			print_r(CJSON::encode($transaction));
+			print_r("<br><br><br>");
+			print_r(Yii::app()->user->id);*/
+			if(!$transaction->save()){
+				print_r($transaction->getErrors());
+				die();
+			}
 			unset($transaction);
 			
 			$transaction=new Transactions;
