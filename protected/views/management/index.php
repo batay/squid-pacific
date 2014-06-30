@@ -56,14 +56,14 @@
 										<div class="jumbotron">
 										  <h1><?php echo __("Kullanıcılar"); ?></h1>
 										  <p><?php echo __("Kullanıcıları yönetmek için lütfen tıklayınız"); ?></p>
-										  <p><a class="btn btn-primary btn-lg" role="button"><?php echo __("Kullanıcılar"); ?></a></p>
+										  <p><a href="<?php echo Yii::app()->createUrl('management/users'); ?>" class="btn btn-primary btn-lg" role="button"><?php echo __("Kullanıcılar"); ?></a></p>
 										</div>
 									</div>
 								</div>
 							</div>
 
 
-	 <div class="col-md-6">
+	 <!-- <div class="col-md-6">
 								<div class="box border red">
 									<div class="box-title">
 										<h4><i class="fa fa-bitbucket"></i><?php echo __("Çalışma Alanları"); ?></h4>
@@ -76,7 +76,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 	 <div class="col-md-6">
 							<div class="box border red">
 								<div class="box-title">
@@ -86,7 +86,7 @@
 									<div class="jumbotron">
 									  <h1><?php echo __("Kitaplar"); ?></h1>
 									  <p><?php echo __("Kitapları yönetmek için lütfen tıklayınız"); ?></p>
-									  <p><a class="btn btn-primary btn-lg" role="button"><?php echo __("Kitaplar"); ?></a></p>
+									  <p><a href="<?php echo Yii::app()->createUrl('management/books'); ?>" class="btn btn-primary btn-lg" role="button"><?php echo __("Kitaplar"); ?></a></p>
 									</div>
 								</div>
 							</div>

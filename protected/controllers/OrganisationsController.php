@@ -204,7 +204,7 @@ class OrganisationsController extends Controller
 		$this->render('add_money',array('tutar'=>$tutar,'plan_id'=>$plan,'organisation'=>$organisation));
 	}
 
-	public function actionRemoveFromCategory($id)
+	public function actionRemoveFromCategory($id,$from="")
 	{
 		$book=Book::model()->findByPk($id);
 		$book->publish_time=NULL;
@@ -222,7 +222,12 @@ class OrganisationsController extends Controller
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
 		$response = curl_exec( $ch );
 
-		$this->redirect('/site/index');
+		if ($from=="management") {
+			$this->redirect('/management/books');
+		}else{
+			$this->redirect('/site/index');
+		}
+
 	}
 
 	public function actionACL($id)
