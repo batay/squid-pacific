@@ -29,7 +29,7 @@ class ManagementController extends Controller
 	{
 		return array(
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','organisations','users','view','updateUser','delete','resetPassword','sendMail','organisation','updateOrganisation','deleteOrganisation'),
+				'actions'=>array('index','organisations','users','view','updateUser','delete','resetPassword','sendMail','organisation','updateOrganisation','deleteOrganisation','books','getBookUsers','getAllUsers'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -361,6 +361,82 @@ class ManagementController extends Controller
 		));
 	}
 
+	public function actionBooks($filter=""){
+		$this->render('books');
+
+		$condition="";
+
+		 if ($filter) {
+		 	$condition="title LIKE '%".$filter."%'";
+		 }
+
+		$dataProvider=new CActiveDataProvider('Book', array(
+		    'criteria'=>array(
+		    	'condition'=>$condition,
+		    ),
+		    'sort'=>array('defaultOrder'=>'LOWER(title)','attributes'=>array(
+		    		'title'=>array(
+		    			"asc"=>"LOWER(name)",
+		    			"desc"=>"LOWER(name) DESC",
+		    		),
+		    	)
+
+		    ),
+		    'countCriteria'=>array(
+		        // 'order' and 'with' clauses have no meaning for the count query
+		    ),
+		    'pagination'=>array(
+		        'pageSize'=>20,
+		    ),
+		));
+		 $dataProvider->getData(); //will return a list of Post objects
+
+		$this->widget('zii.widgets.grid.CGridView', array(
+		    'dataProvider'=>$dataProvider,
+		    'columns'=>array(
+		    	'book_id',
+		    	'author',
+		    	'title',
+      			//'htmlOptions' => array('class' => 'datatable table table-striped table-bordered table-hover dataTable'),
+		        array( 
+		            'class'=>'CButtonColumn',
+		            'template'=>'{download}{usersBook}{updateBook}{removeBook}{removefrompublished}',
+				    'buttons'=>array(
+				        'download' => array(
+				            'label'=>'Epub İndir',
+				            'url'=>'"/editorActions/exportBook?bookId=$data->book_id"',
+				            'options'=>array("class"=>'btn btn-info download','title'=>'Epub İndir',""),
+				        ),
+				        'usersBook' => array(
+				            'label'=>'Kullanıcılar',
+				            'url'=>'"#"',
+				            'options'=>array("class"=>'btn btn-info usersBook','title'=>'Kullanıcılar',""),
+				        ),
+				        'updateBook' => array(
+				            'label'=>'Güncelle',
+				            'url'=>'"#"',
+				            'options'=>array("class"=>'btn btn-info updateBook','title'=>'Güncelle',""),
+				        ),
+				        'removeBook' => array(
+				            'label'=>'Sil',
+				            'url'=>'"#"',
+				            'options'=>array("class"=>'btn btn-info removeBook','title'=>'Sil',""),
+				        ),
+				        'removefrompublished' => array(
+				            'label'=>'Yayından Kaldır',
+				            //'imageUrl'=>Yii::app()->request->baseUrl.'/images/email.png',
+				            // 'url'=>'Yii::app()->createUrl("users/email", array("id"=>$data->id))',
+				            'url'=>'"#"',
+				            'visible'=>'($data->publish_time > 0)?true:false',
+				            'options'=>array("class"=>'btn btn-info removefrompublished','title'=>'Yayından Kaldır',""),
+				        ),
+				    ),
+		        ),
+		    ),
+		));
+
+	}
+
 	//eski organisations action. view duruyor silinmedi
 	public function actionOrganisations(){
 		$page =(int) (isset($_GET['page']) ? $_GET['page'] : 1);  // define the variable to “LIMIT” the query
@@ -392,6 +468,97 @@ class ManagementController extends Controller
                 ));
 		
 
+	}
+
+	public function workspaceUsers($workspace_id)
+	{
+		$workspaceUsers = Yii::app()->db->createCommand()
+		->select ("*")
+		->from("workspaces_users")
+		->where("workspace_id=:workspace_id", array(':workspace_id' => $workspace_id))
+		->join("user","userid=id")
+		->queryAll();
+
+		return $workspaceUsers;
+	}
+
+	public function actionGetAllUsers(){
+		$users=Yii::app()->db->createCommand()
+		->select ("id,name,surname")
+		->from("user")
+		->where('id!=0')
+		->queryAll();
+
+		echo json_encode($users);
+	}
+
+	public function getTemplateWorkspaces()
+	{
+		$workspace = Yii::app()->db->createCommand()
+		->select ("*")
+		->from("organisations_meta")
+		->where("meta=:meta", array(':meta' => 'template'))
+		->queryAll();
+
+		return $workspace;
+	}
+
+	public function actionGetBookUsers($id)
+	{
+		$bookUsers = Yii::app()->db->createCommand()
+		->select ("*")
+		->from("book_users")
+		->where("book_id=:book_id", array(':book_id' => $id))
+		->join("user","user_id=id")
+		->queryAll();
+
+		echo json_encode($bookUsers);
+	}
+
+	/**
+	 * getUserWorkspaces
+	 * @return array user workspaces
+	 */
+	public function getUserWorkspaces()
+	{
+		$userid=Yii::app()->user->id;
+		$templates=$this->getTemplateWorkspaces();
+
+		$workspacesOfUser= Yii::app()->db->createCommand()
+	    ->select("*")
+	    ->from("workspaces_users x")
+	    ->join("user u","x.userid=u.id")
+	    ->join("workspaces w",'w.workspace_id=x.workspace_id')
+	    //->where("userid=:id", array(':id' => $userid ) )
+	    ->queryAll();
+	    
+	    foreach ($templates as $key => $template) {
+	    	foreach ($workspacesOfUser as $key => $workspace) {
+		    	if ($template['value']===$workspace['workspace_id']) {
+		    		unset($workspacesOfUser[$key]);
+		    	}
+	    	}
+	    }
+
+	    return $workspacesOfUser;	
+	}
+
+	public function getWorkspaceBooks($workspace_id)
+	{
+		$resize=true;
+
+		$all_books= Book::model()->findAll('workspace_id=:workspace_id AND (publish_time IS NULL OR publish_time=0)', 
+	    				array(':workspace_id' => $workspace_id) );
+		if ($resize)
+			foreach ($all_books as $key => $book) {
+				$bookData=json_decode($book->data,true);
+				if(strlen($bookData['thumbnail'])> 120000){
+					$bookData['thumbnail']=functions::compressBase64Image( $bookData['thumbnail'] ,74000, 74000,100);
+					$book->data=json_encode($bookData);
+					$book->save();
+				}
+			}
+		return $all_books; 
 	}
 
 }

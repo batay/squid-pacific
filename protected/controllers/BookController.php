@@ -1015,7 +1015,7 @@ class BookController extends Controller
 		}
 	}
 
-	public function actionUpdateBookTitle($bookId,$title=null,$author=null)
+	public function actionUpdateBookTitle($bookId,$title=null,$author=null,$from="")
 	{
 		$book=$this->loadModel($bookId);
 		if ($title) {
@@ -1025,7 +1025,11 @@ class BookController extends Controller
 			$book->author=$author;
 		}
 		$book->save();
-		$this->redirect(array('site/index'));
+		if ($from=="management") {
+			$this->redirect(array('management/books'));
+		}else{
+			$this->redirect(array('site/index'));
+		}
 	}
 
 	/**
