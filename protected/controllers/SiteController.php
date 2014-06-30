@@ -339,7 +339,7 @@ class SiteController extends Controller
 	}
 
 	//kullanıcı haklarını burada düzenliyorum
-	public function actionRight($userId,$bookId,$type,$newUser=0)
+	public function actionRight($userId,$bookId,$type,$newUser=0,$from="")
 	{
 		if(Yii::app()->user->isGuest)
 			$this->redirect( array('site/login' ) );
@@ -415,6 +415,9 @@ class SiteController extends Controller
 			$this->userBookAccess($userId,$bookId,$type);
 		}
 
+		if ($from=="management") {
+		    $this->redirect(array('/management/books'));
+		}
 	    $this->redirect(array('/site/index'));
 		//$this->render('index');
 	}
@@ -466,6 +469,31 @@ class SiteController extends Controller
 	}
 
 	public function userBookAccess($userId,$bookId,$type){
+		$book=Book::model()->findByPk($bookId);
+
+		$organisationWorkspace=OrganisationWorkspaces::model()->find('workspace_id=:workspace_id',array('workspace_id'=>$book->workspace_id));
+
+		$organisationUser=OrganisationUsers::model()->find('user_id=:user_id',array('user_id'=>$userId));
+
+		if (!$organisationUser) {
+			$newOrnagisationUser=new OrganisationUsers;
+			$newOrnagisationUser->user_id=$userId;
+			$newOrnagisationUser->organisation_id=$organisationWorkspace->organisation_id;
+			$newOrnagisationUser->role="user";
+			$newOrnagisationUser->save();
+		}
+
+		$workspaceUser=WorkspacesUsers::model()->find('userid=:userid AND workspace_id=:workspace_id',array('userid'=>$userId,'workspace_id'=>$book->workspace_id));
+
+		if (!$workspaceUser) {
+			$newWorkspaceUser=new WorkspacesUsers;
+			$newWorkspaceUser->workspace_id=$book->workspace_id;
+			$newWorkspaceUser->userid=$userId;
+			$newWorkspaceUser->added=date('Y-n-d g:i:s',time());
+			$newWorkspaceUser->owner=$userId;
+			$newWorkspaceUser->save;
+		}
+
 		$bookUser=BookUsers::model()->find('user_id=:user_id AND book_id=:book_id',array('user_id'=>$userId,'book_id'=>$bookId));
 		if (!$bookUser) {
 			$bookUser=new BookUsers;
