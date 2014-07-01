@@ -70,7 +70,7 @@
 <form role="form">
   <div class="form-group col-md-3">
 	<input type="text" name="filter" class="form-control" id="filter" placeholder="Ara" value="" style="width:200px;display:inline">
-  	<button class="btn btn-primary" type="submit">Ara</button>
+  	<button class="btn btn-primary" type="submit"><?php _e("Ara"); ?></button>
   </div>
 </form>
 
@@ -82,19 +82,19 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Organizasyon Güncelle</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Organizasyon Güncelle"); ?></h4>
       </div>
       <div class="modal-body">
         <form role="form">
 		  <div class="form-group">
-			<label for="name">İsim</label>
+			<label for="name"><?php _e("İsim"); ?></label>
 			<input type="text" name="name" class="form-control" id="name" placeholder="" value="">
 		  </div>
 		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-	  	<a id="updateOrganisation" class="btn btn-success">Kaydet</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat"); ?></button>
+	  	<a id="updateOrganisation" class="btn btn-success"><?php _e("Kaydet"); ?></a>
       </div>
     </div>
   </div>
@@ -109,14 +109,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Organizasyon Sil</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Organizasyon Sil"); ?></h4>
       </div>
       <div class="modal-body">
-      	<b id="userInfo"></b> adlı organizasyonu silmek istediğinizden emin misiniz?
+      	<b id="userInfo"></b> <?php _e("adlı organizasyonu silmek istediğinizden emin misiniz?"); ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-	  	<a id="deleteOrganisation" class="btn btn-success">Sil</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat"); ?></button>
+	  	<a id="deleteOrganisation" class="btn btn-success"><?php _e("Sil"); ?></a>
       </div>
     </div>
   </div>
