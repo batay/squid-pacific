@@ -609,7 +609,12 @@ foreach ($workspacesOfUser as $key => $workspace) {
 		                    <a href="#box-config<?php echo $book->book_id; ?>" data-toggle="modal" class="config"><i class="fa fa-users tip" data-original-title="Editörler"></i></a>
 		                    <a class="remove_book" data-id="<?php echo $book->book_id; ?>" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o tip" data-original-title="Sil"></i></a>
 		                    <a class="copyThisBook" data-id="<?php echo $workspace->workspace_name; ?>" data-name="<?php echo $book->title; ?>" data-toggle="modal" data-target="#copyBook" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-copy tip" data-original-title="Çoğalt"></i></a>
-		                    <a class="updateThisBookTitle" data-id="<?php echo base64_encode(json_encode($book_update_data)); ?>" data-toggle="modal" data-target="#updateBookTitle" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-edit tip" data-original-title="Düzenle"></i></a>
+                            
+                            <div class="clearfix"></div>
+                            
+		                    <a class="updateThisBookTitle" data-id="<?php echo base64_encode(json_encode($book_update_data)); ?>" data-toggle="modal" data-target="#updateBookTitle" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-edit tip" data-original-title="Düzenle" style="margin-left:0;"></i></a>
+                            <a><i class="fa fa-cloud-download tip" data-original-title="İndir"></i></a>
+                            <a><i class="fa fa-external-link-square tip" data-original-title="Yayınla"></i></a>
 		                    <?php } ?>
 		                    <?php if ($userType==='owner' || $userType==='editor') { ?>
 		                    <?php } ?>
