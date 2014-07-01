@@ -9300,6 +9300,7 @@ ul.stats li small {
 .editor_mybooks_book_settings{
 	width: 198px;
 	height: 292px;
+	padding-top:110px;
 	background: rgba(0, 0, 0, 0);
 	position: absolute;
 	z-index: 9999;
@@ -9322,7 +9323,6 @@ ul.stats li small {
 
 .editor_mybooks_book_settings i {
 	margin-left:10px;
-	margin-top:145px;
 	cursor:pointer;
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
@@ -9347,6 +9347,7 @@ ul.stats li small {
 .editor_mybooks_book_settings a:first-child i{
 	margin-left:0px;
 }
+
 
 ul.mybooks_category_actions {
 	margin-bottom:3px;
