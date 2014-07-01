@@ -992,4 +992,11 @@ class SiteController extends Controller
 		//$this->redirect(Yii::app()->homeUrl);
 		
 	}
+
+	public function actionEpubDownload($bookId)
+	{
+		$book_data=Book::model()->findAll('book_id=:book_id',array('book_id'=>$bookId));
+
+		$this->render('epubdownload', array('book_data' => $book_data));
+	}
 }
