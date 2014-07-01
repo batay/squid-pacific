@@ -1571,7 +1571,7 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 		        $link=Yii::app()->params['reader_host'];
 		        $mail=new Email;
 				$mail->setTo($mailUsers);
-				$mail->setSubject($data['contentTitle'].' kitabınız yayınlandı.');
+				$mail->setSubject('Kitabınız yayınlandı');
 				$mail->setFile('9Your_book_published_successfuly.tr_TR.html');
 				$mail->setAttributes(array('title'=>$data['contentTitle'].' kitabınız yayınlandı.','link'=>$link,'bookname'=>$book->title,'bookauthor'=>$book->author,'thumbnail'=>$thumbnail));
 				$mail->sendMail();
