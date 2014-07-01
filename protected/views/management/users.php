@@ -73,7 +73,7 @@
 		$('#yw2 a.resetPassword').click(function(){
 			$("#resetpassword").modal("show");
 			$('#resetUserPassword').show();
-			$('#resetpasswordBody').html('<b id="userInfo2"></b> adlı kullanıcıya şifre yenileme epostası gönderilecek. Onaylıyor musunuz?');
+			$('#resetpasswordBody').html('<b id="userInfo2"></b> '+j__("adlı kullanıcıya şifre yenileme epostası gönderilecek. Onaylıyor musunuz?"));
 			id=$($($(this).parent().parent()[0]).children()[0]).html();
 			var name=$($($(this).parent().parent()[0]).children()[1]).html();
 			var surname=$($($(this).parent().parent()[0]).children()[2]).html();
@@ -92,7 +92,7 @@
 			  url: '/management/resetPassword',
 			}).done(function(res){
 				if (res=="1") {
-					$('#resetpasswordBody').html('<div class="alert alert-success">Şifre yenileme epostası başarıyla gönderildi.</div>');
+					$('#resetpasswordBody').html('<div class="alert alert-success">'+j__("Şifre yenileme epostası başarıyla gönderildi.")+'</div>');
 				}else{
 					$('#resetpasswordBody').html('<div class="alert alert-danger">'+res+'</div>');
 				};
@@ -106,7 +106,7 @@
 		$('#yw2 a.sendEmail').click(function(){
 			$("#sendmailUser").show();
 			$("#sendemail").modal("show");
-			$('#sendMailModalBody').html('<form role="form"><div class="form-group"><label for="message">Mesaj</label><textarea rows="3" cols="5" name="message" id="message" class="countable form-control" data-limit="100"></textarea></div></form>');
+			$('#sendMailModalBody').html('<form role="form"><div class="form-group"><label for="message">'+j__("Mesaj")+'</label><textarea rows="3" cols="5" name="message" id="message" class="countable form-control" data-limit="100"></textarea></div></form>');
 			id=$($($(this).parent().parent()[0]).children()[0]).html();
 			var name=$($($(this).parent().parent()[0]).children()[1]).html();
 			var surname=$($($(this).parent().parent()[0]).children()[2]).html();
@@ -122,7 +122,7 @@
 			  url: '/management/sendMail',
 			}).done(function(res){
 				if (res=="1") {
-					$('#sendMailModalBody').html('<div class="alert alert-success">Mesajınız başarıyla gönderildi.</div>');
+					$('#sendMailModalBody').html('<div class="alert alert-success">'+j__("Mesajınız başarıyla gönderildi.")+'</div>');
 				}else{
 					$('#sendMailModalBody').html('<div class="alert alert-danger">'+res+'</div>');
 				};
@@ -142,7 +142,7 @@
 <form role="form">
   <div class="form-group col-md-3">
 	<input type="text" name="filter" class="form-control" id="filter" placeholder="Ara" value="" style="width:200px;display:inline">
-  	<button class="btn btn-primary" type="submit">Ara</button>
+  	<button class="btn btn-primary" type="submit"><?php _e("Ara"); ?></button>
   </div>
 </form>
 
@@ -154,28 +154,28 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Kullanıcı Güncelle</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Kullanıcı Güncelle"); ?></h4>
       </div>
       <div class="modal-body">
         <form role="form">
 		  <div class="form-group">
-			<label for="name">İsim</label>
+			<label for="name"><?php _e("İsim"); ?></label>
 			<input type="text" name="name" class="form-control" id="name" placeholder="" value="">
 		  </div>
 		  <div class="form-group">
-			<label for="surname">Soyisim</label>
+			<label for="surname"><?php _e("Soyisim"); ?></label>
 			<input type="text" class="form-control" id="surname" placeholder="" value="" name="surname">
 		  </div>
 		  <div class="form-group">
-			<label for="email">Eposta</label>
+			<label for="email"><?php _e("Eposta"); ?></label>
 			<input type="text" class="form-control" id="email" placeholder="" name="email" value="">
 		  </div>
 		  
 		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-	  	<a id="updateUser" class="btn btn-success">Kaydet</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat"); ?></button>
+	  	<a id="updateUser" class="btn btn-success"><?php _e("Kaydet"); ?></a>
       </div>
     </div>
   </div>
@@ -190,14 +190,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Kullanıcı Sil</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Kullanıcı Sil"); ?></h4>
       </div>
       <div class="modal-body">
-      	<b id="userInfo"></b> adlı kullanıcıyı silmek istediğinizden emin misiniz?
+      	<b id="userInfo"></b> <?php _e("adlı kullanıcıyı silmek istediğinizden emin misiniz?"); ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-	  	<a id="deleteUser" class="btn btn-success">Sil</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat"); ?></button>
+	  	<a id="deleteUser" class="btn btn-success"><?php _e("Sil"); ?></a>
       </div>
     </div>
   </div>
@@ -210,14 +210,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Kullanıcı Şifre Yenileme</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Kullanıcı Şifre Yenileme"); ?></h4>
       </div>
       <div class="modal-body" id="resetpasswordBody">
-      	<b id="userInfo2"></b> adlı kullanıcıya şifre yenileme epostası gönderilecek. Onaylıyor musunuz?
+      	<b id="userInfo2"></b> <?php _e("adlı kullanıcıya şifre yenileme epostası gönderilecek. Onaylıyor musunuz?"); ?>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-	  	<a id="resetUserPassword" class="btn btn-success">Gönder</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat"); ?></button>
+	  	<a id="resetUserPassword" class="btn btn-success"><?php _e("Gönder"); ?></a>
       </div>
     </div>
   </div>
@@ -234,19 +234,19 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Kullanıcıya eposta gönder</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Kullanıcıya eposta gönder"); ?></h4>
       </div>
       <div class="modal-body" id="sendMailModalBody">
         <form role="form">
 		  <div class="form-group">
-			<label for="message">Mesaj</label>
+			<label for="message"><?php _e("Mesaj"); ?></label>
 			<textarea rows="3" cols="5" name="message" id="message" class="countable form-control" data-limit="100"></textarea>
 		  </div>
 		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-	  	<a id="sendmailUser" class="btn btn-success">Gönder</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat"); ?></button>
+	  	<a id="sendmailUser" class="btn btn-success"><?php _e("Gönder"); ?></a>
       </div>
     </div>
   </div>

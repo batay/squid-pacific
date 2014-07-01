@@ -132,7 +132,7 @@
 		  <h4 class="modal-title"><?php _e("Yayından Kaldır"); ?></h4>
 		</div>
 		<div class="modal-body">
-		 	Eseri yayından kaldırmak istiyor musunuz? Onay verdiğinizde eser yayınlanmış kategorisinden kaldırılıp düzenlenme aşamasına gönderilecek. Ayrıca eserler okuyuculardan da kaldırılacak.
+		 	<?php _e("Eseri yayından kaldırmak istiyor musunuz? Onay verdiğinizde eser yayınlanmış kategorisinden kaldırılıp düzenlenme aşamasına gönderilecek. Ayrıca eserler okuyuculardan da kaldırılacak.");?>
 		</div>
 	      <div class="modal-footer">
 	      	<button type="button" class="btn btn-primary" id="remove_book"><?php _e("Kaldır"); ?></a>
@@ -156,15 +156,15 @@
 		<div class="modal-body">
 		 	<form id="copy" method="post" class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-md-3" for="contentTitle">Eser Adı<span class="required">*</span></label>
+					<label class="control-label col-md-3" for="contentTitle"><?php _e("Eser Adı"); ?><span class="required">*</span></label>
 					<div class="col-md-6">
 						<input class="form-control" name="contentTitle" placeholder="Lütfen bir isim girin!" id="updateContentTitle" type="text">															
 					</div>
 				</div>	
 				<div class="form-group">
-					<label class="control-label col-md-3" for="contentAuthor">Yazar Adı<span class="required">*</span></label>
+					<label class="control-label col-md-3" for="contentAuthor"><?php _e("Yazar Adı"); ?><span class="required">*</span></label>
 					<div class="col-md-6">
-						<input class="form-control" name="contentAuthor" placeholder="Yazarın Adını Girin!" id="updateContentAuthor" type="text">															
+						<input class="form-control" name="contentAuthor" placeholder="<?php _e('Yazarın Adını Girin!'); ?>" id="updateContentAuthor" type="text">															
 					</div>
 				</div>
 		 	</form>
@@ -185,15 +185,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Sil</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Sil"); ?></h4>
       </div>
       <div class="modal-body">
-        Silmek istediğinizden emin misiniz?
+        <?php _e("Silmek istediğinizden emin misiniz?"); ?>
       </div>
       <input type="hidden" name="book_id" id="book_id" value="">
       <div class="modal-footer">
-      	<button type="button" class="btn btn-primary" id="delete_book">Evet</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Hayır</button>      
+      	<button type="button" class="btn btn-primary" id="delete_book"><?php _e("Evet"); ?></a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Hayır"); ?></button>      
       </div>
     </div>
   </div>
@@ -209,7 +209,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Kitap Kullanıcıları</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e("Kitap Kullanıcıları"); ?></h4>
       </div>
       <div class="modal-body">
 			<div id="bookUsers">
@@ -218,28 +218,28 @@
 			<div id="addBookUsers">
 				<div class="alert alert-info">
 					<form class="form-horizontal" role="form" id="a'+bookId+'">
-						<h4 class="editor-name">Kullanıcı Ekle</h4>
+						<h4 class="editor-name"><?php _e("Kullanıcı Ekle"); ?></h4>
 						<input id="book" value="'+bookId+'" style="display:none">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Kayıtlı kullanıcılar: </label>
+							<label class="col-sm-3 control-label"><?php _e("Kayıtlı kullanıcılar: "); ?></label>
 							<div class="col-sm-7">
 								<select id="id_select" class="selectpicker" data-live-search="true">
 							    </select>
 							</div>
 						</div>
-						<h4 class="" style="text-align: center;">Veya</h4>
+						<h4 class="" style="text-align: center;"><?php _e("Veya"); ?></h4>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Yeni kullanıcı: </label>
+							<label class="col-sm-3 control-label"><?php _e("Yeni kullanıcı: "); ?></label>
 							<div class="col-sm-7">
 								<input class="form-control" id="newUser" type="text" placeholder="email">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Kullanıcı Tipi: </label>
+							<label class="col-sm-3 control-label"><?php _e("Kullanıcı Tipi: "); ?></label>
 							<div class="col-sm-7">
 								 <select id="type" class="form-control">
-								  <option value="editor">Editör</option>
-								  <option value="owner">Sahibi</option>
+								  <option value="editor"><?php _e("Editör"); ?></option>
+								  <option value="owner"><?php _e("Sahibi"); ?></option>
 								</select>
 							</div>
 						</div>
@@ -248,8 +248,8 @@
 			</div>
       </div>
       <div class="modal-footer">
-      	<a type="button" class="btn btn-primary" href="#" id="add_book_user">Ekle</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>     
+      	<a type="button" class="btn btn-primary" href="#" id="add_book_user"><?php _e("Ekle"); ?></a>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Vazgeç"); ?></button>     
       </div>
     </div>
   </div>
