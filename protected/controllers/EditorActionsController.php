@@ -949,9 +949,8 @@ class EditorActionsController extends Controller
 			$this->error("EA-UPage","UPage Not Saved",func_get_args(),$pageId);
 			return false;
 		}
-		
-		return $page->attributes;
-
+		//return $page->attributes;
+		return $page->getAttributes(array("page_id","created","chapter_id","data","order"));
 
 	}
  
