@@ -64,10 +64,15 @@
 				//console.log(result);
 				$("#bookUsers").html("");
 				$.each(result, function( index, value ) {
-					//console.log(value);
+					var userType="Kullanıcı";
+					if (value.type=="owner") {
+						userType="Sahibi";
+					}else if(value.type=="editor"){
+						userType="Editör";
+					};
 					$('<div class="well well-sm">\
 						<div id="editor-name" class="col-md-10">'+value.name+' '+value.surname+'</div>\
-					    <div id="editor-tag" class="col-md-1">'+value.type+'</div>\
+					    <div id="editor-tag" class="col-md-1">'+userType+'</div>\
 					    <div class="col-md-1"><a class="fa fa-trash-o pull-right" href="site/removeUser?userId='+value.user_id+'&bookId='+value.book_id+'" id="yt2"></a></div>\
 					   <div class="clearfix"></div></div>').appendTo("#bookUsers");
 					
