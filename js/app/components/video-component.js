@@ -661,11 +661,11 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                         var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
                         var left = ( ui.offset.left-$(event.target).offset().left ) + 'px';
 
-
-                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType}, function(response) {
+                        console.log('KITAP',window.lindneo.currentBookId);
+                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType,'book_id':window.lindneo.currentBookId}, function(response) {
                           response=window.lindneo.tlingit.responseFromJson(response);
                         
-                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary} , function(data) {
+                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary,'book_id':window.lindneo.currentBookId} , function(data) {
 
                             videoURL = response.result.URL;
                             console.log(videoURL);
@@ -713,10 +713,10 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                         var token = '';
 
                         console.log(contentType);
-                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType}, function(response) {
+                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType,'book_id':window.lindneo.currentBookId}, function(response) {
                           response=window.lindneo.tlingit.responseFromJson(response);
                         
-                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary} , function(data) {
+                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary,'book_id':window.lindneo.currentBookId} , function(data) {
                             
                             videoURL = response.result.URL;
                             console.log(videoURL);
