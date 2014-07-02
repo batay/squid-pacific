@@ -163,7 +163,13 @@ class BookController extends Controller
 					    'type'   =>'owner'
 					));
 					$this->copy($newBook->book_id,$book['templates']);
+					$book_path=Yii::app()->params['storage'].$newBook->book_id;
+					if (!file_exists($book_path)) {
+    					mkdir($book_path);
+					}
 					echo $newBook->book_id;
+
+
 				}
 			}
 			elseif ($book["book_type"]=='pdf') { 
@@ -817,7 +823,42 @@ class BookController extends Controller
 		}
 		$this->copy($bookId, $layout_id);
 	}
+	public static function delTree($dir) { 
+	   	$files = array_diff(scandir($dir), array('.','..')); 
+	    foreach ($files as $file) { 
+	      (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
+	    } 
+	    return rmdir($dir); 
+  	} 
+	public function clearBookDataOnDisk($bookId){
+		error_log("REMOVE LOG\n");
+		// remove video files according to new folder system
+		array_map('unlink', glob(Yii::app()->params["storage"].$bookId."/*"));
+		// remove video files according to old folder system
+		//$list= Yii::app()->db->createCommand('SELECT component.id,component.data FROM chapter,page,component WHERE page.page_id=component.page_id AND page.chapter_id=chapter.chapter_id AND component.type=:component_type AND chapter.book_id=:book_id')->bindValues(array(':book_id'=>$bookId,'component_type'=>'video'))->queryAll();
+		$list = Yii::app()->db->createCommand()
+		->select ("component.id,component.data")
+		->from("component")
+		->join("page","page.page_id=component.page_id")
+		->join("chapter","page.chapter_id=chapter.chapter_id")
+		->where("chapter.book_id=:book_id", array(':book_id' => $bookId))
+		->queryAll();
+		foreach($list as $item){
+			if(!empty(Yii::app()->params["storage"])){
+				$file=json_decode(base64_decode($item["data"]));
+				$output_array=array();
+				preg_match("/uploads\/files\/(.+)/", $file->source->attr->src, $output_array);
+				if(!empty($output_array))
+				{
+					unlink(Yii::app()->params["store"].$output_array[1]);
+				}
 
+			}
+		}
+		BookController::delTree(Yii::app()->params["storage"].$bookId);
+
+
+	}
 	/**
 	 * display selectdata form and set data
 	 * @param  string $bookId id of the book
@@ -1044,6 +1085,7 @@ class BookController extends Controller
 		}
 		
 		if (isset($bookId)) {
+			$this->clearBookDataOnDisk($bookId);
 			$this->loadModel($bookId)->delete();
 			$msg="BOOK:DELETE:0:". json_encode(array(array('user'=>Yii::app()->user->id),array('BookId'=>$bookId)));
 			Yii::log($msg,'info');
