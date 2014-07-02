@@ -491,7 +491,7 @@ class SiteController extends Controller
 			$newWorkspaceUser->userid=$userId;
 			$newWorkspaceUser->added=date('Y-n-d g:i:s',time());
 			$newWorkspaceUser->owner=$userId;
-			$newWorkspaceUser->save;
+			$newWorkspaceUser->save();
 		}
 
 		$bookUser=BookUsers::model()->find('user_id=:user_id AND book_id=:book_id',array('user_id'=>$userId,'book_id'=>$bookId));
