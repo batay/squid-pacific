@@ -37,7 +37,7 @@ if (isset($book_data_thumbnail['thumbnail'])) {
 		<!-- BOX WITH BIG HEADER-->
 		<div class="box border primary">
 			<div class="box-title small">
-				<h4><i class="fa fa-book"></i> Yayının Adı Burada Yazacak</h4>							
+				<h4><i class="fa fa-book"></i> <?php echo strtoupper($bookData->title); ?></h4>							
 	  		</div>
 
 			<div class="box-body">
@@ -52,31 +52,13 @@ if (isset($book_data_thumbnail['thumbnail'])) {
 	  <h5><?php echo $bookData->author; ?></h5>
 	Ücretsiz indir seçeneği ile yayınınızı indirirseniz kitabınızın içerisine Okutus görselleri otomatik yerleştirilir. Eğer reklamsız indirmek istiyorsanız aşağıdaki butonu kullanınız.
 	  <br><br>
-	<a href="<?php echo Yii::app()->getBaseUrl(true);?>/EditorActions/ExportBook?bookId=<?php echo $bookData->book_id; ?>" class="btn btn-block pull-right  btn-primary btn-lg"><i class="fa fa-arrow-circle-down"></i> Ücretsiz İndir </a>
+	<a href="<?php echo Yii::app()->getBaseUrl(true);?>/EditorActions/ExportBook?bookId=<?php echo $bookData->book_id; ?>" class="btn btn-block pull-right  btn-primary btn-lg"><i class="fa fa-arrow-circle-down"></i> İndir </a>
 
 	</dd>
 		  
 											  
 										   </dl>
   <div class="clearfix"></div></div>
-
-
-
-
-  
-  <div class="alert alert-success">
-  
-  
-    
-  
-   Yayını reklamsız indirmek istiyorsanız buraya tıklayınız.
-<br><br>
-  
-  <button class="btn btn-block btn-success btn-md"><i class="fa fa-arrow-circle-down"></i> Reklamsız İndir </button>
-  
- 
-  <div class="clearfix"></div>
-</div>
 
 
   <div class="row">
