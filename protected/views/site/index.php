@@ -613,8 +613,8 @@ foreach ($workspacesOfUser as $key => $workspace) {
                             <div class="clearfix"></div>
                             
 		                    <a class="updateThisBookTitle" data-id="<?php echo base64_encode(json_encode($book_update_data)); ?>" data-toggle="modal" data-target="#updateBookTitle" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-edit tip" data-original-title="Düzenle" style="margin-left:0;"></i></a>
-                            <a><i class="fa fa-cloud-download tip" data-original-title="İndir"></i></a>
-                            <a><i class="fa fa-external-link-square tip" data-original-title="Yayınla"></i></a>
+                            <a href="/EditorActions/ExportBook?bookId=<?php echo $book->book_id; ?>"><i class="fa fa-cloud-download tip" data-original-title="İndir"></i></a>
+                            <a href="/EditorActions/publishBook?bookId=<?php echo $book->book_id; ?>"><i class="fa fa-external-link-square tip" data-original-title="Yayınla"></i></a>
 		                    <?php } ?>
 		                    <?php if ($userType==='owner' || $userType==='editor') { ?>
 		                    <?php } ?>
