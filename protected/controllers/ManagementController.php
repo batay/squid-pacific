@@ -29,7 +29,7 @@ class ManagementController extends Controller
 	{
 		return array(
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','organisations','users','view','updateUser','delete','resetPassword','sendMail','organisation','updateOrganisation','deleteOrganisation','books','getBookUsers','getAllUsers'),
+				'actions'=>array('index','organisations','users','view','updateUser','delete','resetPassword','sendMail','organisation','updateOrganisation','deleteOrganisation','books','getBookUsers','getAllUsers','deleteBookUser'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -149,6 +149,13 @@ class ManagementController extends Controller
 				echo "Mail gönderilemedi! Lütfen tekrar deneyin.";
 			}
 		}
+	}
+
+	public function actionDeleteBookUser($userId,$bookId){
+
+		$bookUser=BookUsers::model()->find('user_id=:user_id AND book_id=:book_id',array('user_id'=>$userId,'book_id'=>$bookId));
+		$bookUser->delete();
+		$this->redirect('books');
 	}
 
 	public function actionDelete(){
