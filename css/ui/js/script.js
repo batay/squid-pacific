@@ -2463,14 +2463,14 @@ var App = function () {
 	/*-----------------------------------------------------------------------------------*/
 	/*	Handle Backstretch
 	/*-----------------------------------------------------------------------------------*/
-	var handleBackstretch = function () {
-		 $.backstretch([
-		"../../css/ui/img/login/1.jpg"
-		, "../../css/ui/img/login/2.jpg"
-		, "../../css/ui/img/login/3.jpg"
-		, "../../css/ui/img/login/4.jpg"
-		], {duration: 3000, fade: 750});
-	}
+	// var handleBackstretch = function () {
+	// 	 $.backstretch([
+	// 	"../../css/ui/img/login/1.jpg"
+	// 	, "../../css/ui/img/login/2.jpg"
+	// 	, "../../css/ui/img/login/3.jpg"
+	// 	, "../../css/ui/img/login/4.jpg"
+	// 	], {duration: 3000, fade: 750});
+	// }
 	/*-----------------------------------------------------------------------------------*/
 	/*	Handle Chat
 	/*-----------------------------------------------------------------------------------*/
