@@ -513,6 +513,12 @@ $( document ).ready(function () {
           case 'page':
             createPageComponent( event, ui );
             break;
+          case 'plumb':
+            createPlumbComponent( event, ui );
+            break;
+          case 'cquiz':
+            createCquizComponent( event, ui );
+            break;
 
           default:
             break; 
