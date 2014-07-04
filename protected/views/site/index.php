@@ -271,6 +271,9 @@ var data_id = '';
 	  location.reload();
 	});
   });
+
+
+
 });
 </script>
 <?php
@@ -520,7 +523,6 @@ $all_books= $this->getWorkspaceBooks($workspace->workspace_id);
  
 <!-- POPUP END -->
 <?php } } } ?>
-
 <div id="content" class="col-lg-12">
 						<!-- PAGE HEADER-->
 						<div class="row">
@@ -532,16 +534,16 @@ $all_books= $this->getWorkspaceBooks($workspace->workspace_id);
                                         
                                         <ul class="mybooks_category_actions">
                                             <li class="dropdown mybooks_page_categories">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategoriler <i class="fa fa-chevron-down"></i></a>
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="categoriesList">Kategoriler <i class="fa fa-chevron-down"></i></a>
                                                     <ul class="dropdown-menu" id="filter-controls">
-                                                        <li><a href="#" data-filter="*"><?php _e("Hepsi"); ?></a></li>
-                                                        <li><a href="#" data-filter=".owner"><?php _e("Sahibi"); ?></a></li>
-                                                        <li><a href="#" data-filter=".editor"><?php _e("Editör"); ?></a></li>
+                                                        <li class="categoriesButtons" ><a href="#" data-filter="*"><?php _e("Hepsi"); ?></a></li>
+                                                        <li class="categoriesButtons" ><a href="#" data-filter=".owner"><?php _e("Sahibi"); ?></a></li>
+                                                        <li class="categoriesButtons" ><a href="#" data-filter=".editor"><?php _e("Editör"); ?></a></li>
                                                         <li class="mybooks_page_category_divider"></li>
                                                         <?php 
 														$workspaces= $this->getUserWorkspaces();
 														foreach ($workspaces as $key => $workspace) { ?>
-																<li><a href="#" data-filter=".<?php echo $workspace['workspace_id']; ?>"><?php echo $workspace['workspace_name']; ?></a></li>
+																<li class="categoriesButtons" ><a href="#" data-filter=".<?php echo $workspace['workspace_id']; ?>"><?php echo $workspace['workspace_name']; ?></a></li>
 														<?php } ?>
                                                     </ul>
                                             </li>
@@ -575,6 +577,8 @@ $all_books= $this->getWorkspaceBooks($workspace->workspace_id);
 <script type="text/javascript">
 	$('#filter-controls>li>a').click(function(){
 		$('.mybooks_page_category_viewer').html($(this).html());
+		$('#categoriesList').html($(this).html()+' <i class="fa fa-chevron-down"></i>');
+		$(".mybooks_page_categories").removeClass("open");
 	});
 </script>
 	<div id="filter-items" class="mybooks_page_book_filter row">
