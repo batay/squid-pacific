@@ -150,6 +150,10 @@ window.lindneo.nisga = (function(window, $, undefined){
         plumbComponentBuilder( component );
         break;
 
+      case 'cquiz':
+        cquizComponentBuilder( component );
+        break;
+
       default:
          // what can I do sometimes
          break;
@@ -995,7 +999,7 @@ var textComponentBuilder = function( component ) {
     var element  = $('<div class="cquiz-controllers" style="width:100%; height:100%;"> </div>');
     var elementWrap=$('<div title="'+j__("Card Quiz Aracı")+'"></div>');
     elementWrap.appendTo( page_div_selector );
-    ////console.log(component);
+    console.log(component);
     element
     .appendTo( elementWrap )
     .cquizComponent({
