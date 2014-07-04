@@ -45,8 +45,8 @@ $(document).ready(function() {
             } else {
               this.element.append(this.videoTag);
             }
-            this.videoTag.css({"width":"100%", "height":"100%"});
-            console.log(this.videoTag.css({"width":"100%", "height":"100%"}));
+            this.videoTag.css({"width":"100%"});
+            console.log(this.videoTag.css({"width":"100%"}));
             this._super({resizableParams:{handles:"e, s, se"}});
         },
         field: function(key, value) {
