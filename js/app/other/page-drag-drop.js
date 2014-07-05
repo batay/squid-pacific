@@ -520,6 +520,10 @@ $( document ).ready(function () {
             createCquizComponent( event, ui );
             break;
 
+          case 'puzzle':
+            createPuzzleComponent( event, ui );
+            break;
+
           default:
             break; 
         }
