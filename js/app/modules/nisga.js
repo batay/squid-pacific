@@ -146,7 +146,17 @@ window.lindneo.nisga = (function(window, $, undefined){
       case 'page':
         pageComponentBuilder( component );
         break;
+      case 'plumb':
+        plumbComponentBuilder( component );
+        break;
 
+      case 'cquiz':
+        cquizComponentBuilder( component );
+        break;
+
+      case 'puzzle':
+        puzzleComponentBuilder( component );
+        break;
 
       default:
          // what can I do sometimes
@@ -956,6 +966,96 @@ var textComponentBuilder = function( component ) {
         window.lindneo.toolbox.refresh( element_ );
       }
     });
+  };
+
+  var plumbComponentBuilder = function ( component ) {
+    
+    var element  = $('<div class="plumb-controllers" style="width:100%; height:100%;"> </div>');
+    var elementWrap=$('<div title="'+j__("Sıralı Bulmaca Aracı")+'"></div>');
+    elementWrap.appendTo( page_div_selector );
+    ////console.log(component);
+    element
+    .appendTo( elementWrap )
+    .plumbComponent({
+      'component': component,
+      'marker': component.data.marker  ,
+      'update': function ( event, component ) {
+        if(revision_value==0){
+        var newObject = jQuery.extend(true, {}, component);
+        revision_array.revisions.push({component_id: component.id, component: newObject, revision_date: $.now(), even_type: 'UPDATE'});
+                revision_id++;
+
+      }
+      else revision_value=0;
+      ////console.log(revision_array);
+        window.lindneo.tlingit.componentHasUpdated( component );
+      },
+      'selected': function (event, element) {
+        window.lindneo.currentComponentWidget = element;
+        window.lindneo.toolbox.refresh( element );
+      }
+    });
+
+  };
+
+  var cquizComponentBuilder = function ( component ) {
+    
+    var element  = $('<div class="cquiz-controllers" style="width:100%; height:100%;"> </div>');
+    var elementWrap=$('<div title="'+j__("Card Quiz Aracı")+'"></div>');
+    elementWrap.appendTo( page_div_selector );
+    console.log(component);
+    element
+    .appendTo( elementWrap )
+    .cquizComponent({
+      'component': component,
+      'marker': component.data.marker  ,
+      'update': function ( event, component ) {
+        if(revision_value==0){
+        var newObject = jQuery.extend(true, {}, component);
+        revision_array.revisions.push({component_id: component.id, component: newObject, revision_date: $.now(), even_type: 'UPDATE'});
+                revision_id++;
+
+      }
+      else revision_value=0;
+      ////console.log(revision_array);
+        window.lindneo.tlingit.componentHasUpdated( component );
+      },
+      'selected': function (event, element) {
+        window.lindneo.currentComponentWidget = element;
+        window.lindneo.toolbox.refresh( element );
+      }
+    });
+
+  };
+
+  var puzzleComponentBuilder = function ( component ) {
+    
+    var element  = $('<div class="puzzle-controllers" style="width:100%; height:100%;"> </div>');
+    var elementWrap=$('<div title="'+j__("Puzzle Aracı")+'"></div>');
+    elementWrap.appendTo( page_div_selector );
+    console.log(component);
+    element
+    .appendTo( elementWrap )
+    .puzzleComponent({
+      'component': component,
+      'marker': component.data.marker  ,
+      'update': function ( event, component ) {
+        if(revision_value==0){
+        var newObject = jQuery.extend(true, {}, component);
+        revision_array.revisions.push({component_id: component.id, component: newObject, revision_date: $.now(), even_type: 'UPDATE'});
+                revision_id++;
+
+      }
+      else revision_value=0;
+      ////console.log(revision_array);
+        window.lindneo.tlingit.componentHasUpdated( component );
+      },
+      'selected': function (event, element) {
+        window.lindneo.currentComponentWidget = element;
+        window.lindneo.toolbox.refresh( element );
+      }
+    });
+
   };
 
   var setBgColorOfSelectedComponent = function ( componentId ,activeUser){

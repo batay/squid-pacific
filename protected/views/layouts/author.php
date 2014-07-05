@@ -130,6 +130,12 @@
 	    <!-- iScrool-->
 	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/iscroll.js"></script>
 
+	    <!-- JS PLUMB-->
+	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/dom.jsPlumb-1.6.2-min.js"></script>
+		
+		<!-- Snapfit puzzle-->
+	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/snapfit.js"></script>
+
 	    
 	    <!-- HTML2Canvas -->
 	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/html2canvas.js"></script>
@@ -167,6 +173,9 @@
 		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/components/rtext-component.js"></script>	
 		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/components/mquiz-component.js"></script>
 		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/components/page-component.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/components/plumb-component.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/components/cquiz-component.js"></script>
+		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/components/puzzle-component.js"></script>
 		<!-- Page JS Codes -->
 		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/other/page-drag-drop.js"></script>
 		<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/app/other/page-load.js"></script>
