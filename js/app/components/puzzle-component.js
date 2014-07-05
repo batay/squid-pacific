@@ -10,40 +10,51 @@ $(document).ready(function(){
     _create: function(){
 
       var that = this;
+      console.log(this.options.component.data.difficulty);
+      var imageElement ;
+      var puzzleElement ;
+      var id = "girl";
 
-      var type = "";
+      var image = $('<img>')
+        .attr('src',this.options.component.data.imageBinary)
+        .attr('id',id)
+        .addClass("puzzle")
+        .attr('width',"100%")
+        .attr('height',"100%")
+        .appendTo(this.element)
+        .load(function(){
+          imageElement= image[0];
+          puzzleElement = snapfit.add(
+            imageElement,
+            {
+              callback: function() {
+                
+                alert("Tebrikler başarıyla tamamladınız.");
+                  snapfit.remove(document.getElementById(id));
+                
+                }, 
+              aborder:true, 
+              aimage:false, 
+              polygon:true, 
+              space:10,
+              level:that.options.component.data.difficulty,
+              mixed:true,
+              //bwide:6,
+              simple:true,
+              forcetui:true,
+              nokeys:true
+            });
+          console.log($(".puzzle").css({"width":"100%","height":"100%"}));
+          
+        });
 
-      var container = $("<div>")
-        .css({"background-image":"url('"+window.base_path+"/css/images/old-white-seamless-paper-texture-500x500.jpg')","background-repeat":"repeat", "width":"100%", "height":"100%", "overflow":"hidden", "font-size": "16px","text-align":"center","position":"absolute"})
-        .appendTo(this.element);
+      
 
-        var questionDiv = $("<div>")
-          .html(this.options.component.data.question)
-          .appendTo(container);
+      //this._resize(function(){
+        //console.log(this);
+      //});
 
-        var buttonDiv = $("<div>")
-          .appendTo(container);
-
-          var questionButtonTrue = $("<img>")
-            .attr("src",window.base_path+"/css/images/butond.png")
-            .click(function(){
-              if(that.options.component.data.cquiz_type == true) type = 1; else type = 0;
-              console.log(type);
-              createOverLay( type,"Üzgünüm! Doğru cevap  "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
-            })
-            .appendTo(buttonDiv);
-
-          var questionButtonfalse = $("<img>")
-            .attr("src",window.base_path+"/css/images/butony.png")
-            .click(function(){
-              if(that.options.component.data.cquiz_type == "false") type = 1; else type = 0;
-              console.log(type);
-              createOverLay(type,"Üzgünüm! Doğru cevap  "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
-            })
-            .appendTo(buttonDiv);
-
-
-      this._super();
+      this._super({resizableParams:{handles:"e, s, se"}});
     },
 
     field: function(key, value)
@@ -65,6 +76,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
 
   var difficulty = 1;
   var difficultyValue;
+  var imageBinary;
   
   if(typeof oldcomponent == 'undefined'){
     var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
@@ -130,9 +142,8 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
       var  component = {
         'type' : 'puzzle',
         'data': {
-          'question':  question,
-          'answer':  answer,
-          'cquiz_type':cquiz_type,
+          'difficulty':  difficulty,
+          'imageBinary':  imageBinary,
           'width': width,
           'height': height,
           'lock':'',
@@ -141,8 +152,8 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
               'position':'absolute',
               'top': top ,
               'left':  left ,
-              'width':'128px',
-              'height':'128px',
+              'width':'320px',
+              'height':'320px',
               'background-color': 'transparent',
               'overflow': 'visible',
               'z-index': 'first',
