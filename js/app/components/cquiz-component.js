@@ -11,11 +11,7 @@ $(document).ready(function(){
 
       var that = this;
 
-      
-      console.log("deneme");
-      console.log(this.options.component.data.question);
-      console.log(this.options.component.data.answer);
-      console.log(this.element)
+      var type = "";
 
       var container = $("<div>")
         .css({"background-image":"url('"+window.base_path+"/css/images/old-white-seamless-paper-texture-500x500.jpg')","background-repeat":"repeat", "width":"100%", "height":"100%", "overflow":"hidden", "font-size": "16px","text-align":"center","position":"absolute"})
@@ -31,14 +27,18 @@ $(document).ready(function(){
           var questionButtonTrue = $("<img>")
             .attr("src",window.base_path+"/css/images/butond.png")
             .click(function(){
-              createOverLay(1,"Üzgünüm! Doğru cevap : "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
+              if(that.options.component.data.cquiz_type == true) type = 1; else type = 0;
+              console.log(type);
+              createOverLay( type,"Üzgünüm! Doğru cevap  "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
             })
             .appendTo(buttonDiv);
 
           var questionButtonfalse = $("<img>")
             .attr("src",window.base_path+"/css/images/butony.png")
             .click(function(){
-              createOverLay(0,"Üzgünüm! Doğru cevap : "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
+              if(that.options.component.data.cquiz_type == "false") type = 1; else type = 0;
+              console.log(type);
+              createOverLay(type,"Üzgünüm! Doğru cevap  "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
             })
             .appendTo(buttonDiv);
 
@@ -62,11 +62,19 @@ $(document).ready(function(){
 
 var createOverLay = function (status,trueMessage,falseMessage){
 
-    var overlayContainer=$("<div></div>").css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8"});
-    var img=$("<img/>").css({"width":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+    var overlayContainer = $("<div>")
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8","font-size": "16px","overflow":"hidden", "display":"table"});
+
+    var imgDiv = $("<div>")
+        .css({"display": "table-cell", "vertical-align": "middle","margin":"0 auto","width":"100%","height":"100%"});
+
+    var img = $("<img/>")
+        .css({"width":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+
     var p=status==0?$("<p/>").html(trueMessage):$("<p/>").html(falseMessage);
-    img.appendTo(overlayContainer);
-    p.appendTo(overlayContainer);
+    imgDiv.appendTo(overlayContainer);
+    img.appendTo(imgDiv);
+    p.appendTo(imgDiv);
     overlayContainer.click(function(){
       $(this).remove();
 

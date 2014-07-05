@@ -1408,6 +1408,7 @@ $current_user=User::model()->findByPk(Yii::app()->user->id);
 				<li ctype="wrap" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/wrap.png);"></li>
 				<li ctype="plumb" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/wrap.png);"></li>
 				<li ctype="cquiz" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/wrap.png);"></li>
+				<li ctype="puzzle" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/wrap.png);"></li>
 				
 				<!--<li ctype="quiz" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/quiz.png);"></li>-->
 
