@@ -13,8 +13,10 @@ $(document).ready(function(){
       console.log(this.options.component.data.difficulty);
       var imageElement ;
       var puzzleElement ;
-      var id = "girl";
-
+      var id = "snapfit"+$.now();
+      var snapElement=this.element;
+      var imageBinary=this.options.component.data.imageBinary;
+      var difficulty=that.options.component.data.difficulty;
       var image = $('<img>')
         .attr('src',this.options.component.data.imageBinary)
         .attr('id',id)
@@ -23,6 +25,7 @@ $(document).ready(function(){
         .attr('height',"100%")
         .appendTo(this.element)
         .load(function(){
+          console.log("LOADING....",that.options.component.data.difficulty);
           imageElement= image[0];
           puzzleElement = snapfit.add(
             imageElement,
@@ -44,8 +47,12 @@ $(document).ready(function(){
               forcetui:true,
               nokeys:true
             });
-          console.log($(".puzzle").css({"width":"100%","height":"100%"}));
-          
+             that.resizable_stop=function() {
+                              snapfit.remove($('#'+id)[0]);
+                              $($('#'+id)[0]).remove();
+                              addSnapFit(id,snapElement, difficulty,imageBinary);
+                  }
+        
         });
 
       
@@ -71,7 +78,44 @@ $(document).ready(function(){
   });
 });
 
+var addSnapFit=function(id,element, difficulty,imageBinary){
+  var imageElement;
+  var puzzleElement;
+  var image=$('<img>')
+        .attr('src',imageBinary)
+        .attr('id',id)
+        .addClass("puzzle")
+        .attr('width',"100%")
+        .attr('height',"100%")
+        .appendTo(element)
+        .load(function(){
+          console.log("LOADING....",difficulty);
+          imageElement= image[0];
+          //console.log(image[0]);
+          puzzleElement = snapfit.add(
+            imageElement,
+            {
+              callback: function() 
+                {
+                
+                alert("Tebrikler başarıyla tamamladınız.");
+                  snapfit.remove(document.getElementById(id));
+                
+                }, 
+              aborder:true, 
+              aimage:false, 
+              polygon:true, 
+              space:10,
+              level:difficulty,
+              mixed:true,
+              //bwide:6,
+              simple:true,
+              forcetui:true,
+              nokeys:true
+            });
+});};
 
+//var image;
 var createPuzzleComponent = function ( event, ui, oldcomponent ) {  
 
   var difficulty = 1;
