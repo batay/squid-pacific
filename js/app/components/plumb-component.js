@@ -27,18 +27,15 @@ $(document).ready(function(){
       this._super();
      /* $.ajaxSetup({
         cache: true
-      });*/
+      });*/ 
       $.getScript('/js/lib/dom.jsPlumb-1.6.2-min.js',function(){
       jsPlumb.bind("ready", function() {
         tesbihKonteyner=tesbihTaneleriOlustur(letters, that.element, parseInt(that.options.component.data.size)); 
         tesbihTazele(tesbihKonteyner);
       });
-       $( this.element ).resize(function() {
+       $( that.element ).resize(function() {
         jsPlumb.deleteEveryEndpoint();
         tesbihTazele(tesbihKonteyner);
-      });
-             $.ajaxSetup({
-        cache: false
       });
        });
 
