@@ -165,9 +165,15 @@
   		<!-- Trip.js Tutorial-->
 		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/trip.min.js"></script>
 		
-
-
+  		<!-- Slider Tutorial-->
+		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/slider/idangerous.swiper-2.0.min.js"></script>
+		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/slider/idangerous.swiper.3dflow-2.0.js"></script>
+		<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/slider/appstore.js"></script>
+		
+		
 		<script src="<?php echo Yii::app()->request->hostInfo; ?>:1881/socket.io/socket.io.js"></script>
+		
+
 		
 
 		<?php 
