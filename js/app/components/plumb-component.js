@@ -24,7 +24,7 @@ $(document).ready(function(){
       this._super();
       jsPlumb.bind("ready", function() {
         tesbihStilleriTanimla(parseInt(that.options.component.data.size));
-        window.tesbihKonteyner=tesbihTaneleriOlustur(letters, that.element); 
+        tesbihKonteyner=tesbihTaneleriOlustur(letters, that.element); 
         console.log(tesbihKonteyner);   
         tesbihTazele(tesbihKonteyner);
       });
@@ -48,6 +48,7 @@ $(document).ready(function(){
   });
 });
 
+var tesbihKonteyner;
 var tesbihStilleriTanimla = function (taneBoyutu){
   $("<style type='text/css'>#draggable{width: "+taneBoyutu+"px;height: 100px;padding: 0.5em; }</style>").appendTo("head");
 
@@ -63,7 +64,7 @@ var tesbihStilleriTanimla = function (taneBoyutu){
 
 var tesbihTaneleriOlustur = function (cevaplar, element){
 
-  window.tesbihKonteyner=$("<div></div>").css({"width":"100%"});
+  tesbihKonteyner=$("<div></div>").css({"width":"100%"});
   var alfabe=["?","A","B","C","Ç","D","E","F","G","Ğ","H","I","İ","J","K","L","M","N","O","Ö","P","R","S","Ş","T","U","Ü","V","Y","Z"];
   for (var i = 0; i < cevaplar.length; i++) {
     var tane=$("<div></div>")
