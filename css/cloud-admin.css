@@ -9018,3 +9018,10 @@ ul.stats li small {
 .well.well-bottom {
   border-radius: 0 0 4px 4px;
 }
+
+
+.swiper-container, .swiper-slide {
+  width: 500px;
+  height: 200px;
+}
+    
