@@ -505,6 +505,16 @@ class epub3 {
 					break;
 
 					case 'plumb':
+						$component->data->word = str_split($component->data->word);
+
+						$letters=array();
+						$i = count($component->data->word);
+
+					    while ($i--) {
+					    	array_push($letters,$component->data->word[$i]);
+					    }
+					    $letters = array_reverse($letters);
+					    $letters = json_encode($letters);
 						$plumb_script.="
 
 						var tesbihKonteyner;
@@ -516,13 +526,13 @@ class epub3 {
 
 						var tesbihTaneleriOlustur = function (cevaplar, element, taneBoyutu){
 
-						  $('<style type='text/css'>.yanlis{color:red;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black} .dogru{color:green;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black}</style>').appendTo('head');
+						  $('<style type=\'text/css\'>.yanlis{color:red;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black} .dogru{color:green;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black}</style>').appendTo('head');
 
 						  tesbihKonteyner=$('<div></div>').css({'width':'100%'});
 						  var alfabe=['?','A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
 						  for (var i = 0; i < cevaplar.length; i++) {
 						    var tane=$('<div></div>')
-						        .css({'border-radius': '50%','behavior': 'url(PIE.htc)','margin':'50px','float':'left','width': parseInt(taneBoyutu*1.5)+'px','height':parseInt(taneBoyutu*1.5)+'px','background-image': 'url(../../../css/images/amber.png)','background-size': parseInt(taneBoyutu*1.5)+'px '+parseInt(taneBoyutu*1.5)+'px','background-repeat': 'no-repeat'})
+						        .css({'border-radius': '50%','behavior': 'url(PIE.htc)','margin':'50px','float':'left','width': parseInt(taneBoyutu*1.5)+'px','height':parseInt(taneBoyutu*1.5)+'px','background-image': 'url(amber.png)','background-size': parseInt(taneBoyutu*1.5)+'px '+parseInt(taneBoyutu*1.5)+'px','background-repeat': 'no-repeat'})
 						        .appendTo(tesbihKonteyner);
 
 						    var taneKapsul=$('<div></div>')
@@ -537,7 +547,7 @@ class epub3 {
 						    secimKutusu.addClass('yanlis');
 						    secimKutusu.attr('data-cevap', cevaplar[i]);
 						    secimKutusu.appendTo(taneKapsul);
-						    secimKutusu.on('change', '', function (e) {
+						    secimKutusu.change(function (e) {
 						          console.log('secim',$(this).val());
 						          console.log('cevap',$(this).data('cevap'))
 						          if($(this).val()==$(this).data('cevap')){
