@@ -66,8 +66,16 @@ class componentHTML {
 			 case 'page':
 			    $this->pageInner($component);
 			    break;
-			  /*
-			  case 'slider':
+			 case 'cquiz':
+			    $this->cquizInner($component);
+			    break; 
+			 case 'puzzle':
+			    $this->puzzleInner($component);
+			    break;
+			 case 'plumb':
+			    $this->plumbInner($component);
+			    break;
+			 /* case 'slider':
 			    $this->sliderInner($component);
 			    break;
 			*/
@@ -1529,6 +1537,288 @@ class componentHTML {
 			array('%component_inner%', '%component_text%') , 
 			array($container, str_replace("\n", "<br/>",   htmlspecialchars($this->textSanitize($data->textarea->val),null,"UTF-8")  ) )
 			, $this->html);
+	}
+
+	public function cquizInner($component){
+
+		$container='';
+		$css='';
+		$data = $component->data;
+
+		if(isset($data->self->css)){
+			$css.=" style=' ";
+			foreach ($data->self->css as $css_name => $css_val ) {
+				$css.="$css_name:$css_val;";
+			}
+			$css.="' ";
+		}
+
+
+		$container = "<div class='cquiz' $css  >
+						<div style=\"background-image:url('old-white-seamless-paper-texture-500x500.jpg');background-repeat:repeat; width:100%; height:100%; overflow:hidden; font-size: 16px;text-align:center;position:absolute;\">
+							<div>
+								".$component->data->question." 
+							</div>
+							<div style='bottom:0px;position:absolute;width:100%;'>
+								<img src='butond.png' style='margin:10px' id='imgd_".$component->id."' />
+								<img src='butony.png' style='margin:10px' id='imgy_".$component->id."' />
+							</div>
+						</div>
+					</div>
+					<script>
+						var createOverLay = function (status,trueMessage,falseMessage){
+						    var overlayMain = $('<div>')
+						    var overlayContainer = $('<div>')
+						        .css({'width':'100%','height':'100%','text-align':'center','position':'absolute','background-color':'black','opacity':'0.8','font-size': '16px','overflow':'hidden'});
+						    var overlayContainerFront=$('<div>')
+						        .css({'width':'100%','height':'100%','text-align':'center','position':'absolute','background-color':'transparent','font-size': '16px','overflow':'hidden', 'display':'table'});
+						    var imgDiv = $('<div>')
+						        .css({'display': 'table-cell', 'vertical-align': 'middle','margin':'0 auto','width':'100%','height':'100%'});
+
+						    var img = $('<img/>')
+						        .css({'height':'30%'}).attr('src','overlay_'+status+'.png');
+
+						    var p=status==0?$('<p/>').css({'color':'white'}).html(trueMessage):$('<p/>').css({'color':'white'}).html(falseMessage);
+						    imgDiv.appendTo(overlayContainerFront);
+						    img.appendTo(imgDiv);
+						    p.appendTo(imgDiv);
+						    overlayContainerFront.click(function(){
+						      $(this).remove();
+						      overlayContainer.remove();
+
+						    });
+						    overlayContainer.appendTo(overlayMain);
+						    overlayContainerFront.appendTo(overlayMain);
+						    return overlayMain;
+
+						   }
+
+						$('#imgd_".$component->id."').click(function(){
+							if(".$component->data->cquiz_type." == true) type = 1; else type = 0;
+			                console.log(type);
+			                createOverLay( type,'Üzgünüm! Doğru cevap:  ".$component->data->answer."!','Tebrikler! Cevabınız Doğru!').appendTo($(this).parent().parent().parent());
+						});
+
+						$('#imgy_".$component->id."').click(function(){
+							if(".$component->data->cquiz_type." == false) type = 1; else type = 0;
+			                console.log(type);
+			                createOverLay(type,'Üzgünüm! Doğru cevap  ".$component->data->answer."!', 'Tebrikler! Cevabınız Doğru!').appendTo($(this).parent().parent().parent());
+						});
+
+					</script>
+					";
+				
+
+		$this->html = $container;
+	}
+
+	public function puzzleInner($component){
+
+		$container='';
+		$css='';
+		$data = $component->data;
+
+		if(isset($data->self->css)){
+			$css.=" style=' ";
+			foreach ($data->self->css as $css_name => $css_val ) {
+				$css.="$css_name:$css_val;";
+			}
+			$css.="' ";
+		}
+
+
+		$container = "<div class='puzzle' $css  >
+						<img src='".$component->data->imageBinary."' id='puzzle_".$component->id."' class='puzzle' style='width:100%; height:100%;' />
+					</div>
+					<script>
+						$('#puzzle_".$component->id."').load(function(){
+						  	var id='puzzle_".$component->id."';
+						  	var imageElement ;
+      						var puzzleElement ;
+				            imageElement= this;
+				            puzzleElement = snapfit.add(
+					            imageElement,
+					            {
+					              callback: function() {
+					                
+					                alert('Tebrikler başarıyla tamamladınız.');
+					                  snapfit.remove(document.getElementById(id));
+					                
+					                }, 
+					              aborder:true, 
+					              aimage:false, 
+					              polygon:true, 
+					              space:10,
+					              level:".$component->data->difficulty.",
+					              mixed:true,
+					              //bwide:6,
+					              simple:true,
+					              forcetui:true,
+					              nokeys:true
+				            	}
+				            );
+				          
+				        });
+
+					</script>
+					";
+				
+
+		$this->html = $container;
+	}
+
+	public function plumbInner($component){
+
+		$container='';
+		$css='';
+		$data = $component->data;
+
+		if(isset($data->self->css)){
+			$css.=" style=' ";
+			foreach ($data->self->css as $css_name => $css_val ) {
+				$css.="$css_name:$css_val;";
+			}
+			$css.="' ";
+		}
+
+		$component->data->word = str_split($component->data->word);
+
+		$letters=array();
+		$i = count($component->data->word);
+
+	    while ($i--) {
+	    	array_push($letters,$component->data->word[$i]);
+	    }
+	    $letters = array_reverse($letters);
+	    $letters = json_encode($letters);
+	    
+		$container = "<div class='plumb' $css id='plumb_".$component->id."' >
+						
+					</div>
+					
+					<script>
+						
+						var tesbihKonteyner;
+
+						jsPlumb.bind('ready', function() {
+					        tesbihStilleriTanimla(parseInt(".$component->data->size."));
+					        tesbihKonteyner=tesbihTaneleriOlustur(".$letters.", $('#plumb_".$component->id."')); 
+					        console.log(tesbihKonteyner);   
+					        tesbihTazele(tesbihKonteyner);
+					      });
+
+						var tesbihStilleriTanimla = function (taneBoyutu){
+						  $('<style type=\"text/css\">#draggable{width: '+taneBoyutu+'px;height: 100px;padding: 0.5em; }</style>').appendTo('head');
+
+						  $('<style type=\"text/css\"> .circleBase {border-radius: 50%;behavior: url(PIE.htc);margin:50px;float:left;}</style>').appendTo('head');
+
+						  $('<style type=\"text/css\">.type {width: '+parseInt(taneBoyutu*1.5)+'px;height:'+parseInt(taneBoyutu*1.5)+'px;background-image: url(amber.png);background-size: '+parseInt(taneBoyutu*1.5)+'px '+parseInt(taneBoyutu*1.5)+'px;background-repeat: no-repeat;}</style>').appendTo('head');   
+						  $('<style type=\"text/css\">.taneKapsul{width: '+parseInt(taneBoyutu*1.5)+'px;height: '+parseInt(taneBoyutu*1.5)+'px;display:table-cell;vertical-align:middle;text-align:center;}</style>').appendTo('head');
+						  $('<style type=\"text/css\">div.taneKapsul select{font-size:'+parseInt(taneBoyutu*0.5)+'px;font-weight: bolder;background-color: transparent;      border:none;outline: none;-webkit-appearance: none;-moz-appearance: none;appearance: none;}</style>').appendTo('head');
+						  $('<style type=\"text/css\">div.taneKapsul select:focus{border:none;outline: none;}</style>').appendTo('head');
+						  $('<style type=\"text/css\">.yanlis{color:red;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black} .dogru{color:green;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black}</style>').appendTo('head');
+
+						}
+
+						var tesbihTaneleriOlustur = function (cevaplar, element){
+
+						  tesbihKonteyner=$('<div></div>').css({'width':'100%'});
+						  var alfabe=['?','A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
+						  for (var i = 0; i < cevaplar.length; i++) {
+						    var tane=$('<div></div>')
+						        .addClass('circleBase type')
+						        .appendTo(tesbihKonteyner);
+
+						    var taneKapsul=$('<div></div>');
+						    taneKapsul.addClass('taneKapsul');
+						    taneKapsul.appendTo(tane);
+
+						    var secimKutusu= $('<select></select>');
+						    secimKutusu.addClass('yanlis');
+						    secimKutusu.attr('data-cevap', cevaplar[i]);
+						    secimKutusu.appendTo(taneKapsul);
+						    secimKutusu.change(function (e) {
+						          console.log('secim',$(this).val());
+						          console.log('cevap',$(this).data('cevap'))
+						          if($(this).val()==$(this).data('cevap')){
+						            $(this).removeClass('yanlis');
+						            $(this).addClass('dogru');
+						          }
+						          else
+						          {
+						            $(this).removeClass('dogru');
+						            $(this).addClass('yanlis');
+						          }
+						          console.log($(element).find('.dogru').length);
+						          if(cevaplar.length == $(element).find('.dogru').length) alert('Doğru bildin, tebrikler...');
+						    });
+
+						    for (var j = 0; j < alfabe.length; j++) {
+						       $('<option></option>', {value: alfabe[j], text: alfabe[j]}).appendTo(secimKutusu);
+						    };
+
+						  };
+
+						  tesbihKonteyner.appendTo(element);
+						  return tesbihKonteyner;
+
+						}
+
+						var tesbihTazele = function (tesbihKonteyner){
+						  var tesbihTaneleri=tesbihKonteyner.children();
+						  var tesbihTaneleriSayisi=tesbihTaneleri.length;
+						  var c1,c2;
+						  //jsPlumb.draggable($('.circleBase'));
+						  $.each(tesbihTaneleri,function(id,val){
+						      //jsPlumb.draggable($(val));
+						      /*(val).draggable({
+
+						           drag: function() {
+						              jsPlumb.deleteEveryEndpoint();
+						              tesbihTazele(tesbihKonteyner);
+						          }
+
+						      });*/
+						      if(id==0){
+						         c1 = jsPlumb.addEndpoint($(val),{anchor:'Right'});
+						      }
+						      else
+						      {
+						        //c2=jsPlumb.addEndpoint($(val),{anchor:'RightMiddle'});
+						         c2=jsPlumb.addEndpoint($(val),{anchor:'Left'});
+						        jsPlumb.connect({
+						             source:c1, 
+						             target:c2,
+						                     endpoint: ['Dot', {
+						                          radius: 2
+						                      }],
+						                      endpointStyle: {
+						                          fillStyle: '#19070B'
+						                      },
+						                      //setDragAllowedWhenFull: true,
+						                      paintStyle: {
+						                          strokeStyle: '#19070B',
+						                          lineWidth: 10
+						                      },
+						                      connector: ['Flowchart',{cornerRadius:20}]
+
+
+						           });
+						        if(id!=tesbihTaneleriSayisi-1)
+						        c1=jsPlumb.addEndpoint($(val),{anchor:'Right'});
+						      }
+
+
+						    }
+
+						  );
+						}
+
+
+					</script>";
+				
+
+		$this->html = $container;
 	}
 
 	public function rtextInner($component){
