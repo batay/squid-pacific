@@ -2659,14 +2659,12 @@ border-top-left-radius: 5px;
 border-bottom-left-radius: 5px;
 }
 	
-	
-
-
-
-
-
 
 [contentEditable=true]:empty:not(:focus):before{content:attr(placeholder)}
+
+
+
+
 
 
 
