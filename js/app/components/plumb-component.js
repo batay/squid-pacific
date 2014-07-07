@@ -8,7 +8,10 @@ $(document).ready(function(){
     },
 
     _create: function(){
+      
 
+
+      console.log("JSPLUMB reset");
       var that = this;
 
       var letters = [];
@@ -22,6 +25,10 @@ $(document).ready(function(){
       if(this.options.component.data.size == "") this.options.component.data.size = 100;
       console.log($(this.element).find("select .yanlis"));
       this._super();
+     /* $.ajaxSetup({
+        cache: true
+      });*/
+      $.getScript('/js/lib/dom.jsPlumb-1.6.2-min.js',function(){
       jsPlumb.bind("ready", function() {
         tesbihKonteyner=tesbihTaneleriOlustur(letters, that.element, parseInt(that.options.component.data.size)); 
         tesbihTazele(tesbihKonteyner);
@@ -30,6 +37,12 @@ $(document).ready(function(){
         jsPlumb.deleteEveryEndpoint();
         tesbihTazele(tesbihKonteyner);
       });
+             $.ajaxSetup({
+        cache: false
+      });
+       });
+
+
     },
 
     field: function(key, value){
