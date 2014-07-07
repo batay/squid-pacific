@@ -153,7 +153,7 @@ class EditorActionsController extends Controller
 		$this->render('publishBook',array('model'=>$model,'hosts'=>$hosts,'categories'=>$categories,'bookId'=>$bookId,'acls'=>$acls,'budget'=>$budget));
 	}
 
-	public function actionGetFileURL($type=null){
+	public function actionGetFileURL($type=null,$book_id=null){
 
 		/* 
 		generate a temp file url
@@ -177,14 +177,18 @@ class EditorActionsController extends Controller
 		
 
 		$this->response['token']= $url;
-		$this->response['URL']= Yii::app()->request->hostInfo . "/uploads/files/".$url.".".$type;
+		if(!file_exists(Yii::app()->request->hostInfo . "/uploads/files/".$book_id))
+		{
+			mkdir(Yii::app()->request->hostInfo . "/uploads/files/".$book_id);
+		}
+		$this->response['URL']= Yii::app()->request->hostInfo . "/uploads/files/".$book_id."/".$url.".".$type;
 		$this->response();
 
 	}
 
 
 
-    public function actionUploadFile	( $token=null ) {
+    public function actionUploadFile	( $token=null ,$book_id=null) {
 
     	/*
 		get file contents
@@ -207,14 +211,14 @@ class EditorActionsController extends Controller
     		//$videoFile = new file(path);
 
 
-			$file= functions::save_base64_file ( $_POST['file'] , $token , Yii::app()->basePath.'/../uploads/files');
+			$file= functions::save_base64_file ( $_POST['file'] , $token , Yii::app()->basePath.'/../uploads/files/'.$book_id);
             
        
            	$addVideoId = Yii::app()->db->createCommand()
 			->insert('video_id', array('id'=>$token));
 
 
-            $CompleteURL=Yii::app()->request->hostInfo . "/uploads/files/".$file->filename ;
+            $CompleteURL=Yii::app()->request->hostInfo . "/uploads/files/".$book_id."/".$file->filename ;
 
           
 

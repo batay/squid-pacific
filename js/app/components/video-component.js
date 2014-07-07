@@ -306,7 +306,6 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
         onComplete:function (ui){
 
           $(ui).parent().parent().css({"height":"550px"});
-
           
           var VideoSnapper = {
           
@@ -446,6 +445,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
     onComplete:function (ui){
 
       $(ui).parent().parent().css({"height":"550px"});
+      $($(ui).parent().parent()).find(".popup-footer").css("display","none");
 
       var mainDiv = $('<div>')
         .appendTo(ui);
@@ -578,6 +578,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                   .click(function(){
                     selectd_tab = "drag";
                     console.log(selectd_tab);
+                    $($(ui).parent().parent()).find(".popup-footer").css("display","none");
                   })
                   .appendTo(tabVideoDragLi);
 
@@ -592,6 +593,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                   .click(function(){
                     selectd_tab = "upload";
                     console.log(selectd_tab);
+                    $($(ui).parent().parent()).find(".popup-footer").css("display","none");
                   })
                   .appendTo(tabVideoUploadLi);
 
@@ -605,6 +607,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                   .click(function(){
                     selectd_tab = "link";
                     console.log(selectd_tab);
+                    $($(ui).parent().parent()).find(".popup-footer").css("display","block");
                   })
                   .appendTo(tabVideoLinkLi);
 
@@ -641,6 +644,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                     })
                     .on('drop', function (e) 
                     {
+                      $($(ui).parent().parent()).find(".popup-footer").css("display","none");
                       e.stopPropagation();
                       e.preventDefault();
 
@@ -661,16 +665,17 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                         var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
                         var left = ( ui.offset.left-$(event.target).offset().left ) + 'px';
 
-
-                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType}, function(response) {
+                        console.log('KITAP',window.lindneo.currentBookId);
+                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType,'book_id':window.lindneo.currentBookId}, function(response) {
                           response=window.lindneo.tlingit.responseFromJson(response);
                         
-                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary} , function(data) {
+                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary,'book_id':window.lindneo.currentBookId} , function(data) {
 
                             videoURL = response.result.URL;
                             console.log(videoURL);
                             if(!videoURL)
                               $($($(ui).parent().parent()).find(".popup-footer")).find("a").click();
+                              $($(ui).parent().parent()).find(".popup-footer").css("display","block");
 
                           });
 
@@ -690,8 +695,8 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                   var videoUploadDiv = $ ('<input type="file">')
                     .attr("name","image_file")
                     .change(function(){
-
                       //console.log(that);
+                      $($(ui).parent().parent()).find(".popup-footer").css("display","none");
                       var that = this;
                       var file = that.files[0];
                       var name = file.name;
@@ -713,15 +718,16 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                         var token = '';
 
                         console.log(contentType);
-                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType}, function(response) {
+                        window.lindneo.dataservice.send( 'getFileUrl', {'type': videoType,'book_id':window.lindneo.currentBookId}, function(response) {
                           response=window.lindneo.tlingit.responseFromJson(response);
                         
-                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary} , function(data) {
+                          window.lindneo.dataservice.send( 'UploadFile',{'token': response.result.token, 'file' : videoBinary,'book_id':window.lindneo.currentBookId} , function(data) {
                             
                             videoURL = response.result.URL;
                             console.log(videoURL);
                             if(!videoURL)
                               $($($(ui).parent().parent()).find(".popup-footer")).find("a").click();
+                              $($(ui).parent().parent()).find(".popup-footer").css("display","block");
                             });
 
                         });
@@ -739,6 +745,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                     .attr("placeholder",j__("URL Adresini Giriniz"))
                     .val(video_url)
                     .change(function(){
+                      $($(ui).parent().parent()).find(".popup-footer").css("display","block");
                       var poster = "";
                       var req = new XMLHttpRequest();
                       videoURL = $(this).val();

@@ -705,8 +705,8 @@ class epub3 {
 	        // noAutoload: true
 	      //});
 		
-		$("a[rel=facybox]").bind("click touch",function() {
-			
+		$("a[rel=facybox]").bind("click touch",function(event) {
+			event.preventDefault();
 			var top = $(this).offset().top - 90;
 			var left = $(this).offset().left - 190;
 			var width = $("#facybox").width() ;

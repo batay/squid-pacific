@@ -491,7 +491,7 @@ class SiteController extends Controller
 			$newWorkspaceUser->userid=$userId;
 			$newWorkspaceUser->added=date('Y-n-d g:i:s',time());
 			$newWorkspaceUser->owner=$userId;
-			$newWorkspaceUser->save;
+			$newWorkspaceUser->save();
 		}
 
 		$bookUser=BookUsers::model()->find('user_id=:user_id AND book_id=:book_id',array('user_id'=>$userId,'book_id'=>$bookId));
@@ -617,7 +617,7 @@ class SiteController extends Controller
 
 	public function getWorkspaceBooks($workspace_id)
 	{
-		$resize=true;
+		$resize=false;
 
 		$all_books= Book::model()->findAll('workspace_id=:workspace_id AND (publish_time IS NULL OR publish_time=0)', 
 	    				array(':workspace_id' => $workspace_id) );
