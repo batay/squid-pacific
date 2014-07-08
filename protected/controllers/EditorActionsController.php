@@ -832,10 +832,40 @@ class EditorActionsController extends Controller
 
 	}
 
-	public function createChapter($bookId,$pageTeplateId=null){
+public function getNextId($current_chapter_id)
+{
+    $record=Chapter::model()->find(array(
+            'condition' => 'chapter_id>:current_chapter_id',
+            'order' => 'id ASC',
+            'limit' => 1,
+            'params'=>array(':current_id'=>$current_chapter_id),
+    ));
+    if($record!==null)
+        return $record->order;
+    return null;
+}
+
+	public function createChapter($bookId,$pageId,$pageTeplateId=null){
 		$model=new Chapter;
 		$model->book_id=$bookId;
 		$model->chapter_id=functions::new_id();
+
+		$currentPage=Page::model()->find('page_id=:page_id',array(':page_id'=>$pageId));
+		$currentChapter=Chapter::model()->find('chapter_id=:chapter_id',array(':chapter_id'=>$currentPage->chapter_id));
+		//$list= Yii::app()->db->createCommand('select * from post')->queryAll();
+		//$list= Yii::app()->db->createCommand('select * from post where category=:category')->bindValue('category',$category)->queryAll();
+		/*
+		$next=$this->getNextId($currentChapter->chapter_id);
+		$next_order=0;
+		if($next==null)
+		{
+			$next_order=$currentPage->order;
+		}
+		else
+		{
+			$next_order=$next;
+		}*/
+		$model->order=($currentChapter->order+1);
 
 		if($model->save())
 		{
