@@ -8,7 +8,10 @@ $(document).ready(function(){
     },
 
     _create: function(){
+      
 
+
+      console.log("JSPLUMB reset");
       var that = this;
 
       var letters = [];
@@ -22,16 +25,24 @@ $(document).ready(function(){
       if(this.options.component.data.size == "") this.options.component.data.size = 100;
       console.log($(this.element).find("select .yanlis"));
       this._super();
-      jsPlumb.bind("ready", function() {
-        tesbihStilleriTanimla(parseInt(that.options.component.data.size));
-        window.tesbihKonteyner=tesbihTaneleriOlustur(letters, that.element); 
-        console.log(tesbihKonteyner);   
-        tesbihTazele(tesbihKonteyner);
+     /* $.ajaxSetup({
+        cache: true
+      });*/ 
+      $.getScript('/js/lib/dom.jsPlumb-1.6.2-min.js',function(){
+        window["instanceJsPlumb"+that.options.component.id] = jsPlumb.getInstance();
+      window["instanceJsPlumb"+that.options.component.id].bind("ready", function() {
+        tesbihKonteyner=tesbihTaneleriOlustur(that.options.component.data.kelimeler,letters, that.element, parseInt(that.options.component.data.size)); 
+        tesbihTazele(tesbihKonteyner,window["instanceJsPlumb"+that.options.component.id]);
       });
-       $( this.element ).resize(function() {
-        jsPlumb.deleteEveryEndpoint();
-        tesbihTazele(tesbihKonteyner);
+       $( that.element ).resize(function() {
+        window["instanceJsPlumb"+that.options.component.id].deleteEveryEndpoint();
+        window["instanceJsPlumb"+that.options.component.id].reset();
+        console.log("ID",that.options.component.id);
+        tesbihTazele(tesbihKonteyner,window["instanceJsPlumb"+that.options.component.id]);
       });
+       });
+
+
     },
 
     field: function(key, value){
@@ -48,33 +59,31 @@ $(document).ready(function(){
   });
 });
 
-var tesbihStilleriTanimla = function (taneBoyutu){
-  $("<style type='text/css'>#draggable{width: "+taneBoyutu+"px;height: 100px;padding: 0.5em; }</style>").appendTo("head");
+var tesbihKonteyner;
 
-  $("<style type='text/css'> .circleBase {border-radius: 50%;behavior: url(PIE.htc);margin:50px;float:left;}</style>").appendTo("head");
+var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
 
-  $("<style type='text/css'>.type {width: "+parseInt(taneBoyutu*1.5)+"px;height:"+parseInt(taneBoyutu*1.5)+"px;background-image: url(../../../css/images/amber.png);background-size: "+parseInt(taneBoyutu*1.5)+"px "+parseInt(taneBoyutu*1.5)+"px;background-repeat: no-repeat;}</style>").appendTo("head");   
-  $("<style type='text/css'>.taneKapsul{width: "+parseInt(taneBoyutu*1.5)+"px;height: "+parseInt(taneBoyutu*1.5)+"px;display:table-cell;vertical-align:middle;text-align:center;}</style>").appendTo("head");
-  $("<style type='text/css'>div.taneKapsul select{font-size:"+parseInt(taneBoyutu*0.5)+"px;font-weight: bolder;background-color: transparent;      border:none;outline: none;-webkit-appearance: none;-moz-appearance: none;appearance: none;}</style>").appendTo("head");
-  $("<style type='text/css'>div.taneKapsul select:focus{border:none;outline: none;}</style>").appendTo("head");
   $("<style type='text/css'>.yanlis{color:red;-webkit-text-stroke: "+parseInt(taneBoyutu*3.0/100)+"px black} .dogru{color:green;-webkit-text-stroke: "+parseInt(taneBoyutu*3.0/100)+"px black}</style>").appendTo("head");
 
-}
+  tesbihKonteyner=$("<div></div>").css({"width":"100%","float":"left"});
+  var tesbihKelimeler=$("<div><b>Bulmacadaki kelimeler:</b><br>"+kelimeler.replace(",","<br>")+"</div>").css({"border-style":"solid","border-width":"1px","width":"100%","float":"left","font-size":(taneBoyutu/3)+"px"});
+  var tesbihDiv=$("<div></div>").css({"width":"100%"});
 
-var tesbihTaneleriOlustur = function (cevaplar, element){
-
-  window.tesbihKonteyner=$("<div></div>").css({"width":"100%"});
   var alfabe=["?","A","B","C","Ç","D","E","F","G","Ğ","H","I","İ","J","K","L","M","N","O","Ö","P","R","S","Ş","T","U","Ü","V","Y","Z"];
   for (var i = 0; i < cevaplar.length; i++) {
     var tane=$("<div></div>")
-        .addClass("circleBase type")
+        .css({"border-radius": "50%","behavior": "url(PIE.htc)","margin":"50px","float":"left","width": parseInt(taneBoyutu*1.5)+"px","height":parseInt(taneBoyutu*1.5)+"px","background-image": "url(../../../css/images/amber.png)","background-size": parseInt(taneBoyutu*1.5)+"px "+parseInt(taneBoyutu*1.5)+"px","background-repeat": "no-repeat"})
         .appendTo(tesbihKonteyner);
 
-    var taneKapsul=$("<div></div>");
-    taneKapsul.addClass("taneKapsul");
-    taneKapsul.appendTo(tane);
+    var taneKapsul=$("<div></div>")
+        .css({"width": parseInt(taneBoyutu*1.5)+"px","height": parseInt(taneBoyutu*1.5)+"px","display":"table-cell","vertical-align":"middle","text-align":"center"})
+        .appendTo(tane);
 
-    var secimKutusu= $("<select></select>");
+    var secimKutusu= $("<select>")
+        .css({"font-size":parseInt(taneBoyutu*0.5)+"px","font-weight": "bolder","background-color": "transparent","border":"none","outline": "none","-webkit-appearance": "none","-moz-appearance": "none","appearance": "none"})
+        .focus(function(){
+          $( this ).css({"border":"none","outline": "none"});
+        });
     secimKutusu.addClass("yanlis");
     secimKutusu.attr('data-cevap', cevaplar[i]);
     secimKutusu.appendTo(taneKapsul);
@@ -100,18 +109,23 @@ var tesbihTaneleriOlustur = function (cevaplar, element){
 
   };
 
-  tesbihKonteyner.appendTo(element);
+  
+  tesbihKonteyner.appendTo(tesbihDiv);
+  tesbihKelimeler.appendTo(tesbihDiv);
+  tesbihDiv.appendTo(element);
+  //tesbihKonteyner.appendTo("<div>"+kelimeler+"</div>");
   return tesbihKonteyner;
 
 }
 
-var tesbihTazele = function (tesbihKonteyner){
+var tesbihTazele = function (tesbihKonteyner,instanceJsPlumb){
+
   var tesbihTaneleri=tesbihKonteyner.children();
   var tesbihTaneleriSayisi=tesbihTaneleri.length;
   var c1,c2;
   //jsPlumb.draggable($(".circleBase"));
   $.each(tesbihTaneleri,function(id,val){
-      //jsPlumb.draggable($(val));
+      jsPlumb.draggable($(val));
       /*(val).draggable({
 
            drag: function() {
@@ -121,13 +135,13 @@ var tesbihTazele = function (tesbihKonteyner){
 
       });*/
       if(id==0){
-         c1 = jsPlumb.addEndpoint($(val),{anchor:"Right"});
+         c1 = instanceJsPlumb.addEndpoint($(val),{anchor:"Right"});
       }
       else
       {
         //c2=jsPlumb.addEndpoint($(val),{anchor:"RightMiddle"});
-         c2=jsPlumb.addEndpoint($(val),{anchor:"Left"});
-        jsPlumb.connect({
+         c2=instanceJsPlumb.addEndpoint($(val),{anchor:"Left"});
+        instanceJsPlumb.connect({
              source:c1, 
              target:c2,
                      endpoint: ["Dot", {
@@ -146,7 +160,7 @@ var tesbihTazele = function (tesbihKonteyner){
 
            });
         if(id!=tesbihTaneleriSayisi-1)
-        c1=jsPlumb.addEndpoint($(val),{anchor:"Right"});
+        c1=instanceJsPlumb.addEndpoint($(val),{anchor:"Right"});
       }
 
 
@@ -163,6 +177,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
 
   var taneler;
   var boyut= "";
+  var kelimeler="";
 
   if(typeof oldcomponent == 'undefined'){
     //console.log('dene');
@@ -234,6 +249,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
           'data': {
             "word":taneler,
             "size":boyut,
+            "kelimeler":kelimeler,
             'lock':'',
             'self': {
               'css': {
@@ -260,25 +276,38 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
         .appendTo(ui);
 
         var wordLabel = $('<label>')
-          .text(j__("Bulmacanın içeriğindeki kelimeleri ardarda giriniz."))
+          .text(j__("Bulmacanın içeriğindeki harfleri giriniz. Örnek: kapırasa"))
           .appendTo(mainDiv);
-
+        $("<br>").appendTo(mainDiv);
         var wordDiv = $('<input type="text">')
           .change(function(){
             taneler = $(this).val().toUpperCase();
           })
           .appendTo(mainDiv);
         $("<br>").appendTo(mainDiv);
-
-        var sizeLabel = $('<label>')
-          .text(j__("Resim büyüklüğünü giriniz."))
+          
+        var eachWordLabel = $('<label>')
+          .text(j__("Bulmacanın içeriğindeki kelimeleri virgül kullaran giriniz. Örnek: kapı,pırasa"))
+          .appendTo(mainDiv);
+        $("<br>").appendTo(mainDiv);
+        var eachWordDiv = $('<input type="text">')
+          .change(function(){
+            kelimeler = $(this).val();
+          })
           .appendTo(mainDiv);
 
+        $("<br>").appendTo(mainDiv);
+
+        var sizeLabel = $('<label>')
+          .text(j__("Tane boyutunu giriniz.Örnek:100"))
+          .appendTo(mainDiv);
+          $("<br>").appendTo(mainDiv);
         var sizeDiv = $('<input type="text">')
           .change(function(){
             boyut = $(this).val();
           })
           .appendTo(mainDiv); 
+
                     
     }
 

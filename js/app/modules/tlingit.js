@@ -280,6 +280,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
   var createChapter = function (pageTeplateId){
     var newChapterData = {
       "bookId"  : window.lindneo.currentBookId
+      "pageId"  : window.lindneo.currentPageId
     };
     if (typeof pageTeplateId !== "undefined")
       newChapterData.pageTeplateId = pageTeplateId;

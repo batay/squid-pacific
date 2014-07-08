@@ -450,6 +450,8 @@ class epub3 {
 		$page_styles='';
 		$page_extra_scripts='';
 
+		$plumb_script='';
+
 		foreach ($page->components as $component){
 			set_time_limit(100);
 			$component=(object)$component;
@@ -501,6 +503,137 @@ class epub3 {
 					    </script>
 						<script src="mathjax/MathJax.js"></script>';
 					break;
+
+					case 'plumb':
+						$component->data->word = str_split($component->data->word);
+
+						$letters=array();
+						$i = count($component->data->word);
+
+					    while ($i--) {
+					    	array_push($letters,$component->data->word[$i]);
+					    }
+					    $letters = array_reverse($letters);
+					    $letters = json_encode($letters);
+						$plumb_script.="
+
+						var tesbihKonteyner;
+
+						jsPlumb.bind('ready', function() {
+					        tesbihKonteyner=tesbihTaneleriOlustur('".$component->data->kelimeler."',".$letters.", $('#plumb_".$component->id."'), parseInt(".$component->data->size."));   
+					        tesbihTazele(tesbihKonteyner);
+					      });
+
+						var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
+
+						  $('<style type=\'text/css\'>.yanlis{color:red;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black} .dogru{color:green;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black}</style>').appendTo('head');
+
+						  tesbihKonteyner=$('<div></div>').css({'width':'100%','float':'left'});
+						  var tesbihKelimeler=$('<div><b>Bulmacadaki kelimeler:</b><br>'+kelimeler.replace(',','<br>')+'</div>').css({'border-style':'solid','border-width':'1px','width':'100%','float':'left','font-size':(taneBoyutu/3)+'px'});
+  						  var tesbihDiv=$('<div></div>').css({'width':'100%'});
+
+
+						  var alfabe=['?','A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
+						  for (var i = 0; i < cevaplar.length; i++) {
+						    var tane=$('<div></div>')
+						        .css({'border-radius': '50%','behavior': 'url(PIE.htc)','margin':'50px','float':'left','width': parseInt(taneBoyutu*1.5)+'px','height':parseInt(taneBoyutu*1.5)+'px','background-image': 'url(amber.png)','background-size': parseInt(taneBoyutu*1.5)+'px '+parseInt(taneBoyutu*1.5)+'px','background-repeat': 'no-repeat'})
+						        .appendTo(tesbihKonteyner);
+
+						    var taneKapsul=$('<div></div>')
+						        .css({'width': parseInt(taneBoyutu*1.5)+'px','height': parseInt(taneBoyutu*1.5)+'px','display':'table-cell','vertical-align':'middle','text-align':'center'})
+						        .appendTo(tane);
+
+						    var secimKutusu= $('<select>')
+						        .css({'font-size':parseInt(taneBoyutu*0.5)+'px','font-weight': 'bolder','background-color': 'transparent','border':'none','outline': 'none','-webkit-appearance': 'none','-moz-appearance': 'none','appearance': 'none'})
+						        .focus(function(){
+						          $( this ).css({'border':'none','outline': 'none'});
+						        });
+						    secimKutusu.addClass('yanlis');
+						    secimKutusu.attr('data-cevap', cevaplar[i]);
+						    secimKutusu.appendTo(taneKapsul);
+						    secimKutusu.change(function (e) {
+
+						          console.log('secim',$(this).val());
+						          console.log('cevap',$(this).data('cevap'))
+						          if($(this).val()==$(this).data('cevap')){
+						            $(this).removeClass('yanlis');
+						            $(this).addClass('dogru');
+						          }
+						          else
+						          {
+						            $(this).removeClass('dogru');
+						            $(this).addClass('yanlis');
+						          }
+						          console.log($(element).find('.dogru').length);
+
+						          if(cevaplar.length == $(element).find('.dogru').length) {
+						          	$(this).blur();alert('Doğru bildin, tebrikler...');
+						          }
+						    });
+
+						    for (var j = 0; j < alfabe.length; j++) {
+						       $('<option></option>', {value: alfabe[j], text: alfabe[j]}).appendTo(secimKutusu);
+						    };
+
+						  };
+
+						    tesbihKonteyner.appendTo(tesbihDiv);
+  							tesbihKelimeler.appendTo(tesbihDiv);
+  							tesbihDiv.appendTo(element);
+						  return tesbihKonteyner;
+
+						}
+
+						var tesbihTazele = function (tesbihKonteyner){
+						  var tesbihTaneleri=tesbihKonteyner.children();
+						  var tesbihTaneleriSayisi=tesbihTaneleri.length;
+						  var c1,c2;
+						  //jsPlumb.draggable($('.circleBase'));
+						  $.each(tesbihTaneleri,function(id,val){
+						      //jsPlumb.draggable($(val));
+						      /*(val).draggable({
+
+						           drag: function() {
+						              jsPlumb.deleteEveryEndpoint();
+						              tesbihTazele(tesbihKonteyner);
+						          }
+
+						      });*/
+						      if(id==0){
+						         c1 = jsPlumb.addEndpoint($(val),{anchor:'Right'});
+						      }
+						      else
+						      {
+						        //c2=jsPlumb.addEndpoint($(val),{anchor:'RightMiddle'});
+						         c2=jsPlumb.addEndpoint($(val),{anchor:'Left'});
+						        jsPlumb.connect({
+						             source:c1, 
+						             target:c2,
+						                     endpoint: ['Dot', {
+						                          radius: 2
+						                      }],
+						                      endpointStyle: {
+						                          fillStyle: '#19070B'
+						                      },
+						                      //setDragAllowedWhenFull: true,
+						                      paintStyle: {
+						                          strokeStyle: '#19070B',
+						                          lineWidth: 10
+						                      },
+						                      connector: ['Flowchart',{cornerRadius:20}]
+
+
+						           });
+						        if(id!=tesbihTaneleriSayisi-1)
+						        c1=jsPlumb.addEndpoint($(val),{anchor:'Right'});
+						      }
+
+
+						    }
+
+						  );
+						}";
+					break;
 				
 				default:
 					# code...
@@ -548,6 +681,9 @@ class epub3 {
 		<script type="text/javascript" src="jssor.slider.js"></script>
 		<script type="text/javascript" src="jssor.core.js"></script>
 		<script type="text/javascript" src="jssor.utils.js"></script>
+		<script type="text/javascript" src="bootstrap-select.js"></script>
+		<script type="text/javascript" src="dom.jsPlumb-1.6.2-min.js"></script>
+		<script type="text/javascript" src="snapfit.js"></script>
 		<script type="text/javascript" src="runtime.js"></script>
 		'.$page_extra_scripts.'
 		<script type="text/javascript" src="facybox/facybox.js"></script>
@@ -667,6 +803,7 @@ class epub3 {
 			}
 		});
 		$(document).ready(function() {
+			'.$plumb_script.'
 			$("body").each(function() {
 			    var $this = $(this);
 			    $this.html($this.html().replace(/&nbsp;/g, "&#160;"));
@@ -705,8 +842,8 @@ class epub3 {
 	        // noAutoload: true
 	      //});
 		
-		$("a[rel=facybox]").bind("click touch",function() {
-			
+		$("a[rel=facybox]").bind("click touch",function(event) {
+			event.preventDefault();
 			var top = $(this).offset().top - 90;
 			var left = $(this).offset().left - 190;
 			var width = $("#facybox").width() ;

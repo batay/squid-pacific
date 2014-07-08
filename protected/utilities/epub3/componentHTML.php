@@ -66,8 +66,16 @@ class componentHTML {
 			 case 'page':
 			    $this->pageInner($component);
 			    break;
-			  /*
-			  case 'slider':
+			 case 'cquiz':
+			    $this->cquizInner($component);
+			    break; 
+			 case 'puzzle':
+			    $this->puzzleInner($component);
+			    break;
+			 case 'plumb':
+			    $this->plumbInner($component);
+			    break;
+			 /* case 'slider':
 			    $this->sliderInner($component);
 			    break;
 			*/
@@ -1430,8 +1438,16 @@ class componentHTML {
 			if(isset($data->img->css)){
 				$image_container.=" style=' ";
 				foreach ($data->img->css as $css_name => $css_val ) {
-					if($css_name!="opacity")
-						$image_container.="$css_name:$css_val;";
+					if($css_name!="opacity"){
+						if($css_name=="width"){
+							$image_container.="$css_name:".$component->data->img->image_width.";";
+						}
+						else if($css_name=="height"){
+							$image_container.="$css_name:".$component->data->img->image_height.";";
+						}
+						else
+							$image_container.="$css_name:$css_val;";
+					}
 					else $opacity ="$css_name:$css_val;";
 				}
 				$image_container.="' ";
@@ -1529,6 +1545,169 @@ class componentHTML {
 			array('%component_inner%', '%component_text%') , 
 			array($container, str_replace("\n", "<br/>",   htmlspecialchars($this->textSanitize($data->textarea->val),null,"UTF-8")  ) )
 			, $this->html);
+	}
+
+	public function cquizInner($component){
+
+		$container='';
+		$css='';
+		$data = $component->data;
+
+		if(isset($data->self->css)){
+			$css.=" style=' ";
+			foreach ($data->self->css as $css_name => $css_val ) {
+				$css.="$css_name:$css_val;";
+			}
+			$css.="' ";
+		}
+
+
+		$container = "<div class='cquiz' $css  >
+						<div style=\"background-image:url('old-white-seamless-paper-texture-500x500.jpg');background-repeat:repeat; width:100%; height:100%; overflow:hidden; font-size: 16px;text-align:center;position:absolute;\">
+							<div>
+								".$component->data->question." 
+							</div>
+							<div style='bottom:0px;position:absolute;width:100%;'>
+								<img src='butond.png' style='margin:10px' id='imgd_".$component->id."' />
+								<img src='butony.png' style='margin:10px' id='imgy_".$component->id."' />
+							</div>
+						</div>
+					</div>
+					<script>
+						var createOverLay = function (status,trueMessage,falseMessage){
+						    var overlayMain = $('<div>')
+						    var overlayContainer = $('<div>')
+						        .css({'width':'100%','height':'100%','text-align':'center','position':'absolute','background-color':'black','opacity':'0.8','font-size': '16px','overflow':'hidden'});
+						    var overlayContainerFront=$('<div>')
+						        .css({'width':'100%','height':'100%','text-align':'center','position':'absolute','background-color':'transparent','font-size': '16px','overflow':'hidden', 'display':'table'});
+						    var imgDiv = $('<div>')
+						        .css({'display': 'table-cell', 'vertical-align': 'middle','margin':'0 auto','width':'100%','height':'100%'});
+
+						    var img = $('<img/>')
+						        .css({'height':'30%'}).attr('src','overlay_'+status+'.png');
+
+						    var p=status==0?$('<p/>').css({'color':'white'}).html(trueMessage):$('<p/>').css({'color':'white'}).html(falseMessage);
+						    imgDiv.appendTo(overlayContainerFront);
+						    img.appendTo(imgDiv);
+						    p.appendTo(imgDiv);
+						    overlayContainerFront.click(function(){
+						      $(this).remove();
+						      overlayContainer.remove();
+
+						    });
+						    overlayContainer.appendTo(overlayMain);
+						    overlayContainerFront.appendTo(overlayMain);
+						    return overlayMain;
+
+						   }
+
+						$('#imgd_".$component->id."').click(function(){
+							if(".$component->data->cquiz_type." == true) type = 1; else type = 0;
+			                console.log(type);
+			                createOverLay( type,'Üzgünüm! Doğru cevap:  ".$component->data->answer."!','Tebrikler! Cevabınız Doğru!').appendTo($(this).parent().parent().parent());
+						});
+
+						$('#imgy_".$component->id."').click(function(){
+							if(".$component->data->cquiz_type." == false) type = 1; else type = 0;
+			                console.log(type);
+			                createOverLay(type,'Üzgünüm! Doğru cevap  ".$component->data->answer."!', 'Tebrikler! Cevabınız Doğru!').appendTo($(this).parent().parent().parent());
+						});
+
+					</script>
+					";
+				
+
+		$this->html = $container;
+	}
+
+	public function puzzleInner($component){
+
+		$container='';
+		$css='';
+		$data = $component->data;
+
+		if(isset($data->self->css)){
+			$css.=" style=' ";
+			foreach ($data->self->css as $css_name => $css_val ) {
+				$css.="$css_name:$css_val;";
+			}
+			$css.="' ";
+		}
+
+
+		$container = "<div class='puzzle' $css  >
+						<img src='".$component->data->imageBinary."' id='puzzle_".$component->id."' class='puzzle' style='width:100%; height:100%;' />
+					</div>
+					<script>
+						$('#puzzle_".$component->id."').load(function(){
+						  	var id='puzzle_".$component->id."';
+						  	var imageElement ;
+      						var puzzleElement ;
+				            imageElement= this;
+				            puzzleElement = snapfit.add(
+					            imageElement,
+					            {
+					              callback: function() {
+					                
+					                alert('Tebrikler başarıyla tamamladınız.');
+					                  snapfit.remove(document.getElementById(id));
+					                
+					                }, 
+					              aborder:true, 
+					              aimage:false, 
+					              polygon:true, 
+					              space:10,
+					              level:".$component->data->difficulty.",
+					              mixed:true,
+					              //bwide:6,
+					              simple:true,
+					              forcetui:true,
+					              nokeys:true
+				            	}
+				            );
+				          
+				        });
+
+					</script>
+					";
+				
+
+		$this->html = $container;
+	}
+
+	public function plumbInner($component){
+
+		$container='';
+		$css='';
+		$data = $component->data;
+
+		if(isset($data->self->css)){
+			$css.=" style=' ";
+			foreach ($data->self->css as $css_name => $css_val ) {
+				$css.="$css_name:$css_val;";
+			}
+			$css.="' ";
+		}
+
+		$component->data->word = str_split($component->data->word);
+
+		$letters=array();
+		$i = count($component->data->word);
+
+	    while ($i--) {
+	    	array_push($letters,$component->data->word[$i]);
+	    }
+	    $letters = array_reverse($letters);
+	    $letters = json_encode($letters);
+	    
+		$container = "<div class='plumb' $css id='plumb_".$component->id."' >
+						
+					</div>
+					
+					";
+				
+
+		$this->html = $container;
 	}
 
 	public function rtextInner($component){

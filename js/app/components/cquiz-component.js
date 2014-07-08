@@ -21,19 +21,19 @@ $(document).ready(function(){
           .html(this.options.component.data.question)
           .appendTo(container);
 
-        var buttonDiv = $("<div>")
+        var buttonDiv = $("<div>").css({"bottom":"0px","position":"absolute","width":"100%"})
           .appendTo(container);
 
-          var questionButtonTrue = $("<img>")
+          var questionButtonTrue = $("<img>").css({"margin":"10px"})
             .attr("src",window.base_path+"/css/images/butond.png")
             .click(function(){
               if(that.options.component.data.cquiz_type == true) type = 1; else type = 0;
               console.log(type);
-              createOverLay( type,"Üzgünüm! Doğru cevap  "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
+              createOverLay( type,"Üzgünüm! Doğru cevap:  "+that.options.component.data.answer+"!","Tebrikler! Cevabınız Doğru!").appendTo(that.element);
             })
             .appendTo(buttonDiv);
 
-          var questionButtonfalse = $("<img>")
+          var questionButtonfalse = $("<img>").css({"margin":"10px"})
             .attr("src",window.base_path+"/css/images/butony.png")
             .click(function(){
               if(that.options.component.data.cquiz_type == "false") type = 1; else type = 0;
@@ -61,25 +61,29 @@ $(document).ready(function(){
 });
 
 var createOverLay = function (status,trueMessage,falseMessage){
-
+    var overlayMain = $("<div>")
     var overlayContainer = $("<div>")
-        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8","font-size": "16px","overflow":"hidden", "display":"table"});
-
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8","font-size": "16px","overflow":"hidden"});
+    var overlayContainerFront=$("<div>")
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"transparent","font-size": "16px","overflow":"hidden", "display":"table"});
     var imgDiv = $("<div>")
         .css({"display": "table-cell", "vertical-align": "middle","margin":"0 auto","width":"100%","height":"100%"});
 
     var img = $("<img/>")
-        .css({"width":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+        .css({"height":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
 
-    var p=status==0?$("<p/>").html(trueMessage):$("<p/>").html(falseMessage);
-    imgDiv.appendTo(overlayContainer);
+    var p=status==0?$("<p/>").css({"color":"white"}).html(trueMessage):$("<p/>").css({"color":"white"}).html(falseMessage);
+    imgDiv.appendTo(overlayContainerFront);
     img.appendTo(imgDiv);
     p.appendTo(imgDiv);
-    overlayContainer.click(function(){
+    overlayContainerFront.click(function(){
       $(this).remove();
+      overlayContainer.remove();
 
     });
-    return overlayContainer;
+    overlayContainer.appendTo(overlayMain);
+    overlayContainerFront.appendTo(overlayMain);
+    return overlayMain;
 
    }
 
