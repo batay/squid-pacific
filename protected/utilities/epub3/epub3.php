@@ -552,6 +552,7 @@ class epub3 {
 						    secimKutusu.attr('data-cevap', cevaplar[i]);
 						    secimKutusu.appendTo(taneKapsul);
 						    secimKutusu.change(function (e) {
+
 						          console.log('secim',$(this).val());
 						          console.log('cevap',$(this).data('cevap'))
 						          if($(this).val()==$(this).data('cevap')){
@@ -564,7 +565,10 @@ class epub3 {
 						            $(this).addClass('yanlis');
 						          }
 						          console.log($(element).find('.dogru').length);
-						          if(cevaplar.length == $(element).find('.dogru').length) alert('Doğru bildin, tebrikler...');
+
+						          if(cevaplar.length == $(element).find('.dogru').length) {
+						          	$(this).blur();alert('Doğru bildin, tebrikler...');
+						          }
 						    });
 
 						    for (var j = 0; j < alfabe.length; j++) {
