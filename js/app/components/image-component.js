@@ -11,7 +11,8 @@ $(document).ready(function(){
 
       var that = this;
       
-      console.log(this.options.component);
+      console.log(this.options.component.data.img.image_width);
+      console.log(this.options.component.data.img.image_height);
       var componentimageid='image'+this.options.component.id;
         if(this.options.component.data.img.image_type == 'popup'){
           console.log(this.options.marker);
@@ -88,6 +89,9 @@ $(document).ready(function(){
             component.data.img.src = imageBinary;
             component.data.self.css.width = image_width;
             component.data.self.css.height = image_height;
+
+            component.data.img.image_width = image_width;
+            component.data.self.image_height = image_height;
 
             
             window.lindneo.tlingit.componentHasCreated(component);
@@ -224,7 +228,9 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
               } , 
               'image_type' : image_type,
               'marker' : marker,
-              'src': imageBinary
+              'src': imageBinary,
+              'image_width':image_width,
+              'image_height':image_height
             },
             'lock':'',
             'self': {
@@ -433,12 +439,14 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
 
                         image.onload = function() {
                          
-                          
                           image_width = this.width;
                           image_height = this.height;
+                          console.log(image_width);
                           var size = window.lindneo.findBestSize({'w':image_width,'h':image_height});
                           image_width = size.w;
                           image_height = size.h;
+                          console.log(image_width);
+                          console.log(image_height);
                         
                         
                           imageBinary = evt.target.result;
@@ -483,16 +491,16 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
                           
                           image_width = this.width;
                           image_height = this.height;
-                          if($('#width').val() != '')
-                            image_width = $('#width').val();
-                          if($('#height').val() != '')
-                            image_height = $('#height').val();
+                          
+                          console.log(image_width);
+                          console.log(image_height);
+                          
                           var size = window.lindneo.findBestSize({'w':image_width,'h':image_height});
                           image_width = size.w;
                           image_height = size.h;
 
-                          
-                          
+                          console.log(image_width);
+                          console.log(image_height);
                           imageBinary = _file.target.result;  
                           newImageDiv.html("");
                           $("<img src='"+imageBinary+"' style='width:60px; height:60px;'>").appendTo(newImageDiv);

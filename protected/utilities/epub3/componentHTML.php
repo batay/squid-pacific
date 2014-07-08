@@ -1438,8 +1438,16 @@ class componentHTML {
 			if(isset($data->img->css)){
 				$image_container.=" style=' ";
 				foreach ($data->img->css as $css_name => $css_val ) {
-					if($css_name!="opacity")
-						$image_container.="$css_name:$css_val;";
+					if($css_name!="opacity"){
+						if($css_name=="width"){
+							$image_container.="$css_name:".$component->data->img->image_width.";";
+						}
+						else if($css_name=="height"){
+							$image_container.="$css_name:".$component->data->img->image_height.";";
+						}
+						else
+							$image_container.="$css_name:$css_val;";
+					}
 					else $opacity ="$css_name:$css_val;";
 				}
 				$image_container.="' ";
