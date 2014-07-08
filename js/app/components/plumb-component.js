@@ -29,13 +29,16 @@ $(document).ready(function(){
         cache: true
       });*/ 
       $.getScript('/js/lib/dom.jsPlumb-1.6.2-min.js',function(){
-      jsPlumb.bind("ready", function() {
-        tesbihKonteyner=tesbihTaneleriOlustur(letters, that.element, parseInt(that.options.component.data.size)); 
-        tesbihTazele(tesbihKonteyner);
+        window["instanceJsPlumb"+that.options.component.id] = jsPlumb.getInstance();
+      window["instanceJsPlumb"+that.options.component.id].bind("ready", function() {
+        tesbihKonteyner=tesbihTaneleriOlustur(that.options.component.data.kelimeler,letters, that.element, parseInt(that.options.component.data.size)); 
+        tesbihTazele(tesbihKonteyner,window["instanceJsPlumb"+that.options.component.id]);
       });
        $( that.element ).resize(function() {
-        jsPlumb.deleteEveryEndpoint();
-        tesbihTazele(tesbihKonteyner);
+        window["instanceJsPlumb"+that.options.component.id].deleteEveryEndpoint();
+        window["instanceJsPlumb"+that.options.component.id].reset();
+        console.log("ID",that.options.component.id);
+        tesbihTazele(tesbihKonteyner,window["instanceJsPlumb"+that.options.component.id]);
       });
        });
 
@@ -58,11 +61,14 @@ $(document).ready(function(){
 
 var tesbihKonteyner;
 
-var tesbihTaneleriOlustur = function (cevaplar, element, taneBoyutu){
+var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
 
   $("<style type='text/css'>.yanlis{color:red;-webkit-text-stroke: "+parseInt(taneBoyutu*3.0/100)+"px black} .dogru{color:green;-webkit-text-stroke: "+parseInt(taneBoyutu*3.0/100)+"px black}</style>").appendTo("head");
 
-  tesbihKonteyner=$("<div></div>").css({"width":"100%"});
+  tesbihKonteyner=$("<div></div>").css({"width":"100%","float":"left"});
+  var tesbihKelimeler=$("<div><b>Bulmacadaki kelimeler:</b><br>"+kelimeler.replace(",","<br>")+"</div>").css({"border-style":"solid","border-width":"1px","width":"100%","float":"left","font-size":(taneBoyutu/3)+"px"});
+  var tesbihDiv=$("<div></div>").css({"width":"100%"});
+
   var alfabe=["?","A","B","C","Ç","D","E","F","G","Ğ","H","I","İ","J","K","L","M","N","O","Ö","P","R","S","Ş","T","U","Ü","V","Y","Z"];
   for (var i = 0; i < cevaplar.length; i++) {
     var tane=$("<div></div>")
@@ -103,18 +109,23 @@ var tesbihTaneleriOlustur = function (cevaplar, element, taneBoyutu){
 
   };
 
-  tesbihKonteyner.appendTo(element);
+  
+  tesbihKonteyner.appendTo(tesbihDiv);
+  tesbihKelimeler.appendTo(tesbihDiv);
+  tesbihDiv.appendTo(element);
+  //tesbihKonteyner.appendTo("<div>"+kelimeler+"</div>");
   return tesbihKonteyner;
 
 }
 
-var tesbihTazele = function (tesbihKonteyner){
+var tesbihTazele = function (tesbihKonteyner,instanceJsPlumb){
+
   var tesbihTaneleri=tesbihKonteyner.children();
   var tesbihTaneleriSayisi=tesbihTaneleri.length;
   var c1,c2;
   //jsPlumb.draggable($(".circleBase"));
   $.each(tesbihTaneleri,function(id,val){
-      //jsPlumb.draggable($(val));
+      jsPlumb.draggable($(val));
       /*(val).draggable({
 
            drag: function() {
@@ -124,13 +135,13 @@ var tesbihTazele = function (tesbihKonteyner){
 
       });*/
       if(id==0){
-         c1 = jsPlumb.addEndpoint($(val),{anchor:"Right"});
+         c1 = instanceJsPlumb.addEndpoint($(val),{anchor:"Right"});
       }
       else
       {
         //c2=jsPlumb.addEndpoint($(val),{anchor:"RightMiddle"});
-         c2=jsPlumb.addEndpoint($(val),{anchor:"Left"});
-        jsPlumb.connect({
+         c2=instanceJsPlumb.addEndpoint($(val),{anchor:"Left"});
+        instanceJsPlumb.connect({
              source:c1, 
              target:c2,
                      endpoint: ["Dot", {
@@ -149,7 +160,7 @@ var tesbihTazele = function (tesbihKonteyner){
 
            });
         if(id!=tesbihTaneleriSayisi-1)
-        c1=jsPlumb.addEndpoint($(val),{anchor:"Right"});
+        c1=instanceJsPlumb.addEndpoint($(val),{anchor:"Right"});
       }
 
 
@@ -166,6 +177,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
 
   var taneler;
   var boyut= "";
+  var kelimeler="";
 
   if(typeof oldcomponent == 'undefined'){
     //console.log('dene');
@@ -237,6 +249,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
           'data': {
             "word":taneler,
             "size":boyut,
+            "kelimeler":kelimeler,
             'lock':'',
             'self': {
               'css': {
@@ -263,25 +276,38 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
         .appendTo(ui);
 
         var wordLabel = $('<label>')
-          .text(j__("Bulmacanın içeriğindeki kelimeleri ardarda giriniz."))
+          .text(j__("Bulmacanın içeriğindeki harfleri giriniz. Örnek: kapırasa"))
           .appendTo(mainDiv);
-
+        $("<br>").appendTo(mainDiv);
         var wordDiv = $('<input type="text">')
           .change(function(){
             taneler = $(this).val().toUpperCase();
           })
           .appendTo(mainDiv);
         $("<br>").appendTo(mainDiv);
-
-        var sizeLabel = $('<label>')
-          .text(j__("Resim büyüklüğünü giriniz."))
+          
+        var eachWordLabel = $('<label>')
+          .text(j__("Bulmacanın içeriğindeki kelimeleri virgül kullaran giriniz. Örnek: kapı,pırasa"))
+          .appendTo(mainDiv);
+        $("<br>").appendTo(mainDiv);
+        var eachWordDiv = $('<input type="text">')
+          .change(function(){
+            kelimeler = $(this).val();
+          })
           .appendTo(mainDiv);
 
+        $("<br>").appendTo(mainDiv);
+
+        var sizeLabel = $('<label>')
+          .text(j__("Tane boyutunu giriniz.Örnek:100"))
+          .appendTo(mainDiv);
+          $("<br>").appendTo(mainDiv);
         var sizeDiv = $('<input type="text">')
           .change(function(){
             boyut = $(this).val();
           })
           .appendTo(mainDiv); 
+
                     
     }
 
