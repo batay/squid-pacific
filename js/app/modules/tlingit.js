@@ -16,6 +16,9 @@ window.lindneo.tlingit = (function(window, $, undefined){
   var history_should_record = true;
   var updateTimeouts = [];
   var originals_count = 0;
+  var updateQueue = {};
+
+
 
 
   var newHistory = function (component, action){
@@ -146,7 +149,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
         switch (lastAction.action){
           case "original":
           case "updated":
-            componentHasUpdated( lastAction.component ) ;
+            window.lindneo.tlingit.componentHasUpdated( lastAction.component ) ;
             window.lindneo.nisga.destroyByIdComponent(lastAction.component.id);
             window.lindneo.nisga.createComponent(lastAction.component);
           break;
@@ -234,7 +237,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
 
     delete fakeComponent["data"];
     //console.log(fakeComponent);
-    console.log(oldcomponent_id);
+    //console.log(oldcomponent_id);
     window.lindneo.dataservice
       .send( 'AddComponent', 
         { 
@@ -249,10 +252,15 @@ window.lindneo.tlingit = (function(window, $, undefined){
               alert(j__("Araç oluşturulamadı. Lütfen önce bir sayfa ekleyiniz!")); 
               return;
             }  
+            /*
+            console.group('data');
+            console.log(component.data);
+            console.groupEnd();
+            */
             response.result.component.data = component.data;
 
 
-            componentHasUpdated (response.result.component);
+            window.lindneo.tlingit.componentHasUpdated (response.result.component,true);
 
             newHistory(response.result.component, 'create');
 
@@ -333,27 +341,95 @@ window.lindneo.tlingit = (function(window, $, undefined){
 */
   
 
-  var componentHasUpdated = function ( component , force) {
-
+  var componentHasUpdated = function ( component , force ,skipQueue, queueTime ) {
+    var that = this;
+    var dontProccessNow = false;
+    
     if (typeof force == "undefined") force = false;
+    if (typeof skipQueue == "undefined") skipQueue = false;
+    if (typeof queueTime == "undefined") queueTime = $.now();
 
-    //console.log(component);
+
+
+
+    if (! jQuery.isEmptyObject(window.lindneo.tlingit.updateQueue) )  dontProccessNow = true;
+
+    if (!skipQueue){
+      queueTime = $.now();
+      //console.log('addedToTheQueue');
+      window.lindneo.tlingit.updateQueue[queueTime]={
+        component: JSON.parse(JSON.stringify(component)),
+        force:force
+      };
+      if (dontProccessNow) {
+        //console.log('NotProcessing Now');
+        return;
+      }
+    }
+
+    //console.log('Running Update!');
+
+
+    var handleWithCareOnUpdateResponse = function(res){
+              //console.log("To delete : " +queueTime);
+              delete window.lindneo.tlingit.updateQueue[queueTime];
+              updateArrivalComponent(res);
+              componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
+    
+              if (! jQuery.isEmptyObject(window.lindneo.tlingit.updateQueue) ){
+                var lowest;
+                var mergingArray = {};
+                $.each(window.lindneo.tlingit.updateQueue,function(timestamp,value){
+                  if( typeof mergingArray[value.component.id] == "undefined" ) 
+                    mergingArray[value.component.id]={
+                      value:value,
+                      timestamp:timestamp
+                    };
+                  else {
+                    mergingArray[value.component.id].value.component = deepmerge (mergingArray[value.component.id].value.component , value.component);
+                    delete window.lindneo.tlingit.updateQueue[timestamp];
+                  }
+
+
+                });
+                console.log(mergingArray);
+
+                $.each(window.lindneo.tlingit.updateQueue,function(timestamp,value){
+
+
+                  if ( typeof lowest == "undefined" ) lowest = timestamp;
+                  if ( timestamp < lowest ) lowest = timestamp;
+                });
+                var nextOnQueue = window.lindneo.tlingit.updateQueue[lowest];
+                setTimeout(function(){
+                  window.lindneo.tlingit.componentHasUpdated(nextOnQueue.component,nextOnQueue.force,true,lowest);
+                },1000);
+
+
+              }
+            };
+
+    
     newHistory(component, 'updated');
     window.lindneo.pageLoaded(false);
+
+
+
+
     if( typeof  componentPreviosVersions[component.id] == "undefined" 
       || component.type == "table" || component.type == "html" || force){
          
 
           //console.log('firstUpdate');
         
-    
+        
         window.lindneo.dataservice
           .send( 'UpdateWholeComponentData', 
             { 
               'componentId' : component.id, 
               'jsonProperties' : componentToJson(component) 
             },
-            updateArrivalComponent,
+            handleWithCareOnUpdateResponse,
             function(err){
               //console.log('error:' + err);
           });
@@ -361,7 +437,9 @@ window.lindneo.tlingit = (function(window, $, undefined){
 
     } else {
         
+        
         var componentDiff = deepDiffMapper.map(component.data, componentPreviosVersions[component.id].data);
+
         
         if(typeof componentDiff.comments != "undefined"){
           $.each ( componentDiff.comments, function (key,value) {
@@ -373,21 +451,21 @@ window.lindneo.tlingit = (function(window, $, undefined){
             }
           });
         }
-
+        
          window.lindneo.dataservice
           .send( 'UpdateMappedComponentData', 
             { 
               'componentId' : component.id, 
               'jsonProperties' : componentToJson(componentDiff) 
             },
-            updateArrivalComponent,
+            handleWithCareOnUpdateResponse,
             function(err){
               //console.log('error:' + err);
           });
 
     }
 
-    componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
+    //componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
     
     window.lindneo.tsimshian.componentUpdated(component);
     
@@ -775,7 +853,8 @@ window.lindneo.tlingit = (function(window, $, undefined){
     history: history,
     getSeekPosition: getSeekPosition,
     componentPreviosVersions: componentPreviosVersions,
-    updatePageCanvas: updatePageCanvas
+    updatePageCanvas: updatePageCanvas,
+    updateQueue: updateQueue
   };
 
 })( window, jQuery );
@@ -856,3 +935,59 @@ var deepDiffMapper = function() {
         }
     }
 }();
+
+
+
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(factory);
+    } else if (typeof exports === 'object') {
+        module.exports = factory();
+    } else {
+        root.deepmerge = factory();
+    }
+}(this, function () {
+
+return function deepmerge(target, src) {
+    var array = Array.isArray(src);
+    var dst = array && [] || {};
+
+    if (array) {
+        target = target || [];
+        dst = dst.concat(target);
+        src.forEach(function(e, i) {
+            if (typeof dst[i] === 'undefined') {
+                dst[i] = e;
+            } else if (typeof e === 'object') {
+                dst[i] = deepmerge(target[i], e);
+            } else {
+                if (target.indexOf(e) === -1) {
+                    dst.push(e);
+                }
+            }
+        });
+    } else {
+        if (target && typeof target === 'object') {
+            Object.keys(target).forEach(function (key) {
+                dst[key] = target[key];
+            })
+        }
+        Object.keys(src).forEach(function (key) {
+            if (typeof src[key] !== 'object' || !src[key]) {
+                dst[key] = src[key];
+            }
+            else {
+                if (!target[key]) {
+                    dst[key] = src[key];
+                } else {
+                    dst[key] = deepmerge(target[key], src[key]);
+                }
+            }
+        });
+    }
+
+    return dst;
+}
+
+}));
+
