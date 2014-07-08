@@ -520,15 +520,19 @@ class epub3 {
 						var tesbihKonteyner;
 
 						jsPlumb.bind('ready', function() {
-					        tesbihKonteyner=tesbihTaneleriOlustur(".$letters.", $('#plumb_".$component->id."'), parseInt(".$component->data->size."));   
+					        tesbihKonteyner=tesbihTaneleriOlustur('".$component->data->kelimeler."',".$letters.", $('#plumb_".$component->id."'), parseInt(".$component->data->size."));   
 					        tesbihTazele(tesbihKonteyner);
 					      });
 
-						var tesbihTaneleriOlustur = function (cevaplar, element, taneBoyutu){
+						var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
 
 						  $('<style type=\'text/css\'>.yanlis{color:red;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black} .dogru{color:green;-webkit-text-stroke: '+parseInt(taneBoyutu*3.0/100)+'px black}</style>').appendTo('head');
 
-						  tesbihKonteyner=$('<div></div>').css({'width':'100%'});
+						  tesbihKonteyner=$('<div></div>').css({'width':'100%','float':'left'});
+						  var tesbihKelimeler=$('<div><b>Bulmacadaki kelimeler:</b><br>'+kelimeler.replace(',','<br>')+'</div>').css({'border-style':'solid','border-width':'1px','width':'100%','float':'left','font-size':(taneBoyutu/3)+'px'});
+  						  var tesbihDiv=$('<div></div>').css({'width':'100%'});
+
+
 						  var alfabe=['?','A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
 						  for (var i = 0; i < cevaplar.length; i++) {
 						    var tane=$('<div></div>')
@@ -569,7 +573,9 @@ class epub3 {
 
 						  };
 
-						  tesbihKonteyner.appendTo(element);
+						    tesbihKonteyner.appendTo(tesbihDiv);
+  							tesbihKelimeler.appendTo(tesbihDiv);
+  							tesbihDiv.appendTo(element);
 						  return tesbihKonteyner;
 
 						}
