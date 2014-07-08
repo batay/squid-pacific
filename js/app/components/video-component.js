@@ -654,6 +654,11 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
                       var component = {};
                       videoURL = '';
                       reader.onload = function(evt) {
+
+                        var video_width = this.width;
+                        var video_height = this.height;
+                        console.log(this);
+                        console.log(evt);
                         
                         var videoBinary = evt.target.result;
                         contentType = videoBinary.substr(0, videoBinary.indexOf(';'));
@@ -683,6 +688,7 @@ var createVideoComponent = function( event, ui, oldcomponent ) {
 
                       };
                       reader.readAsDataURL( e.originalEvent.dataTransfer.files[0] );
+                      console.log(e.originalEvent.dataTransfer);
                     })
                     .appendTo(videoDragDiv);
 
