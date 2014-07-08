@@ -20,6 +20,34 @@ $current_chapter=Chapter::model()->findByPk($page->chapter_id);
 $current_page=Page::model()->findByPk($page->page_id);
 $current_user=User::model()->findByPk(Yii::app()->user->id);
 
+
+
+
+
+
+///rearrange chapter
+
+$chapter_list= Yii::app()->db->createCommand("SELECT MAX(chapter.order) as chapter_order FROM chapter WHERE book_id LIKE :book_id")->bindValue('book_id',$current_chapter->book_id)->queryAll();
+if($chapter_list)
+{
+	print_r($chapter_list[0]["chapter_order"]);
+	if($chapter_list[0]["chapter_order"]==0){
+		$criteria = new CDbCriteria();
+		$criteria->condition="book_id=:book_id";
+		$criteria->order = 'created ASC';
+		$criteria->params=array(':book_id'=>$current_chapter->book_id);
+		$chapters = Chapter::model()->findAll($criteria);
+		//$chapters=Yii::app()->db->createCommand("SELECT * FROM chapter WHERE book_id LIKE :book_id ORDER BY created ASC")->bindValue('book_id',$current_chapter->book_id)->queryAll();
+		$counter=0;
+		foreach ($chapters as $chapter) {
+			$chapter->order=$counter;
+			$chapter->save();
+			$counter++;
+		}
+	}
+}
+
+
 //$chapters_preview =Chapter::model()->findAll(array('order'=>  '`order` asc ,  created asc', "condition"=>'book_id=:book_id', "params" => array(':book_id' => $model->book_id )));
 //echo CJSON::encode($chapters_preview);
 
@@ -2282,7 +2310,7 @@ $background= (!empty($img)) ? "background-image:url('".str_replace(" ", "", $img
 							$template_page=Page::model()->find(array('order'=>  '`order` asc ,  created asc', "condition"=>'chapter_id=:chapter_id', "params" =>array(':chapter_id' => $template_chapter->chapter_id  ) ) );
 							echo "<li class='page'  chapter_id='".$template_chapter->chapter_id."' page_id='".$template_page->page_id."' style='width:122px; height:92px; border: 1px solid rgb(55, 108, 150);'  >
 								<canvas  class='ch_".$template_page->page_id."' style='height:90px; width:120px;'> </canvas>
-								<a class='ch_".$template_page->page_id." copyBook' book-id='".$model->book_id."' chapter_id='".$current_chapter->chapter_id."' pageTeplateId='".$template_page->page_id."' href='#' ></a>
+								<a class='ch_".$template_page->page_id." copyBook' book-id='".$model->book_id."' page_id='".$current_page->page_id."'' chapter_id='".$current_chapter->chapter_id."' pageTeplateId='".$template_page->page_id."' href='#' ></a>
 								</li>";
 							/*
 							echo "<li onclick='event.stopPropagation();' class='page' chapter_id='".$template_chapter->chapter_id."' page_id='".$template_page->page_id."' >

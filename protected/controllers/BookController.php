@@ -53,7 +53,7 @@ class BookController extends Controller
 	{
 		$res=array();
 		$pages=array();
-		$chapters=Chapter::model()->findAll(array('order'=>  '`order` asc ,  created asc', "condition"=>'book_id=:book_id', "params" => array(':book_id' => $id )));
+		$chapters=Chapter::model()->findAll(array('order'=>  '`order` asc ,  created desc', "condition"=>'book_id=:book_id', "params" => array(':book_id' => $id )));
 
 		foreach ($chapters as $key => $chapter) {
 			$res['chapters'][]=$chapter;
