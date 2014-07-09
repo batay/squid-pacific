@@ -100,7 +100,13 @@ var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
             $(this).addClass("yanlis");
           }
           console.log($(element).find(".dogru").length);
-          if(cevaplar.length == $(element).find(".dogru").length) alert("Doğru bildin, tebrikler...");
+          if(cevaplar.length == $(element).find(".dogru").length) {
+
+            createOverLay("Tebrikler, başarıyla tamamladınız!").css({"z-index":"1","position":"absolute","width":"100%","height":"100%"}).appendTo(tesbihDiv);
+            console.log("overlay");
+            //alert("Doğru bildin, tebrikler...");
+
+          }
     });
 
     for (var j = 0; j < alfabe.length; j++) {
@@ -172,7 +178,33 @@ var tesbihTazele = function (tesbihKonteyner,instanceJsPlumb){
 
 
 
+var createOverLay = function (message){
+    var overlayMain = $("<div>");
+    var overlayContainer = $("<div>").css({"z-index":"9999999"})
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8","font-size": "16px","overflow":"hidden"});
+    var overlayContainerFront=$("<div>")
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","z-index":"9999999","background-color":"transparent","font-size": "16px","overflow":"hidden", "display":"table"});
+    var imgDiv = $("<div>")
+        .css({"display": "table-cell", "vertical-align": "middle","margin":"0 auto","width":"100%","height":"100%"});
 
+    var status=1;
+    var img = $("<img/>")
+        .css({"height":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+
+    var p=$("<p/>").css({"color":"white"}).html(message);
+    imgDiv.appendTo(overlayContainerFront);
+    img.appendTo(imgDiv);
+    p.appendTo(imgDiv);
+    overlayContainerFront.click(function(){
+      $(this).remove();
+      overlayContainer.remove();
+
+    });
+    overlayContainer.appendTo(overlayMain);
+    overlayContainerFront.appendTo(overlayMain);
+    return overlayMain;
+
+   };
 var createPlumbComponent = function ( event, ui ,oldcomponent) {
 
   var taneler;

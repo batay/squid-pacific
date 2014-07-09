@@ -1642,8 +1642,8 @@ class componentHTML {
 					            {
 					              callback: function() {
 					                
-                  					createOverLay('Tebrikler başarıyla tamamladınız!').appendTo($(this).parent());
-                  					snapfit.admix($('#'+id).get(0),true);
+                  					createOverLay('Tebrikler, başarıyla tamamladınız!').appendTo($(this).parent());
+                  					//snapfit.admix($('#'+id).get(0),true);
 					                
 					                }, 
 					              aborder:true, 
