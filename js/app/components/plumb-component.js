@@ -119,6 +119,7 @@ var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
   tesbihKonteyner.appendTo(tesbihDiv);
   tesbihKelimeler.appendTo(tesbihDiv);
   tesbihDiv.appendTo(element);
+
   //tesbihKonteyner.appendTo("<div>"+kelimeler+"</div>");
   return tesbihKonteyner;
 
@@ -173,6 +174,7 @@ var tesbihTazele = function (tesbihKonteyner,instanceJsPlumb){
     }
 
   );
+  $(tesbihKonteyner).parent().css({"position":"absolute","z-index":"9999999"});
 }
 
 
