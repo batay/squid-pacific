@@ -1438,16 +1438,8 @@ class componentHTML {
 			if(isset($data->img->css)){
 				$image_container.=" style=' ";
 				foreach ($data->img->css as $css_name => $css_val ) {
-					if($css_name!="opacity"){
-						if($css_name=="width"){
-							$image_container.="$css_name:".$component->data->img->image_width.";";
-						}
-						else if($css_name=="height"){
-							$image_container.="$css_name:".$component->data->img->image_height.";";
-						}
-						else
-							$image_container.="$css_name:$css_val;";
-					}
+					if($css_name!="opacity")
+						$image_container.="$css_name:$css_val;";
 					else $opacity ="$css_name:$css_val;";
 				}
 				$image_container.="' ";
@@ -1644,13 +1636,14 @@ class componentHTML {
 						  	var imageElement ;
       						var puzzleElement ;
 				            imageElement= this;
+				            $(this).css({'position':'absolute'});
 				            puzzleElement = snapfit.add(
 					            imageElement,
 					            {
 					              callback: function() {
 					                
-					                alert('Tebrikler başarıyla tamamladınız.');
-					                  snapfit.remove(document.getElementById(id));
+                  					createOverLay('Tebrikler başarıyla tamamladınız!').appendTo($(this).parent());
+                  					snapfit.admix($('#'+id).get(0),true);
 					                
 					                }, 
 					              aborder:true, 
@@ -1667,7 +1660,34 @@ class componentHTML {
 				            );
 				          
 				        });
+ 
+						//overlay begin
+							
+							var createOverLay = function (message){
+						    var overlayMain = $('<div>');
+						    var overlayContainer = $('<div>').css({'width':'100%','height':'100%','text-align':'center','position':'absolute','background-color':'black','opacity':'0.8','font-size': '16px','overflow':'hidden'});
+						    var overlayContainerFront=$('<div>').css({'width':'100%','height':'100%','text-align':'center','position':'absolute','background-color':'transparent','font-size': '16px','overflow':'hidden', 'display':'table'});
+						    var imgDiv = $('<div>').css({'display': 'table-cell', 'vertical-align': 'middle','margin':'0 auto','width':'100%','height':'100%'});
 
+						    var status=1;
+						    var img = $('<img/>').css({'height':'30%'}).attr('src','overlay_'+status+'.png');
+
+						    var p=$('<p/>').css({'color':'white'}).html(message);
+						    imgDiv.appendTo(overlayContainerFront);
+						    img.appendTo(imgDiv);
+						    p.appendTo(imgDiv);
+						    overlayContainerFront.click(function(){
+						      $(this).remove();
+						      overlayContainer.remove();
+
+						    });
+						    overlayContainer.appendTo(overlayMain);
+						    overlayContainerFront.appendTo(overlayMain);
+						    return overlayMain;
+
+						   };
+
+						//overlay end
 					</script>
 					";
 				
