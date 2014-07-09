@@ -41,7 +41,8 @@ class Chapter extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('chapter_id, book_id', 'required'),
-			array('start_page, order', 'numerical', 'integerOnly'=>true),
+			array('start_page', 'numerical', 'integerOnly'=>true),
+			array('order', 'numerical'),
 			array('chapter_id, book_id', 'length', 'max'=>44),
 			array('title', 'length', 'max'=>255),
 			array('created, data', 'safe'),

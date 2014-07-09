@@ -651,7 +651,7 @@ class EditorActionsController extends Controller
 			return false;
 		}
 		$chapter->title=$title;
-		$chapter->order=$order;
+		//$chapter->order=$order;
 
 
 		if(!$chapter->save()){
@@ -832,41 +832,29 @@ class EditorActionsController extends Controller
 
 	}
 
-public function getNextId($current_chapter_id)
+public function getNextId($currentChapter,$bookId)
 {
-    $record=Chapter::model()->find(array(
-            'condition' => 'chapter_id>:current_chapter_id',
+    /*$record=Chapter::model()->find(array(
+            'condition' => 'chapter.order>:order',
             'order' => 'id ASC',
             'limit' => 1,
-            'params'=>array(':current_id'=>$current_chapter_id),
-    ));
-    if($record!==null)
-        return $record->order;
-    return null;
+            'params'=>array(':order'=>$currentChapter->order),
+    ));*/
+    //$chapter_list= Yii::app()->db->createCommand("SELECT * FROM chapter WHERE chapter.order>:chapter_order AND chapter.book_id LIKE :bookId ORDER BY chapter.order ASC,created DESC limit 1 ")->bindValue('chapter_order',$current_chapter->order)->bindValue('bookId',$bookId)->queryRow();
+    $record= Yii::app()->db->createCommand("SELECT * FROM chapter WHERE chapter.book_id LIKE :bookId AND chapter.order > :order ORDER BY chapter.order ASC,created DESC limit 1 ")->bindValues(array('bookId'=>$bookId,'order'=>$currentChapter->order))->queryRow();
+    if(!empty($record))
+        return $record["order"];
+    return $currentChapter->order+1;
 }
 
 	public function createChapter($bookId,$pageId,$pageTeplateId=null){
 		$model=new Chapter;
 		$model->book_id=$bookId;
 		$model->chapter_id=functions::new_id();
-
 		$currentPage=Page::model()->find('page_id=:page_id',array(':page_id'=>$pageId));
 		$currentChapter=Chapter::model()->find('chapter_id=:chapter_id',array(':chapter_id'=>$currentPage->chapter_id));
-		//$list= Yii::app()->db->createCommand('select * from post')->queryAll();
-		//$list= Yii::app()->db->createCommand('select * from post where category=:category')->bindValue('category',$category)->queryAll();
-		/*
-		$next=$this->getNextId($currentChapter->chapter_id);
-		$next_order=0;
-		if($next==null)
-		{
-			$next_order=$currentPage->order;
-		}
-		else
-		{
-			$next_order=$next;
-		}*/
-		$model->order=($currentChapter->order+1);
-
+		$nextChapterOrder=$this->getNextId($currentChapter,$bookId);
+		$model->order=($currentChapter->order+$nextChapterOrder)/2.0;
 		if($model->save())
 		{
 			if ($result = $this->createPage ($bookId,$model->chapter_id,$pageTeplateId) ){
@@ -875,11 +863,15 @@ public function getNextId($current_chapter_id)
 			}
 
 		}
+		else
+		{
+			echo "model could not be saves!";
+		}
 		return false;
 	}	
-	public function actionCreateNewChapter ($bookId,$pageTeplateId=null){
+	public function actionCreateNewChapter ($bookId,$pageId=null,$pageTeplateId=null){
 		$response=false;
-		if ($response['page']=$this->createChapter ( $bookId, $pageTeplateId ) )
+		if ($response['page']=$this->createChapter ( $bookId, $pageId,$pageTeplateId ) )
 			return $this->response($response);
 
 		$this->error("EA-CrNeCH","Chapter Not Created",func_get_args(),$response);
