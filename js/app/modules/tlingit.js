@@ -282,6 +282,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
       "bookId"  : window.lindneo.currentBookId,
       "pageId"  : window.lindneo.currentPageId
     };
+    console.log("NEW CHAPTER DATA",newChapterData);
     if (typeof pageTeplateId !== "undefined")
       newChapterData.pageTeplateId = pageTeplateId;
 
