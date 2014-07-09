@@ -87,6 +87,7 @@ var addSnapFit=function(id,element, difficulty,imageBinary){
         .addClass("puzzle")
         .attr('width',"100%")
         .attr('height',"100%")
+        .css({'position':'absolute'})
         .appendTo(element)
         .load(function(){
           console.log("LOADING....",difficulty);
@@ -97,9 +98,11 @@ var addSnapFit=function(id,element, difficulty,imageBinary){
             {
               callback: function() 
                 {
-                
-                alert("Tebrikler başarıyla tamamladınız.");
-                  snapfit.remove(document.getElementById(id));
+                console.log("SNAPFIT->",$(this).parent());
+                console.log($(image).get(0));
+                  createOverLay("Tebrikler başarıyla tamamladınız!").appendTo($(this).parent());
+                  snapfit.admix($("#"+id).get(0),true);
+                  console.log("snapfit end!"); 
                 
                 }, 
               aborder:true, 
@@ -114,6 +117,34 @@ var addSnapFit=function(id,element, difficulty,imageBinary){
               nokeys:true
             });
 });};
+
+var createOverLay = function (message){
+    var overlayMain = $("<div>");
+    var overlayContainer = $("<div>")
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8","font-size": "16px","overflow":"hidden"});
+    var overlayContainerFront=$("<div>")
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"transparent","font-size": "16px","overflow":"hidden", "display":"table"});
+    var imgDiv = $("<div>")
+        .css({"display": "table-cell", "vertical-align": "middle","margin":"0 auto","width":"100%","height":"100%"});
+
+    var status=1;
+    var img = $("<img/>")
+        .css({"height":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+
+    var p=$("<p/>").css({"color":"white"}).html(message);
+    imgDiv.appendTo(overlayContainerFront);
+    img.appendTo(imgDiv);
+    p.appendTo(imgDiv);
+    overlayContainerFront.click(function(){
+      $(this).remove();
+      overlayContainer.remove();
+
+    });
+    overlayContainer.appendTo(overlayMain);
+    overlayContainerFront.appendTo(overlayMain);
+    return overlayMain;
+
+   };
 
 //var image;
 var createPuzzleComponent = function ( event, ui, oldcomponent ) {  
