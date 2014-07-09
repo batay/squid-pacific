@@ -23,6 +23,7 @@ $(document).ready(function(){
         .addClass("puzzle")
         .attr('width',"100%")
         .attr('height',"100%")
+        .css({'position':'absolute'})
         .appendTo(this.element)
         .load(function(){
           console.log("LOADING....",that.options.component.data.difficulty);
@@ -31,9 +32,11 @@ $(document).ready(function(){
             imageElement,
             {
               callback: function() {
-                
-                alert("Tebrikler başarıyla tamamladınız.");
-                  snapfit.remove(document.getElementById(id));
+                  console.log("SNAPFIT->",$(this).parent());
+                  console.log($(image).get(0));
+                  createOverLay("Tebrikler başarıyla tamamladınız!").appendTo($(this).parent());
+                  snapfit.admix($("#"+id).get(0),true);
+                  console.log("snapfit end!"); 
                 
                 }, 
               aborder:true, 
