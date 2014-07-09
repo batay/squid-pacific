@@ -657,6 +657,7 @@ class epub3 {
 						    }
 
 						  );
+								  $(tesbihKonteyner).parent().css({'position':'absolute','z-index':'9999999'});
 						}";
 					break;
 				
