@@ -374,6 +374,7 @@ $( document ).ready(function () {
         
 
       }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+      $(ul).css({"z-index":"9999999","border-style":"thick","border-width":"thick"});
       return $( "<li>" )
         .append( item.label + "<br/><div class='autocomplete-desc' align='right' style='font-style:italic' >" + item.desc + '</div>' )
         .appendTo( ul );
