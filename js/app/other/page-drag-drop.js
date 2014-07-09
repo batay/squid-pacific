@@ -329,7 +329,7 @@ $( document ).ready(function () {
                   );
             },
       select: function( event, ui ) {
-
+ 
           if (ui.item) {
             $('.selected').trigger('unselect');
             window.lindneo.tlingit.loadPage(ui.item.page_id); 
