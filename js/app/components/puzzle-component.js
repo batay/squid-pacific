@@ -103,8 +103,8 @@ var addSnapFit=function(id,element, difficulty,imageBinary){
                 {
                 console.log("SNAPFIT->",$(this).parent());
                 console.log($(image).get(0));
-                  createOverLay("Tebrikler başarıyla tamamladınız!").appendTo($(this).parent());
-                  snapfit.admix($("#"+id).get(0),true);
+                  createOverLay("Tebrikler, başarıyla tamamladınız!").appendTo($(this).parent());
+                  //snapfit.admix($("#"+id).get(0),true);
                   console.log("snapfit end!"); 
                 
                 }, 
