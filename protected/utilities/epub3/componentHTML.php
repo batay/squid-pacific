@@ -1489,7 +1489,7 @@ class componentHTML {
 
 		if ($data->self->attr->componentType == "side-text" ){
 			$container = "<div id='text". functions::get_random_string()  ."' $container  class='widgets-rw panel-scrolling-rw scroll-horizontal-rw exclude-auto-rw' >";
-			$container .= "<div class='textarea frame-rw' style='width:".$data->textarea->css->width."; padding: 7px;' > %component_text% </div> </div>";
+			$container .= "<div class='textarea frame-rw' style='width:".$data->textarea->css->width."; padding: 7px;' >%component_text%</div> </div>";
 		}else {
 			$container = "<div class='textarea' $container  >%component_text% </div>";
 		}
@@ -1500,7 +1500,7 @@ class componentHTML {
 
 		
 
-		$data->textarea->val = html_entity_decode(str_replace(" ", "&nbsp; ",$data->textarea->val),null,"UTF-8");
+		$data->textarea->val = html_entity_decode(str_replace(" ", "&nbsp;",$data->textarea->val),null,"UTF-8");
 	
 
 		$this->html=str_replace(
