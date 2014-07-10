@@ -1500,7 +1500,7 @@ class componentHTML {
 
 		
 
-		$data->textarea->val = html_entity_decode(str_replace(" ", "&nbsp;",$data->textarea->val),null,"UTF-8");
+		$data->textarea->val = html_entity_decode($data->textarea->val,null,"UTF-8");
 	
 
 		$this->html=str_replace(
