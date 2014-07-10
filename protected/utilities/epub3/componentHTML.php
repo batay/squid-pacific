@@ -1480,9 +1480,10 @@ class componentHTML {
 		if(isset($data->textarea->css)){
 			$container.=" style=' ";
 			foreach ($data->textarea->css as $css_name => $css_val ) {
+				if($css_name!="padding")
 				$container.="$css_name:$css_val;";
 			}
-			$container.="' ";
+			$container.=";padding-top:8px;padding-left:7px;' ";
 		}
 
 
