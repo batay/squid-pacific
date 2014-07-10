@@ -615,6 +615,7 @@ $(document).ready(function(){
             'outline': 'none',
             'color' : '#000',
             'font-size' : '14px',
+            'line-height':'22px',
             'font-family' : 'Arial',
             'font-weight' : 'normal',
             'font-style' : 'normal',
