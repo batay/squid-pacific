@@ -10,22 +10,61 @@ $(document).ready(function(){
     _create: function(){
 
       var that = this;
-
-      var puzzle_div = $('<div>')
-        .attr("data-row",this.options.component.data.row)
-        .attr("data-column",this.options.component.data.column)
-        .css({"width":this.options.component.data.puzzle_width,"height":this.options.component.data.puzzle_height})
+      console.log(this.options.component.data.difficulty);
+      var imageElement ;
+      var puzzleElement ;
+      var id = "snapfit"+$.now();
+      var snapElement=this.element;
+      var imageBinary=this.options.component.data.imageBinary;
+      var difficulty=that.options.component.data.difficulty;
+      var image = $('<img>')
+        .attr('src',this.options.component.data.imageBinary)
+        .attr('id',id)
         .addClass("puzzle")
-        .appendTo(this.element);
-      
-        var puzzle_image = $("<img>")
-          .attr('src',this.options.component.data.imageBinary)
-          .css('display','none')
-          .appendTo(puzzle_div);
+        .attr('width',"100%")
+        .attr('height',"100%")
+        .css({'position':'absolute'})
+        .appendTo(this.element)
+        .load(function(){
+          console.log("LOADING....",that.options.component.data.difficulty);
+          imageElement= image[0];
+          puzzleElement = snapfit.add(
+            imageElement,
+            {
+              callback: function() {
+                  console.log("SNAPFIT->",$(this).parent());
+                  console.log($(image).get(0));
+                  createOverLay("Tebrikler başarıyla tamamladınız!").appendTo($(this).parent());
+                  snapfit.admix($("#"+id).get(0),true);
+                  console.log("snapfit end!"); 
+                
+                }, 
+              aborder:true, 
+              aimage:false, 
+              polygon:true, 
+              space:10,
+              level:that.options.component.data.difficulty,
+              mixed:true,
+              //bwide:6,
+              simple:true,
+              forcetui:true,
+              nokeys:true
+            });
+             that.resizable_stop=function() {
+                              snapfit.remove($('#'+id)[0]);
+                              $($('#'+id)[0]).remove();
+                              addSnapFit(id,snapElement, difficulty,imageBinary);
+                  }
+        
+        });
 
-      JPuzzle();
       
-      this._super();
+
+      //this._resize(function(){
+        //console.log(this);
+      //});
+
+      this._super({resizableParams:{handles:"e, s, se"}});
     },
 
     field: function(key, value)
@@ -42,6 +81,45 @@ $(document).ready(function(){
   });
 });
 
+var addSnapFit=function(id,element, difficulty,imageBinary){
+  var imageElement;
+  var puzzleElement;
+  var image=$('<img>')
+        .attr('src',imageBinary)
+        .attr('id',id)
+        .addClass("puzzle")
+        .attr('width',"100%")
+        .attr('height',"100%")
+        .css({'position':'absolute'})
+        .appendTo(element)
+        .load(function(){
+          console.log("LOADING....",difficulty);
+          imageElement= image[0];
+          //console.log(image[0]);
+          puzzleElement = snapfit.add(
+            imageElement,
+            {
+              callback: function() 
+                {
+                console.log("SNAPFIT->",$(this).parent());
+                console.log($(image).get(0));
+                  createOverLay("Tebrikler, başarıyla tamamladınız!").appendTo($(this).parent());
+                  //snapfit.admix($("#"+id).get(0),true);
+                  console.log("snapfit end!"); 
+                
+                }, 
+              aborder:true, 
+              aimage:false, 
+              polygon:true, 
+              space:10,
+              level:difficulty,
+              mixed:true,
+              //bwide:6,
+              simple:true,
+              forcetui:true,
+              nokeys:true
+            });
+});};
 
 var createOverLay = function (message){
     var overlayMain = $("<div>");
@@ -77,10 +155,6 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
   var difficulty = 1;
   var difficultyValue;
   var imageBinary;
-  var row;
-  var column;
-  var puzzle_width;
-  var puzzle_height;
   
   if(typeof oldcomponent == 'undefined'){
     var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
@@ -146,10 +220,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
       var  component = {
         'type' : 'puzzle',
         'data': {
-          'row':  row,
-          'column':  column,
-          'puzzle_width':  puzzle_width,
-          'puzzle_height':  puzzle_height,
+          'difficulty':  difficulty,
           'imageBinary':  imageBinary,
           'width': width,
           'height': height,
@@ -182,55 +253,33 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
         var tolaranceDiv = $('<div>')
           .appendTo(mainDiv);
 
-        var widthHeightDiv = $('<div>')
-          .appendTo(mainDiv);
 
-
-          var rowLbl = $("<label>")
+          var difficultyLbl = $("<label>")
             .addClass("col-sm-4")
-            .append(j__("Satır Sayısını Giriniz")+":")
+            .append(j__("Zorluk değeri")+":")
             .appendTo(tolaranceDiv);
 
-          var rowInput = $('<input type="text">')
+          var difficultyValue = $('<span>')
             .addClass("col-sm-2")
-            .change(function(){
-              row = $(this).val();
-              console.log(row)  ;
+            .addClass("integer")
+            .addClass("bold")
+            .text(difficulty);
+            
+
+          var difficultySlider = $('<div>')
+            .addClass("col-sm-6")
+            .slider({
+              value: difficulty,
+              min: 1,
+              max: 6,
+              step: 1,
+              slide: function( event, ui ) {
+                difficulty = ui.value;
+                difficultyValue.text( difficulty );
+              }
             }).appendTo(tolaranceDiv);
 
-          var columnLbl = $("<label>")
-            .addClass("col-sm-4")
-            .append(j__("Sütun Sayısını Giriniz")+":")
-            .appendTo(tolaranceDiv);
-
-          var rowInput = $('<input type="text">')
-            .addClass("col-sm-2")
-            .change(function(){
-              column = $(this).val();
-            }).appendTo(tolaranceDiv);
-
-
-          var puzzle_widthLbl = $("<label>")
-            .addClass("col-sm-4")
-            .append(j__("Genişlik Değerini Giriniz")+":")
-            .appendTo(widthHeightDiv);
-
-          var puzzle_widthInput = $('<input type="text">')
-            .addClass("col-sm-2")
-            .change(function(){
-              puzzle_width = $(this).val();
-            }).appendTo(widthHeightDiv);
-
-          var puzzle_heightLbl = $("<label>")
-            .addClass("col-sm-4")
-            .append(j__("Yükseklik Değerini Giriniz")+":")
-            .appendTo(widthHeightDiv);
-
-          var rowInput = $('<input type="text">')
-            .addClass("col-sm-2")
-            .change(function(){
-              puzzle_height = $(this).val();
-            }).appendTo(widthHeightDiv);
+          difficultyValue.appendTo(tolaranceDiv);
 
         var tabDiv = $ ('<div>')
             .addClass("tabbable")
