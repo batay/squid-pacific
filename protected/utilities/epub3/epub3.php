@@ -660,7 +660,9 @@ class epub3 {
 								  $(tesbihKonteyner).parent().css({'position':'absolute','z-index':'9999999'});
 						}";
 					break;
-				
+				case 'puzzle':
+					$page_extra_scripts.='<script type="text/javascript" src="JPuzzle.js"></script>';
+				break;
 				default:
 					# code...
 					break;
@@ -713,6 +715,7 @@ class epub3 {
 		<script type="text/javascript" src="runtime.js"></script>
 		'.$page_extra_scripts.'
 		<script type="text/javascript" src="facybox/facybox.js"></script>
+
 		<link rel="stylesheet" type="text/css" href="facybox/facybox.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="facybox/facybox_urls.css" media="screen" />
 		<script type="text/javascript">
@@ -890,6 +893,7 @@ class epub3 {
 		    $.facybox(value);
 		    $("#facybox").css({"top":top+"px","left":left+"px"});
 		  });
+			JPuzzle();
 
 		});
 		//]]>

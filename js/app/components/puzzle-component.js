@@ -23,14 +23,16 @@ $(document).ready(function(){
           .css('display','none')
           .appendTo(puzzle_div);
 
-      JPuzzle();
+      
 
       that.resizable_stop=function() {
-
+                              resizeObj(puzzle_div);
                               JPuzzle();
                   }
       
       this._super();
+      resizeObj(puzzle_div);
+      JPuzzle();
     },
 
     field: function(key, value)
@@ -47,7 +49,16 @@ $(document).ready(function(){
   });
 });
 
+function resizeObj(puzzle_div)
+{
+    puzzle_div.find(".puzzleDrag").remove();
+    puzzle_div.find(".puzzleDrop").remove();
+    var puzzleParent=puzzle_div.parent();
+    var width=puzzle_div.parent().css("width");
+    var height=puzzle_div.parent().css("height");
+    puzzle_div.css({"width":width,"height":height});  
 
+}
 var createOverLay = function (message){
     var overlayMain = $("<div>");
     var overlayContainer = $("<div>")

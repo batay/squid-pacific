@@ -2,6 +2,8 @@ function JPuzzle()
 {
 
 	var construct=function __construct(){
+    $(".puzzleDrag").remove();
+    $(".puzzleDrop").remove();
 		    $.each($(".puzzle"),function(number,item){
 		    var image=$(item).find("img").get(0);
     	    new Puzzle($(item).find("img").get(0).src,$(item).data("row"),$(item).data("column"),$(item).width(),$(item).height(),item);
@@ -164,7 +166,7 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 
   }*/
   function setAppendTo(dom){ 
-      puzzleDrag=$('<div>').addClass('puzzleDrop');
+      puzzleDrag=$('<div>').addClass('puzzleDrag');
       puzzleDrop=$('<div>').addClass('puzzleDrop');
       puzzleDrag.appendTo($(dom));
       puzzleDrop.appendTo($(dom));
@@ -242,8 +244,8 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 
     var dragDiv=$("<div></div>");
     var dropDiv=$("<div></div>");
-    randomLeft=Math.floor((Math.random() * getWidth()) + 1);
-    randomTop=Math.floor((Math.random() * getHeight())+1);
+    randomLeft=Math.floor((Math.random() * (getWidth()-widthPiece-widthPiece/5)) + 1);
+    randomTop=Math.floor((Math.random() * (getHeight()-heightPiece-heightPiece/5))+1);
     //alert(canvasWidth);
     dragDiv.css({'z-index':'999','position':'absolute','width': (widthPiece)+'px','height': (heightPiece)+'px','margin': '1px','left':randomLeft,'top':randomTop});
     dropDiv.css({'position':'absolute','width': (widthPiece)+'px','height': (heightPiece)+'px','float': 'left','margin': '1px',left:(position.j*widthPiece)+'px',top:(position.i*heightPiece)+'px'});
