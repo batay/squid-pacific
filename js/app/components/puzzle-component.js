@@ -24,6 +24,11 @@ $(document).ready(function(){
           .appendTo(puzzle_div);
 
       JPuzzle();
+
+      that.resizable_stop=function() {
+
+                              JPuzzle();
+                  }
       
       this._super();
     },
