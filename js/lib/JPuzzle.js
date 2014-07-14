@@ -128,10 +128,7 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
     mouseProto._mouseInit = function () {
     var self = this;
     // Delegate the touch handlers to the widget's element
-    self.element
-        .on('touchstart', $.proxy(self, '_touchStart'))
-        .on('touchmove', $.proxy(self, '_touchMove'))
-        .on('touchend', $.proxy(self, '_touchEnd'));
+    self.element.bind('touchstart', $.proxy(self, '_touchStart')).bind('touchmove', $.proxy(self, '_touchMove')).bind('touchend', $.proxy(self, '_touchEnd'));
 
     // Call the original $.ui.mouse init method
     _mouseInit.call(self);
