@@ -1627,8 +1627,11 @@ class componentHTML {
 			$css.="' ";
 		}
 
+		$container = "<div class='puzzle' $css data-row='".$component->data->row."' data-column='".$component->data->column."'  >
+						<img src='".$component->data->imageBinary."' id='puzzle_".$component->id."' style='display:none' />
+					</div>";
 
-		$container = "<div class='puzzle' $css  >
+		/*$container = "<div class='puzzle' $css  >
 						<img src='".$component->data->imageBinary."' id='puzzle_".$component->id."' class='puzzle' style='width:100%; height:100%;' />
 					</div>
 					<script>
@@ -1690,7 +1693,7 @@ class componentHTML {
 
 						//overlay end
 					</script>
-					";
+					";*/
 				
 
 		$this->html = $container;
