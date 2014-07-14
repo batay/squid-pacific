@@ -134,8 +134,9 @@
 	    <!-- JS PLUMB-->
 	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/dom.jsPlumb-1.6.2-min.js"></script>
 		
-		<!-- Snapfit puzzle-->
-	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/snapfit.js"></script>
+		<!-- Snapfit puzzle
+	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/snapfit.js"></script>-->	
+	    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/JPuzzle.js"></script>
 
 	    
 	    <!-- HTML2Canvas -->
