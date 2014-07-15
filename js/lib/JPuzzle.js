@@ -21,6 +21,7 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 	var puzzleHeight;
 	var puzzleDrop;
 	var puzzleDrag;
+  var counter=0;
 	var construct=function __construct(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo){
 		makeMobileCompatible();
 		setWidth(width);
@@ -269,8 +270,15 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
         dropDiv.css({"background-color":"transparent","opacity":"1"});
       },
       drop: function( event, ui ) {
+       dragDiv.draggable( 'disable' );
        dropDiv.css({"background-color":"transparent","opacity":"1"});
        dragDiv.css({'left':dropDiv.css('left'),'top':dropDiv.css('top')});
+        counter=counter+1;
+        console.log("PUZZLE->",counter,bank.row,bank.column);
+       if(counter==(bank.row*bank.column))
+       {
+          alert('Tebrikler! Başarıyla tamamladınız...');
+       }
       }
     });
     dragDiv.appendTo(puzzleDrag);
