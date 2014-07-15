@@ -22,6 +22,7 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 	var puzzleDrop;
 	var puzzleDrag;
   var counter=0;
+  var domObject;
 	var construct=function __construct(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo){
 		makeMobileCompatible();
 		setWidth(width);
@@ -163,11 +164,39 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 	}
 
   }*/
+  function createOverLay(message){
+    var overlayMain = $("<div>");
+    var overlayContainer = $("<div>").css({"z-index":"9999999"})
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","background-color":"black","opacity":"0.8","font-size": "16px","overflow":"hidden"});
+    var overlayContainerFront=$("<div>")
+        .css({"width":"100%","height":"100%","text-align":"center","position":"absolute","z-index":"9999999","background-color":"transparent","font-size": "16px","overflow":"hidden", "display":"table"});
+    var imgDiv = $("<div>")
+        .css({"display": "table-cell", "vertical-align": "middle","margin":"0 auto","width":"100%","height":"100%"});
+
+    var status=1;
+    var img = $("<img/>")
+        .css({"height":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+
+    var p=$("<p/>").css({"color":"white"}).html(message);
+    imgDiv.appendTo(overlayContainerFront);
+    img.appendTo(imgDiv);
+    p.appendTo(imgDiv);
+    overlayContainerFront.click(function(){
+      $(this).remove();
+      overlayContainer.remove();
+
+    });
+    overlayContainer.appendTo(overlayMain);
+    overlayContainerFront.appendTo(overlayMain);
+    return overlayMain;
+
+   };
   function setAppendTo(dom){ 
       puzzleDrag=$('<div>').addClass('puzzleDrag');
       puzzleDrop=$('<div>').addClass('puzzleDrop');
       puzzleDrag.appendTo($(dom));
       puzzleDrop.appendTo($(dom));
+      domObject=$(dom);
   }
   function setImageObj(sourceSrc){
 		var imageObj = new Image();
@@ -186,7 +215,9 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 	    }
 		imageObj.src = sourceSrc;
   }
-
+  function getDom(){
+    return domObject;
+  }
   function getPieces(){return pieces;}
   function setWidth(width){puzzleWidth=width;}
   function setHeight(height){puzzleHeight=height;}
@@ -277,7 +308,7 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
         console.log("PUZZLE->",counter,bank.row,bank.column);
        if(counter==(bank.row*bank.column))
        {
-          alert('Tebrikler! Başarıyla tamamladınız...');
+          createOverLay('Tebrikler! Başarıyla tamamladınız...').appendTo(getDom());
        }
       }
     });
