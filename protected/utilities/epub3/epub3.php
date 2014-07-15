@@ -536,7 +536,7 @@ class epub3 {
 						  var alfabe=['?','A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
 						  for (var i = 0; i < cevaplar.length; i++) {
 						    var tane=$('<div></div>')
-						        .css({'border-radius': '50%','behavior': 'url(PIE.htc)','margin':'50px','float':'left','width': parseInt(taneBoyutu*1.5)+'px','height':parseInt(taneBoyutu*1.5)+'px','background-image': 'url(amber.png)','background-size': parseInt(taneBoyutu*1.5)+'px '+parseInt(taneBoyutu*1.5)+'px','background-repeat': 'no-repeat'})
+						        .css({'border-radius': '50%','behavior': 'url(PIE.htc)','margin':'10px','float':'left','width': parseInt(taneBoyutu*1.5)+'px','height':parseInt(taneBoyutu*1.5)+'px','background-image': 'url(amber.png)','background-size': parseInt(taneBoyutu*1.5)+'px '+parseInt(taneBoyutu*1.5)+'px','background-repeat': 'no-repeat'})
 						        .appendTo(tesbihKonteyner);
 
 						    var taneKapsul=$('<div></div>')
@@ -544,7 +544,7 @@ class epub3 {
 						        .appendTo(tane);
 
 						    var secimKutusu= $('<select>')
-						        .css({'font-size':parseInt(taneBoyutu*0.5)+'px','font-weight': 'bolder','background-color': 'transparent','border':'none','outline': 'none','-webkit-appearance': 'none','-moz-appearance': 'none','appearance': 'none'})
+						        .css({'padding-right':'0','font-size':parseInt(taneBoyutu*0.5)+'px','font-weight': 'bolder','background-color': 'transparent','border':'none','outline': 'none','-webkit-appearance': 'none','-moz-appearance': 'none','appearance': 'none'})
 						        .focus(function(){
 						          $( this ).css({'border':'none','outline': 'none'});
 						        });
@@ -625,32 +625,29 @@ class epub3 {
 
 						      });*/
 						      if(id==0){
-						         c1 = jsPlumb.addEndpoint($(val),{anchor:'Right'});
+						         c1 = jsPlumb.addEndpoint($(val),{anchor:'Right', endpoint: ['Dot', { radius: 5}]});
 						      }
 						      else
 						      {
 						        //c2=jsPlumb.addEndpoint($(val),{anchor:'RightMiddle'});
-						         c2=jsPlumb.addEndpoint($(val),{anchor:'Left'});
+						         c2=jsPlumb.addEndpoint($(val),{anchor:'Left',endpoint: ['Dot', { radius: 5}]});
 						        jsPlumb.connect({
 						             source:c1, 
 						             target:c2,
-						                     endpoint: ['Dot', {
-						                          radius: 2
-						                      }],
 						                      endpointStyle: {
 						                          fillStyle: '#19070B'
 						                      },
 						                      //setDragAllowedWhenFull: true,
 						                      paintStyle: {
 						                          strokeStyle: '#19070B',
-						                          lineWidth: 10
+						                          lineWidth: 5
 						                      },
-						                      connector: ['Flowchart',{cornerRadius:20}]
+						                      connector: ['Flowchart',{cornerRadius:10}]
 
 
 						           });
 						        if(id!=tesbihTaneleriSayisi-1)
-						        c1=jsPlumb.addEndpoint($(val),{anchor:'Right'});
+						        c1=jsPlumb.addEndpoint($(val),{anchor:'Right',endpoint: ['Dot', { radius: 5}]});
 						      }
 
 
