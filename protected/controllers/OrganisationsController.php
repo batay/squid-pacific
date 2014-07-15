@@ -884,7 +884,7 @@ class OrganisationsController extends Controller
 	{
 		
 
-		$this->render('statistics', array());
+		$this->render('statistics', array('organisationId'=>$organisationId));
 	}
 	/**
 	 * delete user from workspaces and organization
