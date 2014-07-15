@@ -333,7 +333,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
         $("<br>").appendTo(mainDiv);
 
         var sizeLabel = $('<label>')
-          .text(j__("Tane boyutunu giriniz.Örnek:100"))
+          .text(j__("Tane boyutunu giriniz.Örnek:50"))
           .appendTo(mainDiv);
           $("<br>").appendTo(mainDiv);
         var sizeDiv = $('<input type="text">')
