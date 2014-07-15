@@ -32,7 +32,7 @@ class OrganisationsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','workspaces','delWorkspaceUser','addWorkspaceUser','users','addUser','deleteOrganisationUser','account','bookCategories','deleteCategory','createBookCategory','updateBookCategory','templates','aCL','addACL','publishedBooks','deleteACL','removeFromCategory','addBalance','selectPlan','checkoutPlan','deneme','changeTitle'),
+				'actions'=>array('create','update','workspaces','delWorkspaceUser','addWorkspaceUser','users','addUser','deleteOrganisationUser','account','bookCategories','deleteCategory','createBookCategory','updateBookCategory','templates','aCL','addACL','publishedBooks','deleteACL','removeFromCategory','addBalance','selectPlan','checkoutPlan','deneme','changeTitle','statistics'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -875,7 +875,17 @@ class OrganisationsController extends Controller
 			'invitated'=>$invitatedUsers
 			));
 	}
+	/**
+	 * organisation statistics
+	 * @param  ID $organisationId 
+	 * @return render statistics.php
+	 */	
+	public function actionStatistics($organisationId)
+	{
+		
 
+		$this->render('statistics', array());
+	}
 	/**
 	 * delete user from workspaces and organization
 	 * @param  ID $userId         
