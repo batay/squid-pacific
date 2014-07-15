@@ -180,7 +180,9 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
               'background-color': 'transparent',
               'overflow': 'visible',
               'z-index': 'first',
-              'opacity':'1'
+              'opacity':'1',
+              'border-style':'solid',
+              'border-width':'1px'
             }
           }
         }
