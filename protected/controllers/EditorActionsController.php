@@ -209,9 +209,12 @@ class EditorActionsController extends Controller
     		
     		
     		//$videoFile = new file(path);
-
-
-			$file= functions::save_base64_file ( $_POST['file'] , $token , Yii::app()->basePath.'/../uploads/files/'.$book_id);
+    		$path=Yii::app()->basePath.'/../uploads/files/'.$book_id;
+    		if(!file_exists($path))
+    		{
+ 				mkdir($path);   			
+    		}
+			$file= functions::save_base64_file ( $_POST['file'] , $token , $path);
             
        
            	$addVideoId = Yii::app()->db->createCommand()
