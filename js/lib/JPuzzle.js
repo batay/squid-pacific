@@ -175,6 +175,7 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
 
     var status=1;
     var path='';
+    
     if(typeof window.base_path == 'undefined'){
       path="overlay_"+status+".png"
     }
