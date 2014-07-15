@@ -210,7 +210,12 @@ class EditorActionsController extends Controller
     		
     		//$videoFile = new file(path);
 
-
+    		print_r($book_id);
+    		print_r("<br>");
+    		print_r($_POST['file']);
+    		print_r("<br>");
+    		print_r(Yii::app()->basePath);
+    		mkdir(Yii::app()->basePath.'/../uploads/files/'.$book_id);
 			$file= functions::save_base64_file ( $_POST['file'] , $token , Yii::app()->basePath.'/../uploads/files/'.$book_id);
             
        
