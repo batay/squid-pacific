@@ -237,6 +237,11 @@
 										</a>
 									</li>
 									<li>
+										<a href="/organisations/statistics?organisationId=<?php echo $organisation["organisation_id"]; ?>">
+										<?php _e('İstatistik'); ?>	
+										</a>
+									</li>
+									<li>
 										<a href="/organisations/workspaces?organizationId=<?php echo $organisation["organisation_id"]; ?>">
 										<?php _e('Çalışma Alanı'); ?>
 										</a>
