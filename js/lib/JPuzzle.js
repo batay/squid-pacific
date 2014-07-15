@@ -174,8 +174,16 @@ function Puzzle(sourceSrc,tileRowNumber,tileColumnNumber,width,height,appendTo)
         .css({"display": "table-cell", "vertical-align": "middle","margin":"0 auto","width":"100%","height":"100%"});
 
     var status=1;
+    var path='';
+    if(window.base_path=="undefined"){
+      path="overlay_"+status+".png"
+    }
+    else
+    {
+      path=window.base_path+"/css/images/overlay_"+status+".png"
+    }
     var img = $("<img/>")
-        .css({"height":"30%"}).attr("src",window.base_path+"/css/images/overlay_"+status+".png");
+        .css({"height":"30%"}).attr("src",path);
 
     var p=$("<p/>").css({"color":"white"}).html(message);
     imgDiv.appendTo(overlayContainerFront);
