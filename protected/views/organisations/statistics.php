@@ -30,7 +30,7 @@
  
  
  										<div class="col-md-12">
-											 <div class="panel panel-default">
+											 <div class="panel panel-default" style="margin-bottom:50px;">
 												<div class="panel-body">
 													 <div class="tabbable">
 														<ul class="nav nav-tabs" style="font-size:15px;">
@@ -67,31 +67,33 @@
                                                               
 														   </div>
 														   <div class="tab-pane fade" id="tab_1_2">
-																<div class="divide-10"></div>
+																<div class="divide-10" style="height:30px"></div>
 															  	
-                                                               
-                                                               <div class="box-body big">									
-										  <div class="sparkline-row">
-											<span class="title">Revenue distribution</span>
-											<span class="value"><i class="fa fa-usd"></i> 25674</span>
-											<span class="sparklinepie">16,7,23</span>
-										  </div>
-										  <div class="sparkline-row">
-											<span class="title">Sales</span>
-											<span class="value"><i class="fa fa-money"></i> 19 999,99</span>
-											<span class="sparklinepie">6,3,24,25</span>
-										  </div>
-										  <div class="sparkline-row">
-											<span class="title">Employee/ Dept</span>
-											<span class="value"><i class="fa fa-user"></i> 645783</span>
-											<span class="sparklinepie">11,19,20</span>
-										  </div>
-									</div>
-								</div>
-								<!-- /BOX -->
-                                                               
-                                                               
-                                                                
+                                                             <div class="col-md-6">
+                                                               <div id="piechart" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%; overflow:auto;"></div>
+                                                             </div>
+                                                             
+                                                             <div class="col-md-6">
+                                                               <div id="piechart2" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%; overflow:auto;"></div>
+                                                             </div>
+                                                             
+                                                             <div class="col-md-12" style="margin-top:30px;">
+                                                                <div id="chart_div" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                             </div>
+                                                             
+                                                             <div class="col-md-12" style="margin-top:30px;">
+                                                             	<div id="chart_div2" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                             </div>
+                                                             
+                                                             <div class="col-md-12" style="margin-top:30px;">
+                                                             	<div id="chart_div3" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                             </div>
+                                                             
+                                                             <div class="col-md-12" style="margin-top:30px;">
+                                                             	<div id="chart_div4" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                             </div>
+                                                             
+                                                             
 														   </div>
 														   <div class="tab-pane fade" id="tab_1_3">
 																<div class="divide-10"></div>
@@ -122,54 +124,199 @@
 
 
 
-	<!--/PAGE -->
-	<!-- JAVASCRIPTS -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<!-- JQUERY -->
-	<script src="/css/ui/js/jquery/jquery-2.0.3.min.js"></script>
-	<!-- JQUERY UI-->
-	<script src="/css/ui/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
-	<!-- BOOTSTRAP -->
-	<script src="/css/ui/bootstrap-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+	 setTimeout(function(){google.load('visualization', '1', {'callback': function (){
+		 		
 	
+			  
+			  
+			  				  $(function () {
+
+			  //<!-- SALES CHART -->
+			  
+				var data = google.visualization.arrayToDataTable([
+				  ['Task', 'Hours per Day'],
+				  ['Yeni Müşteri',     120],
+				  ['Varolan Müşteri',      283],
+				]);
 		
-	<!-- DATE RANGE PICKER -->
-	<script src="/css/ui/js/bootstrap-daterangepicker/moment.min.js"></script>
-	
-	<script src="/css/ui/js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
-	<!-- SLIMSCROLL -->
-	<script type="text/javascript" src="/css/ui/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
-	<script type="text/javascript" src="/css/ui/js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
-	<!-- BLOCK UI -->
-	<script type="text/javascript" src="/css/ui/js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
-	<!-- FLOT CHARTS -->
-	<script src="/css/ui/js/flot/jquery.flot.min.js"></script>
-	<script src="/css/ui/js/flot/jquery.flot.time.min.js"></script>
-    <script src="/css/ui/js/flot/jquery.flot.selection.min.js"></script>
-	<script src="/css/ui/js/flot/jquery.flot.resize.min.js"></script>
-    <script src="/css/ui/js/flot/jquery.flot.pie.min.js"></script>
-    <script src="/css/ui/js/flot/jquery.flot.stack.min.js"></script>
-    <script src="/css/ui/js/flot/jquery.flot.crosshair.min.js"></script>
-	<!-- FLOT GROWRAF -->
-	<script src="/css/ui/js/flot-growraf/jquery.flot.growraf.min.js"></script>
-	<!-- GAGE -->
-	<script src="/css/ui/js/justgage/js/raphael.2.1.0.min.js"></script>
-    <script src="/css/ui/js/justgage/js/justgage.1.0.1.min.js"></script>
-	<!-- EASY PIE CHART -->
-	<script src="/css/ui/js/jquery-easing/jquery.easing.min.js"></script>
-	<script type="text/javascript" src="/css/ui/js/easypiechart/jquery.easypiechart.min.js"></script>
-	<!-- SPARKLINES -->
-	<script type="text/javascript" src="/css/ui/js/sparklines/jquery.sparkline.min.js"></script>
-	<!-- COOKIE -->
-	<script type="text/javascript" src="/css/ui/js/jQuery-Cookie/jquery.cookie.min.js"></script>
-	<!-- CUSTOM SCRIPT -->
-	<script src="/css/ui/js/script.js"></script>
-	<script src="/css/ui/js/charts.js"></script>
-	<script>
-		jQuery(document).ready(function() {		
-			App.setPage("others");  //Set current page
-			App.init(); //Initialise plugins and elements
-			Charts.initOtherCharts(); //Init other charts
-		});
-	</script>
-	<!-- /JAVASCRIPTS -->
+				var options = {
+				  title: 'Satışlar',
+				  width: 600,
+				  height:450,
+				  left: 50,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 }
+				};
+		
+				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+				chart.draw(data, options);
+			 
+			
+		
+			//<!-- VIEWS CHART -->    
+			
+			  
+				var data = google.visualization.arrayToDataTable([
+				  ['Task', 'Hours per Day'],
+				  ['Yeni Kullanıcı',     68],
+				  ['Varolan Kullanıcı',      120],
+				]);
+		
+				var options = {
+				  title: 'Görünümler',
+				  width: 600,
+				  height:450,
+				  left: 50,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 }
+				};
+		
+				var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+				chart.draw(data, options);
+			  
+		
+		
+		//<!-- INCOME CHART -->
+		
+			
+				var data = google.visualization.arrayToDataTable([
+				  ['Year', 'Günlük Gelir', 'Günlük Satılan Kitap Miktarı', 'Günlük Ortalama Gelir'],
+				  ['10 Şub',  1400,      400,      200],
+				  ['11 Şub',  1170,      460,      350],
+				  ['12 Şub',  660,       1120,      420],
+				  ['13 Şub',  1030,      540,      180],
+				  ['14 Şub',  1030,      540,      500],
+				  ['15 Şub',  1030,      540,      125],
+				  ['16 Şub',  1030,      540,      125],
+				]);
+		
+				var options = {
+				  title: 'Gelir Grafiği',
+				  hAxis: {title: 'Günler',  titleTextStyle: {color: '#333'}},
+				  vAxis: {minValue: 0},
+				  width: 1450,
+				  height:550,
+				  left: 0,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 },
+				};
+		
+				var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+				chart.draw(data, options);
+			  
+		
+			
+			
+		
+			
+			
+		//<!-- PUBLISHED BOOKS - CATEGORIES CHART -->   
+				
+				var data2 = google.visualization.arrayToDataTable([
+				  ['Year', "Kategori 1'de yayınlanan Kitap Sayısı", "Kategori 2'de yayınlanan Kitap Sayısı", "Kategori 3'de yayınlanan Kitap Sayısı"],
+				  ['10 Şub',  1000, 1000, 900],
+				  ['11 Şub',  117, 1100, 500],
+				  ['12 Şub',  660, 1200, 700],
+				  ['13 Şub',  660, 1200, 700],
+				  ['14 Şub',  660, 1200, 700],
+				  ['15 Şub',  660, 1200, 700],
+				  ['16 Şub',  1030, 800, 800],
+				]);
+		
+				var options2 = {
+				  title: 'Kategorilerine Göre Satılan Kitaplar',
+				  width: 1450,
+				  height:750,
+				  left: 0,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 },
+				};
+		
+				var chart2 = new google.visualization.BarChart(document.getElementById('chart_div2'));
+				chart2.draw(data2, options2);
+			 
+			   
+		//<!-- GEO CHART -->   
+			   
+			   
+			   var data = google.visualization.arrayToDataTable([
+				  ['Ülke', 'Satış Miktarı'],
+				  ['Germany', 200],
+				  ['United States', 300],
+				  ['Brazil', 400],
+				  ['Canada', 500],
+				  ['France', 600],
+				  ['RU', 700]
+				]);
+		
+				var options = {
+				  width: 1450,
+				  height:750,
+				  left: 0,
+				  top:50,	
+				};
+		
+				var chart = new google.visualization.GeoChart(document.getElementById('chart_div3'));
+				chart.draw(data, options);
+			   
+		//<!-- LANGUAGE CHART -->   
+			   
+			  var data = google.visualization.arrayToDataTable([
+				  ['Year', 'Satış Miktarı'],
+				  ['Türkçe',  1000],
+				  ['İngilizce',  100],
+				  ['Almanca',  660],
+				  ['Fransızca',  100],
+				  ['İtalyanca',  1170],
+				  ['Çince',  680],
+				  ['Japonca',  200],
+				  ['İspanyolca',  1070],
+				  ['Romence',  60],
+				  ['Yunanca',  300],
+				  ['Fince',  1560],
+				  ['Arapça',  660],
+				  ['Azerice',  1000],
+				  ['Rusça',  1170],
+				  ['Bulgarca',  660],
+				  ['Slovakça',  1030]
+				]);
+		
+				var options = {
+				  width: 1450,
+				  height:750,
+				  left: 0,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 },
+				  title: 'Kullanıcıların Dillerine Göre Satışlar',
+				  hAxis: {title: 'Diller', slantedText: 'true'},
+				  bar: {groupWidth: 15},
+				  legend: {position: 'none'},
+				};
+		
+				var chart = new google.visualization.ColumnChart(document.getElementById('chart_div4'));
+				chart.draw(data, options); 
+			  
+			   
+			   
+			   
+			   });
+			  
+	  			
+				 
+	 }
+	, 'packages':['corechart']});
+	  }, 2000);
+    </script>
+    
+    <style type="text/css">
+		#chart_div svg{
+			width:1500px !important;
+		}
+	</style>
