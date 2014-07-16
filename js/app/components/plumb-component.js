@@ -214,17 +214,21 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
   var taneler;
   var boyut= "";
   var kelimeler="";
-
+  var width="";
+  var height="";
   if(typeof oldcomponent == 'undefined'){
     var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
     var left = ( ui.offset.left-$(event.target).offset().left ) + 'px';
   }
   else{
     boyut=oldcomponent.data.size;
-    taneler=oldcomponent.data.word;
+    taneler=oldcomponent.data.word.toLowerCase();;
     kelimeler=oldcomponent.data.kelimeler;
     top = oldcomponent.data.self.css.top;
     left = oldcomponent.data.self.css.left;
+    width= oldcomponent.data.self.css.width;
+    height= oldcomponent.data.self.css.height;
+    console.log(height,width);
   };
   
   var min_left = $("#current_page").offset().left;
@@ -292,8 +296,8 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
                 'position':'absolute',
                 'top': top ,
                 'left':  left ,
-                'width': "300px",
-                'height': "300px",
+                'width': width==''?'300px':width,
+                'height': height==''?'300px':height,
                 'background-color': 'transparent',
                 'overflow': 'visible',
                 'z-index': 'first'
