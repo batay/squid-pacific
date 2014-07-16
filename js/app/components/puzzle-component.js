@@ -109,6 +109,11 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
     left = oldcomponent.data.self.css.left;
     var width = oldcomponent.data.width ;
     var height = oldcomponent.data.height;
+    row=oldcomponent.data.row;
+    column=oldcomponent.data.column;
+    puzzle_width=oldcomponent.data.puzzle_width;
+    puzzle_height=oldcomponent.data.puzzle_height;
+    imageBinary=oldcomponent.data.imageBinary;
   };
   
   var min_left = $("#current_page").offset().left;
@@ -210,6 +215,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
             .appendTo(tolaranceDiv);
 
           var rowInput = $('<input type="text">')
+            .val(row)
             .addClass("col-sm-2")
             .change(function(){
               row = $(this).val();
@@ -223,6 +229,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
 
           var rowInput = $('<input type="text">')
             .addClass("col-sm-2")
+            .val(column)
             .change(function(){
               column = $(this).val();
             }).appendTo(tolaranceDiv);
@@ -234,6 +241,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
             .appendTo(widthHeightDiv);
 
           var puzzle_widthInput = $('<input type="text">')
+            .val(puzzle_width)
             .addClass("col-sm-2")
             .change(function(){
               puzzle_width = $(this).val();
@@ -245,6 +253,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
             .appendTo(widthHeightDiv);
 
           var rowInput = $('<input type="text">')
+            .val(puzzle_height)
             .addClass("col-sm-2")
             .change(function(){
               puzzle_height = $(this).val();
@@ -396,7 +405,9 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
         var newImageDiv = $('<div>')
           .addClass("newimage")
           .appendTo(mainDiv);
-
+        if(typeof imageBinary!="undefined"){
+          $("<img src='"+imageBinary+"' style='width:60px; height:60px;'>").appendTo(newImageDiv);  
+        }
                 
 
     }
