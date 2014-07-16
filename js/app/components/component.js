@@ -278,9 +278,10 @@ $(document).ready(function(){
               window.lindneo.dataservice.latex_popup(event, ui, that.options.component);
             else if(that.options.component.type == 'galery')
               window.lindneo.dataservice.galery_popup(event, ui, that.options.component);
-            else if(that.options.component.type=='plumb'){
+            else if(that.options.component.type=='plumb')
               window.lindneo.dataservice.plumb_popup(event, ui, that.options.component);
-            }
+            else if(that.options.component.type=='puzzle')
+              window.lindneo.dataservice.puzzle_popup(event,ui,that.options.component);
           })
           
           .mouseenter(function(event){
