@@ -278,6 +278,10 @@ $(document).ready(function(){
               window.lindneo.dataservice.latex_popup(event, ui, that.options.component);
             else if(that.options.component.type == 'galery')
               window.lindneo.dataservice.galery_popup(event, ui, that.options.component);
+            else if(that.options.component.type=='plumb'){
+              console.log(event, ui, that.options.component);
+              window.lindneo.dataservice.plumb_popup(event, ui, that.options.component);
+            }
           })
           
           .mouseenter(function(event){
