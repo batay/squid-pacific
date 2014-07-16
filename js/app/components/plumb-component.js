@@ -66,7 +66,7 @@ var tesbihTaneleriOlustur = function (kelimeler,cevaplar, element, taneBoyutu){
   $("<style type='text/css'>.yanlis{color:red;-webkit-text-stroke: "+parseInt(taneBoyutu*3.0/100)+"px black} .dogru{color:green;-webkit-text-stroke: "+parseInt(taneBoyutu*3.0/100)+"px black}</style>").appendTo("head");
 
   tesbihKonteyner=$("<div></div>").css({"width":"100%","float":"left"});
-  var tesbihKelimeler=$("<div><b>Bulmacadaki kelimeler:</b><br>"+kelimeler.replace(",","<br>")+"</div>").css({"border-style":"solid","border-width":"1px","width":"100%","float":"left","font-size":(taneBoyutu/3)+"px"});
+  var tesbihKelimeler=$("<div><b>Bulmacadaki kelimeler:</b><br>"+kelimeler.split(",").join("<br>")+"</div>").css({"border-style":"solid","border-width":"1px","width":"100%","float":"left","font-size":(taneBoyutu/3)+"px"});
   var tesbihDiv=$("<div></div>").css({"width":"100%"});
 
   var alfabe=["?","A","B","C","Ç","D","E","F","G","Ğ","H","I","İ","J","K","L","M","N","O","Ö","P","R","S","Ş","T","U","Ü","V","Y","Z"];
@@ -214,17 +214,21 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
   var taneler;
   var boyut= "";
   var kelimeler="";
-
+  var width="";
+  var height="";
   if(typeof oldcomponent == 'undefined'){
-    //console.log('dene');
     var top = (ui.offset.top-$(event.target).offset().top ) + 'px';
     var left = ( ui.offset.left-$(event.target).offset().left ) + 'px';
-    var image_type = 'link';
   }
   else{
+    boyut=oldcomponent.data.size;
+    taneler=oldcomponent.data.word.toLowerCase();;
+    kelimeler=oldcomponent.data.kelimeler;
     top = oldcomponent.data.self.css.top;
     left = oldcomponent.data.self.css.left;
-    image_type = oldcomponent.data.img.image_type;
+    width= oldcomponent.data.self.css.width;
+    height= oldcomponent.data.self.css.height;
+    console.log(height,width);
   };
   
   var min_left = $("#current_page").offset().left;
@@ -292,8 +296,8 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
                 'position':'absolute',
                 'top': top ,
                 'left':  left ,
-                'width': "300px",
-                'height': "300px",
+                'width': width==''?'300px':width,
+                'height': height==''?'300px':height,
                 'background-color': 'transparent',
                 'overflow': 'visible',
                 'z-index': 'first'
@@ -316,6 +320,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
           .appendTo(mainDiv);
         $("<br>").appendTo(mainDiv);
         var wordDiv = $('<input type="text">')
+          .val(taneler)
           .change(function(){
             taneler = $(this).val().toUpperCase();
           })
@@ -327,6 +332,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
           .appendTo(mainDiv);
         $("<br>").appendTo(mainDiv);
         var eachWordDiv = $('<input type="text">')
+          .val(kelimeler)
           .change(function(){
             kelimeler = $(this).val();
           })
@@ -339,6 +345,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
           .appendTo(mainDiv);
           $("<br>").appendTo(mainDiv);
         var sizeDiv = $('<input type="text">')
+          .val(boyut)
           .change(function(){
             boyut = $(this).val();
           })

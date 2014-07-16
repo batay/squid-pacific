@@ -48,7 +48,12 @@ window.lindneo.dataservice = (function( $ ) {
   var galery_popup = function(event, ui, component){
       createGaleryComponent( event, ui, component );
     };
-    
+  var plumb_popup=function(event, ui, component){
+     createPlumbComponent( event, ui, component);
+  };
+  var puzzle_popup=function(event, ui, component){
+     createPuzzleComponent( event, ui, component);
+  };    
   var newComponentDropPage = function(div_id, e, reader, file){
     var that =this;
     var component = {};
@@ -377,6 +382,8 @@ window.lindneo.dataservice = (function( $ ) {
     wrap_popup: wrap_popup,
     latex_popup: latex_popup,
     galery_popup: galery_popup,
+    plumb_popup:plumb_popup,
+    puzzle_popup:puzzle_popup,
     send: send
   };
 
