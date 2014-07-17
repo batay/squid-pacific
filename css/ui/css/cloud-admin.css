@@ -10009,6 +10009,42 @@ li.users_page_categories a {
 /** END OF EDITOR SELECT PLAN PAGE *******************/
 
 
+
+/** EDITOR STATISTICS PAGE *******************/
+
+.statistics_of_books_box {
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	border-right: 1px solid #E2E2E2;
+}
+
+.tab-pane .statistics_of_books_box:last-child {
+	border-right: none;
+}
+
+.statistics_of_books_title {
+	font-size: 25px;
+	margin-bottom: 25px;	
+}
+
+.statistics_of_books_viewer {
+	border: 5px solid #303030;
+	border-radius: 100%;
+	width: 220px;
+	height: 220px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	line-height: 210px;
+	font-size: 55px;
+	color:#303030;	
+}
+
+/** END OF EDITOR STATISTICS PAGE *******************/
+
+
+
 /** EDITOR GENERAL CSS *******************/
 
 .centering_with_margin {
