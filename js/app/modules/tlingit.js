@@ -375,7 +375,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
               //console.log("To delete : " +queueTime);
               delete window.lindneo.tlingit.updateQueue[queueTime];
               updateArrivalComponent(res);
-              componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
+              //componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
     
               if (! jQuery.isEmptyObject(window.lindneo.tlingit.updateQueue) ){
                 var lowest;
@@ -438,7 +438,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
 
     } else {
         
-        
+        console.log(component.data,componentPreviosVersions[component.id].data);
         var componentDiff = deepDiffMapper.map(component.data, componentPreviosVersions[component.id].data);
 
         
@@ -466,7 +466,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
 
     }
 
-    //componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
+    componentPreviosVersions[component.id]= JSON.parse(JSON.stringify(component)); 
     
     window.lindneo.tsimshian.componentUpdated(component);
     
