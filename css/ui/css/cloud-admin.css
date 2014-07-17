@@ -10043,9 +10043,23 @@ li.users_page_categories a {
 
 
 .ui-widget-header,
-.ui-state-default, .ui-widget-content .ui-state-default,
+.ui-state-default, .ui-widget-content .ui-state-default {
+	background: #2880b9 !important;
+	color: #fff !important;
+	border-color: #fff !important;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default {
+	background-color: #f5f5f5 !important;
+	color: #7C7C7C !important;
+	text-align: center;
+	border-radius:3px;
+}
+
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover {
-	background:#f5f5f5 !important;
+	background: #2880b9 !important;
+	border-color: #023455 !important;
+	color:#fff !important;
 }
 
 /** END OF EDITOR STATISTICS PAGE *******************/
