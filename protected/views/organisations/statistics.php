@@ -11,8 +11,13 @@
         <div class="col-sm-12">
             <div class="page-header">
                 <h3 class="content-title pull-left">İstatistik</h3> 
-                <div class="action_bar_spacer"></div> 
-                <h4 class="pull-left org_name_top" href="#"><i class="fa fa-briefcase"></i> <?php echo $organisation->organisation_name ?></h4>
+                
+                <div class="pull-right" style="margin-top:9px; font-weight:normal !important;">
+                    <label for="from" style="font-weight:normal">Başlangıç Tarihi: </label>
+                    <input type="text" id="from" name="from">
+                    <label for="to" style="font-weight:normal; margin-left:15px;">Bitiş Tarihi: </label>
+                    <input type="text" id="to" name="to">
+                </div>
                 
                 
                 <!-- <a class="btn btn-warning pull-right org_upgrade_packet" href="/organisations/selectPlan?id=<?php echo $id?>&current=<?php echo $plan->transaction_explanation?>">
@@ -29,6 +34,10 @@
  	<div class="row">
  
  
+
+ 
+ 
+ 
  										<div class="col-md-12">
 											 <div class="panel panel-default" style="margin-bottom:50px;">
 												<div class="panel-body">
@@ -36,8 +45,8 @@
 														<ul class="nav nav-tabs" style="font-size:15px;">
 														   <li class="active"><a class="brand_text_color" href="#tab_1_1" data-toggle="tab"><i class="fa fa-book"></i> Kitaplar</a></li>
 														   <li><a class="brand_text_color" href="#tab_1_2" data-toggle="tab"><i class="fa fa-money"></i> Satışlar</a></li>
-														   <li><a class="brand_text_color" href="#tab_1_3" data-toggle="tab"><i class="fa fa-hdd-o"></i> Kullanım</a></li>
-                                                           <li><a class="brand_text_color" href="#tab_1_4" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> Trafik</a></li>
+														   <li><a class="brand_text_color" href="#tab_1_3" data-toggle="tab"><i class="fa fa-hdd-o"></i> Disk Kullanımı</a></li>
+                                                           <li><a class="brand_text_color" href="#tab_1_4" data-toggle="tab"><i class="fa fa-bar-chart-o"></i> Veri Trafiği</a></li>
 														</ul>
 														<div class="tab-content">
 														   <div class="tab-pane fade in active" id="tab_1_1">
@@ -97,11 +106,24 @@
 														   </div>
 														   <div class="tab-pane fade" id="tab_1_3">
 																<div class="divide-10"></div>
-															  <p> Yesterday I was on my way to class, when a black cat fell from the sky. I didn't really know what that nonsense was about so I asked him if I could step around him because he was bad luck, but he simply meowed and then disappeared. I was a bit worried that maybe he'd teleported to somewhere dangerous, but a wizard came and assured me that it was alright. I threw my Zune at him because I was 78% sure he was lying. The wizard roared at me and sentenced my mother to thirty five years of chain smoking. I was sad. [do] </p>
+															  
+                                                              <div class="col-md-6" style="margin-top:30px;">
+                                                              	<div id="piechart_3d" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                              </div>
+                                                              
+                                                              <div class="col-md-6" style="margin-top:30px;">
+                                                              	<div id="piechart_3d2" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                              </div>
+                                                              
+                                                              
 														   </div>
                                                            <div class="tab-pane fade" id="tab_1_4">
 																<div class="divide-10"></div>
-															  <p> Yesterday I was on my way to class, when a black cat fell from the sky. I didn't really know what that nonsense was about so I asked him if I could step around him because he was bad luck, but he simply meowed and then disappeared. I was a bit worried that maybe he'd teleported to somewhere dangerous, but a wizard came and assured me that it was alright. I threw my Zune at him because I was 78% sure he was lying. The wizard roared at me and sentenced my mother to thirty five years of chain smoking. I was sad. [do] </p>
+															  
+                                                              <div class="col-md-12" style="margin-top:30px;">
+                                                              	<div id="chart_div5" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; max-width: 100%; overflow:auto;"></div>
+                                                              </div>
+                                                              
 														   </div>
 														</div>
 													 </div>
@@ -304,6 +326,79 @@
 				chart.draw(data, options); 
 			  
 			   
+			   var data = google.visualization.arrayToDataTable([
+				  ['Title', 'Value'],
+				  ['Kullanılan Disk Boyutu',     11],
+				  ['Boş Olan Disk Boyutu',    7]
+				]);
+		
+				var options = {
+				  width: 650,
+				  height:450,
+				  left: 0,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 },
+				  title: 'Disk Kullanımı',
+				  is3D: true,
+				};
+		
+				var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+				chart.draw(data, options);
+				
+				
+				
+				var data = google.visualization.arrayToDataTable([
+				  ['Task', 'Hours per Day'],
+				  ['Görseller',     120],
+				  ['Videolar',      232],
+				  ['Metinler',  18],
+				  ['Diğer', 30],
+				]);
+		
+				var options = {
+				  width: 650,
+				  height:450,
+				  left: 0,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 },
+				  title: 'Verilere Göre Disk Kullanımı',
+				  is3D: true,
+				};
+		
+				var chart = new google.visualization.PieChart(document.getElementById('piechart_3d2'));
+				chart.draw(data, options);
+				
+				
+				
+				var data = google.visualization.arrayToDataTable([
+				  ['Günler', 'Bulut', 'Web', 'Mobil'],
+				  ['10 Şub',  1000,      250,      400],
+				  ['11 Şub',  1170,      522,      1200],
+				  ['12 Şub',  120,       121,      100],
+				  ['13 Şub',  999,      95,      434],
+				  ['14 Şub',  855,      150,      121],
+				  ['15 Şub',  660,       121,      887],
+				  ['16 Şub',  856,      225,      444]
+				]);
+		
+				var options = {
+				  width: 1450,
+				  height:750,
+				  left: 0,
+				  top:50,
+				  fontName: 'Open Sans',
+				  titleTextStyle: { color: '#303030', fontSize: 25, bold: 0 },
+				  title: 'Veri Trafiği',
+				  isStacked: true,
+				};
+		
+				var chart = new google.visualization.AreaChart(document.getElementById('chart_div5'));
+				chart.draw(data, options);
+				
+				
+				
 			   
 			   
 			   });
@@ -314,6 +409,33 @@
 	, 'packages':['corechart']});
 	  }, 2000);
     </script>
+    
+    
+    
+    
+    <script>
+  $(function() {
+    $( "#from" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#to" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+  </script>
+    
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
     
     <style type="text/css">
 		#chart_div svg{
