@@ -677,8 +677,8 @@ class epub3 {
     <title>'.$this->book->title.' - '.$chapterTitle.' - '.$page->order.'</title>
 
 
-		<meta name="viewport" content="width='.$width.', height='.$height.'"/>
-
+		<!--<meta name="viewport" content="width='.$width.', height='.$height.'"/>-->
+		<meta name="viewport" content="">
  
 
 
