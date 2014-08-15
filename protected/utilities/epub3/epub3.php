@@ -678,7 +678,6 @@ class epub3 {
 
 
 		<meta name="viewport" content="width='.$width.', height='.$height.'"/>
-
  
 
 
@@ -777,7 +776,7 @@ class epub3 {
 			var videos=$("video");
 			$.each(videos,function(i,item){
 				
-				if(item.networkState==3)
+				if(item.networkState==3 || !$(item).is(\':visible\'))
 				{
 					/*
 					console.log(i,item.networkState);
@@ -795,10 +794,15 @@ class epub3 {
 						"currentSrc":$(item).find("source").attr("src"),
 						"poster":$(item).attr("poster")
 					}
-					//var poster="<a href=iosepub://"+base64_encode(JSON.stringify(ios_video))+"\><img width=100% height=100% src="+ios_video.poster+"></img></a>";
+					if($(item).width()>100){
 					var poster="<a href=iosepub://"+base64_encode(JSON.stringify(ios_video))+"\><div style=\'position:absolute; width:100%; height:100%\'><img width=100% height=100% src="+ios_video.poster+"></img></div><div style=\'position:absolute; width:100%; height:100%\'><img width=100% src=\'video-icon.png\' style=\'position: absolute; top: 0px; bottom: 0px; margin: auto; left: 0px; right: 0px; width: 20%; \'></img></div></a>";
 					$(item).parent().html(poster);
-
+					}
+					else 
+					{
+						$($(item).parent().parent().find("a").get(0)).attr("href","iosepub://"+base64_encode(JSON.stringify(ios_video)));
+						$($(item).parent().parent().find("a").get(0)).off("click touch");
+					}
 				
 				}
 			});
@@ -867,7 +871,8 @@ class epub3 {
 		//$("a[rel*=facybox]").facybox({
 	        // noAutoload: true
 	      //});
-		
+			var is_safari_or_uiwebview = /(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
+			if(!is_safari_or_uiwebview){		
 		$("a[rel=facybox]").bind("click touch",function(event) {
 			event.preventDefault();
 			var top = $(this).offset().top - 90;
@@ -890,6 +895,31 @@ class epub3 {
 		    $.facybox(value);
 		    $("#facybox").css({"top":top+"px","left":left+"px"});
 		  });
+		}
+		else{
+			$(document).on("click touch","a[rel=\'facybox\']",function(event) {
+			event.preventDefault();
+			var top = $(this).offset().top - 90;
+			var left = $(this).offset().left - 190;
+			var width = $("#facybox").width() ;
+			var height = $("#facybox").height() ;
+			var max_width = $("body").width() ;
+			var max_height = $("body").height() ;
+			var min_left = 0;
+			var min_top = 0;
+			var id = $(this).attr("href");
+			var value = $(id).html();
+			console.log(top);
+			console.log(left);
+			if(left < min_left) left = 0;
+			if(top < min_top) top = 0;
+			if((left + width) > max_width) left = max_width - width;
+			if((top + height) > max_height) top = max_height - height;
+
+		    $.facybox(value);
+		    $("#facybox").css({"top":top+"px","left":left+"px"});
+		  });
+		}
 			JPuzzle();
 
 		});
