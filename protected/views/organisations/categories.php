@@ -39,6 +39,12 @@
 				console.log('fssdf');
 				$("#remove_ok").attr("data-id",id);
 			}
+			else if(target=='#addSubCategory')
+			{
+				
+				$("#add_sub_category").attr("data-id",id);
+				console.log("Add Sub category");
+			}
 
 		});
 
@@ -50,6 +56,7 @@
     		clearForm();
 		});
 		$('#addCategory').on('hidden.bs.modal', function () {
+
     		clearForm();
 		});
 		$('#remove_ok').bind('click', function (event,ui) {
@@ -103,7 +110,34 @@
 	</div>
  
 <!-- POPUP END -->
-
+<!-- POPUP SUBCATEGORY -->
+<div class="modal fade" id="addSubCategory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  <h4 class="modal-title"><?php _e("Alt Kategori Ekle"); ?></h4>
+		</div>
+		<div class="modal-body">
+		 	<form id="acl" method="post" class="form-horizontal">
+		 		<input type="hidden" name="status" value="">
+				<div class="form-group">
+					<label class="control-label col-md-3" for="sub_category_name"><?php _e('Alt Kategori Adı'); ?><span class="required">*</span></label>
+					<div class="col-md-4">
+						<input class="form-control" name="sub_category_name" type="text">															
+					</div>
+				</div>
+		 	</form>
+		</div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-primary" id="add_sub_category"><?php _e("Ekle"); ?></a>
+	        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Vazgeç"); ?></button>
+	      </div>
+		</div>
+	  </div>
+	</div>
+ 
+<!-- POPUP SUBCATEGORY -->
 <!--Confirmation starts-->
 <!--
 <div class="modal fade in" id="box-config-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabelx" aria-hidden="false" style="display: block;">
@@ -184,41 +218,71 @@
 <div class="row">
 
 <?php
-	if ($categories){
+ function category($category,$level){
+	$category_data = array(
+				'category_id'=>$category->category_id,
+			   'category_name'=>$category->category_name,
+			   'organisation_id'=>$category->organisation_id,
+			   'periodical'=>$category->periodical,
+			    );
+	//$background_color=array("#d9edf7","#B2DEF3","#96D3F0","#7FCCF1","#67C3F0","#55BFF3","#3FB7F1");
+	$background_color=array("#7FCCF1","#96D3F0","#B2DEF3","#d9edf7","#E2F0F6","#EFF3F5");
 
-	foreach ($categories as $key => $category){
-			$category_data = array(
-								'category_id'=>$category->category_id,
-							   'category_name'=>$category->category_name,
-							   'organisation_id'=>$category->organisation_id,
-							   'periodical'=>$category->periodical,
-							    );
-			?>
-			
-			<div class="alert alert-block alert-info fade in" style="margin:20px;">
-				<!--
-				<a class="close" data-id="<?php echo $acl['id']; ?>" data-dismiss="alert" href="#" aria-hidden="true">
-					×
-				</a>-->
+ 	$category_data=base64_encode(json_encode($category_data));
+ 	$margin_level=(($level*50)+20)."px";
+ 	echo <<< EOT
+			<div class="alert alert-block alert-info fade in" style="background-color:$background_color[$level];margin:20px;margin-left:$margin_level">
 
-				<a class="fa fa-times-circle close tip" data-original-title="<?php _e('Kategoriyi Kaldır'); ?>" data-id="<?php echo $category->category_id; ?>" data-toggle="modal" data-target="#confirmation"></a>
-				<a class="fa fa-edit close tip" data-original-title="<?php _e('Kategoriyi Düzenle'); ?>" data-id="<?php echo base64_encode(json_encode($category_data)); ?>" style="margin-right:5px" data-toggle="modal" data-target="#addCategory"></a>
-				
+				<a class="fa fa-times-circle close tip" data-original-title="Kategoriyi Kaldır" data-id="$category->category_id" data-toggle="modal" data-target="#confirmation"></a>
+				<a class="fa fa-edit close tip" data-original-title="Kategoriyi Düzenle" data-id="$category_data" style="margin-right:5px" data-toggle="modal" data-target="#addCategory"></a>
+				<a class="fa fa-th-list close tip" data-original-title="Alt Kategori Ekle" data-id="$category->category_id" style="margin-right:5px" data-toggle="modal" data-target="#addSubCategory"></a>
 
 				<p></p>
 
 				<h4>
 					<table>
 						<tr>
-							<td style="width:150px;"><?php echo __("Kategori Adı"); ?></td>
-							<td><?php echo $category->category_name; ?></td>
+							<td style="width:150px;">Kategori Adı</td>
+							<td>$category->category_name</td>
 						</tr>
 					</table>
 				</h4>
 				<p></p>
 			</div>
+EOT;
+		sub_category($category,$level);
+ }
+
+ function sub_category($category,$level)
+ {
+ 		$sub_categories=OrganisationsController::retrieveSubCategories($category->category_id,$category->organisation_id);
+ 		
+ 		foreach ($sub_categories as $key => $sub_category_item) {
+ 			category($sub_category_item,$level+1);
+ 		}
+ }
+
+
+
+	if ($categories){
+
+	foreach ($categories as $key => $category){
+
+			?>
+			
+		
+
+
 
 			<?php
+			category($category,0);
+
+			/*sub category begins*/
+			//$sub_categories=$this->retrieveSubCategories($category->category_id,$category->organisation_id);
+
+			/*sub category ends*/
+
+
 			}
 		}
 	else
@@ -266,6 +330,20 @@ $(document).on("click","#add_category",function(e){
 		  type: "POST",
 		  url: '/organisations/createBookCategory',
 		  data: {organisationId:'<?php echo $organisationId;?>',category_name:category_name,status:status}
+		}).done(function(res){
+			console.log(res);
+			window.location.assign('/organisations/bookCategories/'+'<?php echo $organisationId;?>');
+		});
+
+});
+$(document).on("click","#add_sub_category",function(e){
+	var sub_category_name = $('[name="sub_category_name"]').val();
+	var category_id = $(this).data("id");
+	console.log(sub_category_name,category_id);
+		$.ajax({
+		  type: "POST",
+		  url: '/organisations/createBookSubCategory',
+		  data: {organisationId:'<?php echo $organisationId;?>',category_id:category_id,sub_category_name:sub_category_name}
 		}).done(function(res){
 			console.log(res);
 			window.location.assign('/organisations/bookCategories/'+'<?php echo $organisationId;?>');

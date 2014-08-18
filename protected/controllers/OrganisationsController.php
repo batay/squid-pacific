@@ -32,7 +32,7 @@ class OrganisationsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','workspaces','delWorkspaceUser','addWorkspaceUser','users','addUser','deleteOrganisationUser','account','bookCategories','deleteCategory','createBookCategory','updateBookCategory','templates','aCL','addACL','publishedBooks','deleteACL','removeFromCategory','addBalance','selectPlan','checkoutPlan','deneme','changeTitle','statistics'),
+				'actions'=>array('create','update','workspaces','delWorkspaceUser','addWorkspaceUser','users','addUser','deleteOrganisationUser','account','bookCategories','deleteCategory','createBookCategory','createBookSubCategory','updateBookCategory','templates','aCL','addACL','publishedBooks','deleteACL','removeFromCategory','addBalance','selectPlan','checkoutPlan','deneme','changeTitle','statistics'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -366,6 +366,7 @@ class OrganisationsController extends Controller
 			$category->category_name=$_POST['category_name'];
 			$category->organisation_id=$_POST['organisationId'];
 			$category->periodical=($_POST['periodical']) ? 1 : 0 ;
+
 			if($category->save()){
 				echo "success";
 			}
@@ -382,7 +383,47 @@ class OrganisationsController extends Controller
 
 		//$this->redirect(array('bookCategories','id'=>$_POST['organisation']));
 	}
+	public function actionCreateBookSubCategory()
+	{
 
+		if(isset($_POST['category_id'])&&isset($_POST['sub_category_name'])&&isset($_POST['organisationId']))
+		{
+			$organisation_id=Yii::app()->request->getPost('organisationId');
+			$category_id=Yii::app()->request->getPost('category_id');
+			$sub_category_name=Yii::app()->request->getPost('sub_category_name');
+
+			$retrieved_model=BookCategories::model()->find('category_id=:category_id',array(':category_id'=>$category_id));
+
+				if($retrieved_model)
+				{
+					$category=new BookCategories;
+					$category->category_id=functions::new_id(10);
+					$category->category_name=$sub_category_name;
+					$category->organisation_id=$organisation_id;
+					$category->periodical=($_POST['periodical']) ? 1 : 0 ;
+					$category->parent_category=$category_id;
+					if($category->save())
+					{
+						echo "success";
+					}
+					else
+					{
+						echo "fail:db";
+					}
+
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+			echo "fail";
+		}
+
+		//$this->redirect(array('bookCategories','id'=>$_POST['organisation']));
+	}
 	public function actionUpdateBookCategory()
 	{
 		if(isset($_POST['categoryId'])&& isset($_POST['categoryName'])&&isset($_POST['organisation']))
@@ -399,12 +440,16 @@ class OrganisationsController extends Controller
 	{
 		$categories=false;
 		if ($id) {
-			$categories=BookCategories::model()->findAll('organisation_id=:organisation_id',array('organisation_id'=>$id));
+			$categories=BookCategories::model()->findAll('organisation_id=:organisation_id AND parent_category=""',array('organisation_id'=>$id));
 		}
 		$this->render('categories',array(
 			'categories'=>$categories,
 			'organisationId'=>$id
 		));
+	}
+	public static function retrieveSubCategories($category_id,$organisation_id){
+		return BookCategories::model()->findAll('organisation_id=:organisation_id AND parent_category=:parent_category',array('organisation_id'=>$organisation_id,'parent_category'=>$category_id));
+
 	}
 
 	public function actionDeleteCategory($category_id,$organisationId)

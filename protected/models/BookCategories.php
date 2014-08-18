@@ -42,9 +42,10 @@ class BookCategories extends CActiveRecord
 			array('category_id', 'length', 'max'=>10),
 			array('category_name', 'length', 'max'=>100),
 			array('organisation_id', 'length', 'max'=>44),
+			array('parent_category', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('category_id, category_name, organisation_id, periodical', 'safe', 'on'=>'search'),
+			array('category_id, category_name, organisation_id, periodical,parent_category', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +70,7 @@ class BookCategories extends CActiveRecord
 			'category_name' => 'Category Name',
 			'organisation_id' => 'Organisation',
 			'periodical' => 'Periodical',
+			'parent_category' => 'Parent Category'
 		);
 	}
 
@@ -87,6 +89,7 @@ class BookCategories extends CActiveRecord
 		$criteria->compare('category_name',$this->category_name,true);
 		$criteria->compare('organisation_id',$this->organisation_id,true);
 		$criteria->compare('periodical',$this->periodical);
+		$criteria->compare('parent_category',$this->parent_category,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
