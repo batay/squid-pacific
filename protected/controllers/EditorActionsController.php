@@ -126,6 +126,8 @@ class EditorActionsController extends Controller
 		//var_dump($hosts);
 		$categories=BookCategories::model()->findAll(array('condition'=>'organisation_id=:organisation_id','order'=>'`category_name` asc','params'=>array('organisation_id'=>$organisation->organisation_id)));
 		//$pages=Page::model()->findAll(array("condition"=>"page_id=:page_id","order"=>'`order` asc ,  created asc',"params"=> array('page_id' => $page_id )));
+		$root_categories=BookCategories::model()->findAll(array('condition'=>'parent_category="" AND organisation_id=:organisation_id','order'=>'`category_name` asc','params'=>array('organisation_id'=>$organisation->organisation_id)));
+		$sub_categories=BookCategories::model()->findAll(array('condition'=>'parent_category!="" AND organisation_id=:organisation_id','order'=>'`category_name` asc','params'=>array('organisation_id'=>$organisation->organisation_id)));
 		
 		$model=new PublishBookForm;
 
@@ -150,7 +152,7 @@ class EditorActionsController extends Controller
 		    ->queryRow();
 		$acls=$acl['value'];
 
-		$this->render('publishBook',array('model'=>$model,'hosts'=>$hosts,'categories'=>$categories,'bookId'=>$bookId,'acls'=>$acls,'budget'=>$budget));
+		$this->render('publishBook',array('model'=>$model,'hosts'=>$hosts,'categories'=>$categories,'root_categories'=>$root_categories,'sub_categories'=>$sub_categories ,'bookId'=>$bookId,'acls'=>$acls,'budget'=>$budget));
 	}
 
 	public function actionGetFileURL($type=null,$book_id=null){
@@ -1313,6 +1315,7 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 					$category=BookCategories::model()->findByPk($categoryId);
 					$data['categories'][$categoryId]['category_id']=$category->category_id;
 					$data['categories'][$categoryId]['category_name']=$category->category_name;
+					$data['categories'][$categoryId]['parent_category']=$category->parent_category;
 				}
 			}
 			else
