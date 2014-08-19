@@ -1420,7 +1420,7 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 				$this->errorQueue($bookId,$msg);
 
 				return;
-			}
+			} 
 
 			$localFile = $ebook->ebookFile; // This is the entire file that was uploaded to a temp location.
 			$fp = fopen($localFile, 'r');
