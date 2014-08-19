@@ -271,6 +271,8 @@
 												<div class="tab-pane active" id="category">
 													
 													<?php
+
+
 												if ($categories) {
 													foreach ($categories as $key => $category) {
 														if ($category->periodical) {
@@ -282,7 +284,7 @@
 														}
 													}
 													?>
-
+ 
 													<div class="form-group">
 														<?php
 															/*
@@ -308,11 +310,52 @@
 														<?php _e("Kategoriler"); ?>
 														</label>
 														<div class="col-md-5">
-															<?php echo $form->checkBoxList($model,'categories',$categoryIds,array('class'=>'uniform','name'=>'categories')); ?>
-														<?php if (!empty($categorySiraliIds)&&$categorySiraliIds) { ?>	
-															<br>
-															<?php echo $form->checkBoxList($model,'categories',$categorySiraliIds,array('class'=>'uniform siraliCheckbox','name'=>'categoriesSirali')); ?>
-														<?php }?>
+															<span id="categories">
+															<?php 
+															function bringSubCategories($category_id,$sub_categories,$level,$counter){
+																$counter2=0;
+																foreach ($sub_categories as $key => $sub_category) {
+																	if($category_id==$sub_category->parent_category){
+																		?>
+																		<br>
+																		<?php 
+																			 //echo str_repeat("&nbsp;", ($level+1)*10);
+																			 echo str_replace(".", "&nbsp;", str_pad("|--->",($level)*15,".",STR_PAD_LEFT));
+																		?>
+																		<div class="checker" id="uniform-categories_<?php echo $counter.'_'.$counter2.'_'.$level;;?>">
+																			<span>
+																				<input class="uniform" id="categories_<?php echo $counter.'_'.$counter2.'_'.$level;?>" value="<?php echo $sub_category->category_id;?>" type="checkbox" name="categories[]">
+																			</span>
+																		</div>
+																		<label for="categories_<?php echo $counter.'_'.$counter2.'_'.$level;?>"><?php echo $sub_category->category_name;?></label>
+																		<?php
+																		bringSubCategories($sub_category->category_id,$sub_categories,$level+1,$counter);
+																		$counter2++;
+																	}
+																}
+															}
+																$counter=0;	
+																foreach ($root_categories as $key => $root_category) {
+																	?>
+																		<br>
+																		<div class="checker" id="uniform-categories_<?php echo $counter;?>">
+																			<span>
+																				<input class="uniform" id="categories_<?php echo $counter;?>" value="<?php echo $root_category->category_id;?>" type="checkbox" name="categories[]">
+																			</span>
+																		</div>
+																		<label for="categories_<?php echo $counter;?>"><?php echo $root_category->category_name;?></label>
+																	
+																	<?php
+
+																	bringSubCategories($root_category->category_id,$sub_categories,0,$counter);
+																	$counter++;
+																}
+															?>
+															</span>
+
+															<!--
+		
+														-->
 														</div>
 													</div>
 													
