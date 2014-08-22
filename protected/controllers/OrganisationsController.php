@@ -454,8 +454,67 @@ class OrganisationsController extends Controller
 
 	public function actionDeleteCategory($category_id,$organisationId)
 	{
-		$category=BookCategories::model()->findByPk($category_id)->delete();
-		$this->redirect(array('bookCategories','id'=>$organisationId));
+		//$category=BookCategories::model()->findByPk($category_id)->delete();
+		//$this->recursiveDelete(BookCategories::model()->findAll('category_id=:category_id',array('category_id'=>$category_id)));
+		$deleted=array();
+		$this->recursiveDelete(NULL,$category_id,$deleted);
+		$datatosend=base64_encode(json_encode($deleted));
+		$params = array(
+   		"data" => $datatosend,
+		);
+ 		
+		$this->httpPost(Yii::app()->params['catalog_host'].'/CatalogManagement/deleteCategories',$params);
+		//Remove from catalog as well
+
+		//$this->redirect(array('bookCategories','id'=>$organisationId));
+	}
+
+	function httpPost($url,$params)
+	{
+	  $postData = '';
+	   //create name value pairs seperated by &
+	   foreach($params as $k => $v) 
+	   { 
+	      $postData .= $k . '='.$v.'&'; 
+	   }
+	   rtrim($postData, '&');
+	 
+	    $ch = curl_init();  
+	 
+	    curl_setopt($ch,CURLOPT_URL,$url);
+	    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+	    curl_setopt($ch,CURLOPT_HEADER, false); 
+	    curl_setopt($ch, CURLOPT_POST, count($postData));
+	        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);    
+	 
+	    $output=curl_exec($ch);
+	 
+	    curl_close($ch);
+	    return $output;
+	 
+	}
+	public function recursiveDelete($categories=NULL,$firstCategory=NULL,&$deleted){
+		if($firstCategory!=NULL)
+		{
+			$category=BookCategories::model()->findByPk($firstCategory);
+			$deleted[]=$firstCategory;
+			$category->delete();
+			$categories=BookCategories::model()->findAll('parent_category=:parent_category',array('parent_category'=>$firstCategory));
+			error_log("RESULT:".print_r($categories,1)."\n");
+			$this->recursiveDelete($categories,NULL,$deleted);
+		}
+		else
+		{
+			foreach ($categories as $category) {
+				error_log(print_r($category,1)."\n");
+				$subcategories=BookCategories::model()->findAll('parent_category=:parent_category',array('parent_category'=>$category->category_id));
+				$deleted[]=$category->category_id;
+				$category->delete();
+				$this->recursiveDelete($subcategories,NULL,$deleted);
+				# code...
+			}
+		}
+
 	}
 
 	public function getOrganisationEpubBudget($id)
