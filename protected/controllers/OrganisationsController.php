@@ -451,7 +451,7 @@ class OrganisationsController extends Controller
 		return BookCategories::model()->findAll('organisation_id=:organisation_id AND parent_category=:parent_category',array('organisation_id'=>$organisation_id,'parent_category'=>$category_id));
 
 	}
-
+ 
 	public function actionDeleteCategory($category_id,$organisationId)
 	{
 		//$category=BookCategories::model()->findByPk($category_id)->delete();
