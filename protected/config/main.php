@@ -76,6 +76,9 @@ $host_config=array(
                                 'koala_host'=>'http://wow.okutus.com',
 								'cloud_host'=>'http://cloud.okutus.com',
 								'reader_host'=>'http://reader.okutus.com'
+				),
+			"baracuda"=>array(
+						'catalog_host'=>'http://bigcat.okutus.com'
 				)
 		);
 
