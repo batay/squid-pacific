@@ -388,7 +388,7 @@
 													<div class="form-group">
 														<label for="PublishBookForm_contentIsForSale" class="control-label col-md-3"><?php _e('Ücretli mi?'); ?></label>
 														<div class="col-md-4">
-														<?php $model->contentIsForSale = 'Free'; echo $form->radioButtonList($model,'contentIsForSale',array('No'=>__('Evet'),'Free'=>__('Hayır'),'Promo'=>_('Promosyon Kodu')),array('name'=>'contentIsForSale')); ?>
+														<?php $model->contentIsForSale = 'Free'; echo $form->radioButtonList($model,'contentIsForSale',array('Yes'=>__('Evet'),'Free'=>__('Hayır'),'Promo'=>_('Promosyon Kodu')),array('name'=>'contentIsForSale')); ?>
 														</div>
 													</div>
 
@@ -419,7 +419,7 @@
 														console.log("sdfsdf",$('#contentIsForSale input[name=contentIsForSale]'));
 																$('#contentIsForSale input[name=contentIsForSale]').change(function (event) {
 																	var value=event.currentTarget.value;
-																	if(value=="No"){
+																	if(value=="Yes"){
 																		$(".paid").css({'display':'block'});
 																		$('#contentCurrency .radio').css({'display':'block'});
 																	}
