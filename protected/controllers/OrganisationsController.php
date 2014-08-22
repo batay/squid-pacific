@@ -462,7 +462,6 @@ class OrganisationsController extends Controller
 		$params = array(
    		"data" => $datatosend,
 		);
- 		
 		$this->httpPost(Yii::app()->params['catalog_host'].'/CatalogManagement/deleteCategories',$params);
 		//Remove from catalog as well
 
