@@ -103,7 +103,7 @@
 												 <li>
 													<a href="#money" data-toggle="tab" class="wiz-step">
 													<span class="step-number">4</span>
-													<span class="step-name"><i class="fa fa-check"></i> <?php _e('ACL Bilgileri'); ?> </span>   
+													<span class="step-name"><i class="fa fa-check"></i> <?php _e('Erişim Bilgileri'); ?> </span>   
 													</a> 
 												 </li>
 												 <li>
@@ -268,6 +268,7 @@
 														</div>
 													</div>
 												</div>
+
 												<div class="tab-pane active" id="category">
 													
 													<?php
@@ -384,33 +385,52 @@
 												</div>
 												<div class="tab-pane" id="money">
 
-													<div class="form-group" style="display:none">
-														<label for="PublishBookForm_contentIsForSale" class="control-label col-md-3"><?php _e('Satılık mı?'); ?><span class="required">*</span></label>
+													<div class="form-group">
+														<label for="PublishBookForm_contentIsForSale" class="control-label col-md-3"><?php _e('Ücretli mi?'); ?></label>
 														<div class="col-md-4">
-														<?php echo $form->radioButtonList($model,'contentIsForSale',array('Yes'=>__('Evet'),'Free'=>__('Hayır')),array('class'=>'uniform','name'=>'contentIsForSale')); ?>
+														<?php $model->contentIsForSale = 'Free'; echo $form->radioButtonList($model,'contentIsForSale',array('No'=>__('Evet'),'Free'=>__('Hayır'),'Promo'=>_('Promosyon Kodu')),array('name'=>'contentIsForSale')); ?>
 														</div>
 													</div>
 
-													<div class="form-group">
-													<label for="PublishBookForm_contentPriceCurrencyCode" class="control-label col-md-3"><?php _e('Para Birimi'); ?><span class="required">*</span></label>
-													<div class="col-md-4">
-													<?php echo $form->radioButtonList($model,'contentPriceCurrencyCode',array('949'=>'Türk Lirası','998'=>'Dolar','978'=>'Euro'),array('class'=>'uniform','name'=>'contentCurrency')); ?>
-													</div></div>
+													<div class="form-group paid">
+														<label for="PublishBookForm_contentPriceCurrencyCode" class="control-label col-md-3"><?php _e('Para Birimi'); ?><span class="required">*</span></label>
+														<div class="col-md-4 paid">
+														<?php echo $form->radioButtonList($model,'contentPriceCurrencyCode',array('949'=>'Türk Lirası','998'=>'Dolar','978'=>'Euro'),array('name'=>'contentCurrency')); ?>
+														</div>
+													</div>
 
-													<div class="form-group">
+													<div class="form-group paid">
 														<label for="PublishBookForm_contentPrice" class="control-label col-md-3"><?php _e('Eser Fiyatı') ?><span class="required">*</span></label>
 														<div class="col-md-4">
 														<?php echo $form->textField($model,'contentPrice',array('class'=>'form-control','name'=>'contentPrice','placeholder'=>__('Lütfen bir fiyat girin!'))); ?>
-													</div>
+														</div>
 													</div>
 
-													<!-- <div class="form-group">
+													<!--
+													<div class="form-group">
 														<label for="PublishBookForm_contentReaderGroup" class="control-label col-md-3"><?php _e('Reader Group'); ?><span class="required">*</span></label>
 														<div class="col-md-4">
 															<?php //echo $form->textField($model,'contentReaderGroup',array('class'=>'form-control','name'=>'contentReaderGroup')); ?>
 														</div>
-													</div> -->
-
+													</div> 
+													-->
+													<script type="text/javascript">
+													$(document).ready(function(){
+														console.log("sdfsdf",$('#contentIsForSale input[name=contentIsForSale]'));
+																$('#contentIsForSale input[name=contentIsForSale]').change(function (event) {
+																	var value=event.currentTarget.value;
+																	if(value=="No"){
+																		$(".paid").css({'display':'block'});
+																		$('#contentCurrency .radio').css({'display':'block'});
+																	}
+																	else
+																	{
+																		$(".paid").css({'display':'none'});
+																		$('#contentCurrency .radio').css({'display':'none'});
+																	}
+																});
+														});
+													</script>
 
 													<?php
 													$acls=json_decode($acls);
