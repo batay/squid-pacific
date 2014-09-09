@@ -55,6 +55,41 @@
 	</div>
   </div>
 </div> -->
+<!--POPUP-->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.nextBtn').click(function(){
+			if($('.tab-pane.active').attr("id")=="money" && localStorage.getItem("showagain")==null)
+			{
+				$('#app_notification').modal('show');
+			}
+		});
+		$('#notshowagain').click(function(){
+			localStorage.setItem("showagain",1);
+			$('#app_notification').modal('hide');
+		});
+
+	});
+</script>
+<div class="modal fade" id="app_notification" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel"><?php _e('Bilgilendirme'); ?></h4>
+      </div>
+      <div class="modal-body">
+      Eser, yayınlama listesine eklendi. Yayınlandıktan sonra, size tahsis edilmiş herhangi bir okuyucu mevcut ise esere erişilebilirsiniz.
+      <br><br>Mevcut değil ise, eserin epub çıktısını alarak <a target="_blank" href="https://chrome.google.com/webstore/detail/okutus-dijital-okuyucu/malpcckibkldcjbbbagiieiijpkcpdnj">"Okutus Dijital Okuyucu"</a> uygulamasında görüntüleyebilirsiniz.<br><br>IBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen <a href="mailto:admin@linden-tech.com">iletişime</a> geçiniz...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat");?></button>
+        <button type="button" id="notshowagain" class="btn btn-primary"><?php _e("Bir Daha Gösterme");?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- POPUP END -->
 				<div class="col-lg-12" id="content">
                     <div class="page-header">
@@ -607,6 +642,15 @@
 														   
 														   <label class="control-label col-md-3" style="text-align:left"> Kullanıcı Sözleşmesini Kabul Ediyorum.</label>
 															
+														</div>
+														<div class="form-group">
+															<div class="col-md-2">
+														   </div>
+														   <div class="col-md-1" style="text-align:right">
+														   </div>
+														   <div class="col-md-3">
+														   		<button class="btn btn-primary" data-toggle="modal" data-target="#app_notification">?</button>
+														   </div>
 														</div>
 													</div>
 													
