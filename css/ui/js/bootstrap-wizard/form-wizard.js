@@ -356,15 +356,19 @@ var FormWizard = function () {
             
             $('#formWizard #publishBk').click(function () {
                 $('#formWizard').find('.submitBtn').hide();
-                
+                 var new_window=window.open('https://chrome.google.com/webstore/detail/okutus-dijital-okuyucu/malpcckibkldcjbbbagiieiijpkcpdnj','_blank');
+                 new_window.blur();
+                 window.focus();
                if ($("#rights").is(':checked')) {
                     
                 msg = Messenger().post({
-                    message:"Eser yayınlanıyor. Lütfen Bekleyiniz",
+                    message:"Eser yayınlanıyor. Lütfen Bekleyiniz...iBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen iletişime geçiniz...",
                     type:"info",
                     showCloseButton: true,
-                    hideAfter: 100
+                    hideAfter: 200
                 });
+
+
                 wizform.ajaxSubmit({
                     url:'/editorActions/sendFileToCatalog/'+bookId,
                     success:function(response) {
@@ -372,9 +376,9 @@ var FormWizard = function () {
                         console.log(budgetError);
                         if (budgetError==(-1)) {
                             msg.update({
-                                message: 'Eser, yayınlama listesine eklendi.',
+                                message: 'Eser, yayınlama listesine eklendi.iBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen iletişime geçiniz...',
                                 type: 'success',
-                                hideAfter: 5
+                                hideAfter: 100
 
                             });
                             $('#publishedbookModal').addClass("in").show();
