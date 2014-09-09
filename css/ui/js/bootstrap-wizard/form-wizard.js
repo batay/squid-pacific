@@ -355,14 +355,15 @@ var FormWizard = function () {
             $('#formWizard').find('.prevBtn').hide();
             
             $('#formWizard #publishBk').click(function () {
+                if($('.tab-pane.active').attr("id")=="confirm" && localStorage.getItem("showagain")==null)
+                {
+                    $('#app_notification').modal('show');
+                }
                 $('#formWizard').find('.submitBtn').hide();
-                 var new_window=window.open('https://chrome.google.com/webstore/detail/okutus-dijital-okuyucu/malpcckibkldcjbbbagiieiijpkcpdnj','_blank');
-                 new_window.blur();
-                 window.focus();
                if ($("#rights").is(':checked')) {
                     
                 msg = Messenger().post({
-                    message:"Eser yayınlanıyor. Lütfen Bekleyiniz...iBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen iletişime geçiniz...",
+                    message:"Eser yayınlanıyor. Lütfen Bekleyiniz!",
                     type:"info",
                     showCloseButton: true,
                     hideAfter: 200
@@ -376,9 +377,9 @@ var FormWizard = function () {
                         console.log(budgetError);
                         if (budgetError==(-1)) {
                             msg.update({
-                                message: 'Eser, yayınlama listesine eklendi.iBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen iletişime geçiniz...',
+                                message: 'Eser, yayınlama listesine eklendi!',
                                 type: 'success',
-                                hideAfter: 100
+                                hideAfter: 5
 
                             });
                             $('#publishedbookModal').addClass("in").show();
@@ -386,7 +387,7 @@ var FormWizard = function () {
                         }else
                         {
                             msg.update({
-                                message: 'Hesabınızda yeterli bakiye bulunmamaktadır.',
+                                message: 'Hesabınızda yeterli bakiye bulunmamaktadır!',
                                 type: 'error',
                                 hideAfter: 5
                             })
