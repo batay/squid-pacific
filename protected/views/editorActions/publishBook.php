@@ -58,12 +58,7 @@
 <!--POPUP-->
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.nextBtn').click(function(){
-			if($('.tab-pane.active').attr("id")=="money" && localStorage.getItem("showagain")==null)
-			{
-				$('#app_notification').modal('show');
-			}
-		});
+
 		$('#notshowagain').click(function(){
 			localStorage.setItem("showagain",1);
 			$('#app_notification').modal('hide');
@@ -80,7 +75,7 @@
       </div>
       <div class="modal-body">
       Eser, yayınlama listesine eklendi. Yayınlandıktan sonra, size tahsis edilmiş herhangi bir okuyucu mevcut ise esere erişilebilirsiniz.
-      <br><br>Mevcut değil ise, eserin epub çıktısını alarak <a target="_blank" href="https://chrome.google.com/webstore/detail/okutus-dijital-okuyucu/malpcckibkldcjbbbagiieiijpkcpdnj">"Okutus Dijital Okuyucu"</a> uygulamasında görüntüleyebilirsiniz.<br><br>IBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen <a href="mailto:admin@linden-tech.com">iletişime</a> geçiniz...
+      <br><br>Mevcut değil ise, eserin <a href="<?php echo Yii::app()->getBaseUrl(true);?>/EditorActions/ExportBook?bookId=<?php echo $bookId;?>">epub çıktısı</a>nı alarak <a target="_blank" href="https://chrome.google.com/webstore/detail/okutus-dijital-okuyucu/malpcckibkldcjbbbagiieiijpkcpdnj">"Okutus Dijital Okuyucu"</a> uygulamasında görüntüleyebilirsiniz.<br><br>IBooks, Android Books, App Store, Google Play, Web, Amazon için lütfen <a href="mailto:admin@linden-tech.com">iletişime</a> geçiniz...
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Kapat");?></button>
@@ -644,11 +639,7 @@
 															
 														</div>
 														<div class="form-group">
-															<div class="col-md-2">
-														   </div>
-														   <div class="col-md-1" style="text-align:right">
-														   </div>
-														   <div class="col-md-3">
+														   <div class="col-md-12"  style="text-align:right">
 														   		<button class="btn btn-primary" data-toggle="modal" data-target="#app_notification">?</button>
 														   </div>
 														</div>
