@@ -30,16 +30,35 @@ defined('YII_DEBUG') or define('YII_DEBUG',true);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 
 require_once($yii);
+//Yii::createWebApplication($config)->run();
 require_once($floodblocker);
 require_once($detectinjection);
+
 $flb = new FloodBlocker ("/tmp/");
 //70 requests in 10 seconds
   $flb->rules = array ( 10=>50000 );
   $res = $flb->CheckFlood ();
-Yii::createWebApplication($config)->run();
 
   if ( 1==1 )
     {
     }
   else
     die ( 'Too many requests! Please try later.' );
+
+Yii::createWebApplication($config)->run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -189,8 +189,8 @@ return array(
 		'Smtpmail'=>array(
             'class'=>'application.extension.smtpmail.PHPMailer',
             'Host'=>"tls://smtp.gmail.com",
-            'Username'=>'noreply@okutus.com',
-            'Password'=>'7m68FJ:J:JHoAeY',
+	    'Username'=>'egemen@linden-tech.com',//'noreply@okutus.com',
+            'Password'=>'8F9N798f9n79',//'7m68FJ:J:JHoAeY',
             'Mailer'=>'smtp',
             'Port'=>465,
             'SMTPAuth'=>true, 
