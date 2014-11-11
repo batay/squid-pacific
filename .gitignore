@@ -8,3 +8,4 @@ protected/config/*
 uploads/files/*
 protected/config/main.php
 timestamps/
+assets/

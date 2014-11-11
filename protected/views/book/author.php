@@ -1434,10 +1434,25 @@ if($chapter_list)
 				<li ctype="plink" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/pagelink.png);"></li>
 				<li ctype="page" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/pagenumber.png);"></li>
 				<li ctype="wrap" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/wrap.png);"></li>
-				<li ctype="plumb" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/fsiralibulmaca.png);"></li>
-				<li ctype="cquiz" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/questioncard.png);"></li>
-				<li ctype="puzzle" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/puzzle.png);"></li>
-				
+				<!--<li ctype="plumb" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/fsiralibulmaca.png);"></li>-->
+				<!--<li ctype="cquiz" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/questioncard.png);"></li>-->
+				<!--<li ctype="puzzle" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/puzzle.png);"></li>-->
+				<li style="width:100%">
+				<br>
+				<div>
+					<fieldset>
+    					<legend style="font-size:medium;color:#2F6181">
+    						Uygulama kutusu
+    					</legend>
+						<ul>
+							<li ctype="puzzle" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/puzzle.png);"></li>
+							<li ctype="plumb" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/fsiralibulmaca.png);"></li>
+							<li ctype="cquiz" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/questioncard.png);"></li>
+						</ul>
+					</fieldset>
+				</div>
+					
+				</li>
 				<!--<li ctype="quiz" class="component " style=" background-image: url(<?php echo Yii::app()->getBaseUrl(true);?>/css/images/components/<?php echo Yii::app()->language;?>/quiz.png);"></li>-->
 
 		</ul>	
